@@ -53,7 +53,7 @@ class SetupController extends Controller
             $errors[] = sprintf(trans('bt.php_version_error'), $versionRequired);
         }
 
-        if (!$dbConfig['host'] or !$dbConfig['database'] or !$dbConfig['username'] or !$dbConfig['password']) {
+        if (!$dbConfig['host'] or !$dbConfig['database'] or !$dbConfig['username']) {
             $errors[] = trans('bt.database_not_configured');
         }
 
@@ -93,7 +93,6 @@ class SetupController extends Controller
         if (!User::count()) {
 
             return view('setup.account');
-
         } elseif (!$role->users()->count()) {
             $users = User::whereNull('client_id')->orWhere('client_id', 0)->orderBy('id')->get();
             return view('setup.superadmin')->with('users', $users);
@@ -141,6 +140,4 @@ class SetupController extends Controller
     {
         return view('setup.complete');
     }
-
-
 }
