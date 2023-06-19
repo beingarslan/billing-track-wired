@@ -1,0 +1,7 @@
+@import "admin-lte-v4/src/scss/adminlte";
+//Fontawesome5
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+
+$theme-colors: map-merge($theme-colors, $colors);
+
+@import "lte-themes";
