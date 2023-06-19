@@ -1,7 +1,7 @@
 <aside class="app-sidebar">
     <div class="sidebar-brand bg-body">
         <div class="brand-link">
-            <img src="/img/billingtrack_logo.svg" alt="BillingTrack Logo"
+            <img src="/img/billingtrack_logo.png" alt="BillingTrack Logo"
                  class="brand-image img-circle elevation-3 img-sm pe-1">
             <span class="brand-text">{{ config('bt.headerTitleText', config('app.name','BillingTrack')) }}</span>
         </div>
