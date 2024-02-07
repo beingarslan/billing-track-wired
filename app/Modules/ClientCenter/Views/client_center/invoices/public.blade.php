@@ -118,12 +118,14 @@
                 @endif
                 @if ($invoice->isPayable)
                     @foreach ($merchantDrivers as $driver)
-                        <a href="javascript:void(0)" class="btn btn-primary btn-pay"
-                           data-driver="{{ $driver->getName() }}" data-loading-text="@lang('bt.please_wait')"><i
-                                    class="fa fa-credit-card"></i> {{ $driver->getSetting('paymentButtonText') }}</a>
+                        <form action="{{ route('clientCenter.public.invoice.pay', ['invoiceKey' => $urlKey])}}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary btn-pay"
+                                data-driver="{{ $driver->getName() }}" data-loading-text="@lang('bt.please_wait')">
+                                <i class="fa fa-credit-card"></i> {{ $driver->getSetting('paymentButtonText') }}
+                            </button>
+                        </form>
                     @endforeach
-                    {{--    below to use paypal javascript sdk--}}
-                    {{--    <div class="mt-2" id="paypal-button-container"></div>--}}
                 @endif
             </div>
             <div class="public-doc-wrapper">

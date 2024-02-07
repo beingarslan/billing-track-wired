@@ -24,6 +24,8 @@ Route::middleware('web')
         Route::name('public.invoice.show')->get('invoice/{invoiceKey}', [ClientCenterPublicInvoiceController::class, 'show']);
         Route::name('public.invoice.pdf')->get('invoice/{invoiceKey}/pdf', [ClientCenterPublicInvoiceController::class, 'pdf']);
         Route::name('public.invoice.html')->get('invoice/{invoiceKey}/html', [ClientCenterPublicInvoiceController::class, 'html']);
+        Route::name('public.invoice.pay')->post('invoice/{invoiceKey}/pay', [ClientCenterPublicInvoiceController::class, 'pay']);
+        Route::name('public.invoice.pay-success')->get('invoice/{invoiceKey}/pay-success', [ClientCenterPublicInvoiceController::class, 'paySuccess']);
         Route::name('public.quote.show')->get('quote/{quoteKey}', [ClientCenterPublicQuoteController::class, 'show']);
         Route::name('public.quote.pdf')->get('quote/{quoteKey}/pdf', [ClientCenterPublicQuoteController::class, 'pdf']);
         Route::name('public.quote.html')->get('quote/{quoteKey}/html', [ClientCenterPublicQuoteController::class, 'html']);
