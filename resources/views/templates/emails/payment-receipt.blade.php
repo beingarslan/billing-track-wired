@@ -141,8 +141,7 @@
                       {!! $payment->formatted_amount !!}
                     </div>
                     <div class="t-muted" style="margin-top:12px; font-size:13px; color:#6E7180;">
-                      {{-- Payment date is optional: shows only if your payment model exposes formatted_created_at (adjust the accessor if your date field differs). --}}
-                      @if(!empty($payment->formatted_created_at))Paid {!! $payment->formatted_created_at !!}  ·  @endif<span style="display:inline-block; padding:3px 9px; border-radius:20px; background:#E7F4EE; color:#1F7A5C; font-size:11px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase;">Received</span>
+                      Paid {!! $payment->formatted_paid_at !!}  ·  <span style="display:inline-block; padding:3px 9px; border-radius:20px; background:#E7F4EE; color:#1F7A5C; font-size:11px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase;">Received</span>
                     </div>
                   </td>
                 </tr>
@@ -196,12 +195,10 @@
                   <td class="t-muted brd-line" style="padding:12px 0; color:#6E7180; border-bottom:1px solid #EDEEF2;">Invoice number</td>
                   <td class="t-ink brd-line" style="padding:12px 0; color:#1B1D2A; font-weight:600; text-align:right; border-bottom:1px solid #EDEEF2;">{!! $payment->invoice->number !!}</td>
                 </tr>
-                @if(!empty($payment->formatted_created_at))
                 <tr>
                   <td class="t-muted brd-line" style="padding:12px 0; color:#6E7180; border-bottom:1px solid #EDEEF2;">Payment date</td>
-                  <td class="t-ink brd-line" style="padding:12px 0; color:#1B1D2A; font-weight:600; text-align:right; border-bottom:1px solid #EDEEF2;">{!! $payment->formatted_created_at !!}</td>
+                  <td class="t-ink brd-line" style="padding:12px 0; color:#1B1D2A; font-weight:600; text-align:right; border-bottom:1px solid #EDEEF2;">{!! $payment->formatted_paid_at !!}</td>
                 </tr>
-                @endif
                 {{-- Optional extra rows — uncomment and match your payment model's accessors:
                 <tr>
                   <td class="t-muted brd-line" style="padding:12px 0; color:#6E7180; border-bottom:1px solid #EDEEF2;">Payment method</td>

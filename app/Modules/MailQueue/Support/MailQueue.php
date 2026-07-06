@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Mail;
 class MailQueue
 {
     protected $error;
+    protected $templateData = [];
+    protected $templateView = null;
 
     public function create($object, $input)
     {
@@ -32,9 +34,42 @@ class MailQueue
 
     }
 
+    public function setTemplate($view, $data = [])
+    {
+        $this->templateView = $view;
+        $this->templateData = $data;
+        return $this;
+    }
+
     public function send($id)
     {
         $mail = \BT\Modules\MailQueue\Models\MailQueue::find($id);
+
+        if ($this->sendMail(
+            $mail->from,
+            $mail->to,
+            $mail->cc,
+            $mail->bcc,
+            $mail->subject,
+            $mail->body,
+            $this->getAttachmentPath($mail)
+        )
+        )
+        {
+            $mail->sent = 1;
+            $mail->save();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function sendWithTemplate($id, $view, $data = [])
+    {
+        $mail = \BT\Modules\MailQueue\Models\MailQueue::find($id);
+
+        $this->setTemplate($view, $data);
 
         if ($this->sendMail(
             $mail->from,
@@ -78,9 +113,15 @@ class MailQueue
     {
         try
         {
-            $htmlTemplate = (view()->exists('email_templates.html')) ? 'email_templates.html' : 'templates.emails.html';
+            if ($this->templateView && view()->exists($this->templateView)) {
+                $htmlView = $this->templateView;
+                $viewData = $this->templateData;
+            } else {
+                $htmlView = (view()->exists('email_templates.html')) ? 'email_templates.html' : 'templates.emails.html';
+                $viewData = ['body' => $body];
+            }
 
-            Mail::send([$htmlTemplate, 'templates.emails.text'], ['body' => $body], function ($message) use ($from, $to, $cc, $bcc, $subject, $attachmentPath)
+            Mail::send([$htmlView, 'templates.emails.text'], $viewData, function ($message) use ($from, $to, $cc, $bcc, $subject, $attachmentPath)
             {
                 $from = json_decode($from, true);
                 $to   = json_decode($to, true);

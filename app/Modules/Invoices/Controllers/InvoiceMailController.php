@@ -63,7 +63,9 @@ class InvoiceMailController extends Controller
 
         $mail = $this->mailQueue->create($invoice, $request->except('invoice_id'));
 
-        if ($this->mailQueue->send($mail->id)) {
+        $template = $invoice->is_overdue ? 'templates.emails.overdue' : 'templates.emails.invoice';
+
+        if ($this->mailQueue->sendWithTemplate($mail->id, $template, ['invoice' => $invoice])) {
             event(new InvoiceEmailed($invoice));
         } else {
             return response()->json(['errors' => [[$this->mailQueue->getError()]]], 400);
