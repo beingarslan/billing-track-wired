@@ -10,6 +10,12 @@
  */
 
 use BT\Modules\CompanyProfiles\Controllers\CompanyProfileController;
+use BT\Modules\CompanyProfiles\Controllers\LogoController;
+
+// Public logo route (no auth.admin) so email/client-facing <img> tags can load
+// the logo without an authenticated admin session. Declared before the admin
+// group and name-first per the SP route-loading quirk noted in AppServiceProvider.
+Route::name('companyProfiles.logo')->get('company_profiles/{id}/logo', [LogoController::class, 'logo']);
 
 Route::middleware(['web', 'auth.admin'])
     ->prefix('company_profiles')->name('companyProfiles.')->group(function () {
@@ -22,5 +28,3 @@ Route::middleware(['web', 'auth.admin'])
         Route::name('ajax.modalLookup')->post('ajax/modal_lookup', [CompanyProfileController::class, 'ajaxModalLookup']);
         Route::name('deleteLogo')->post('{id}/delete_logo', [CompanyProfileController::class, 'deleteLogo']);
     });
-
-Route::name('logo')->get('{id}/logo', [CompanyProfileController::class, 'logo']);

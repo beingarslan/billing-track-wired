@@ -1,0 +1,1 @@
+Payment Received - Invoice {{ $payment->invoice->number }}
