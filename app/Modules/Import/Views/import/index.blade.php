@@ -7,13 +7,14 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.import_data')</div>
-        <div class="float-end">
-            @if (!config('app.demo'))
-                {!! Form::submit(trans('bt.submit'), ['class' => 'btn btn-primary']) !!}
-            @endif
-        </div>
-        <div class="clearfix"></div>
+                <div class="bt-toolbar">
+                    <div class="fs-3 me-auto">@lang('bt.import_data')</div>
+                    <div class="d-flex flex-wrap gap-2">
+                        @if (!config('app.demo'))
+                            {!! Form::submit(trans('bt.submit'), ['class' => 'btn btn-primary bt-fluid-sm']) !!}
+                        @endif
+                    </div>
+                </div>
             </div></div>
     </section>
 
@@ -29,7 +30,7 @@
                 <div class="mb-3">
                     <label>@lang('bt.select_file_to_import')</label>
                     @if (!config('app.demo'))
-                        {!! Form::file('import_file') !!}
+                        {!! Form::file('import_file', ['class' => 'form-control']) !!}
                     @else
                         Imports are disabled in the demo.
                     @endif

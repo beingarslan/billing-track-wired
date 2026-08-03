@@ -5,7 +5,7 @@
 </script>
 
 @foreach ($customFields as $customField)
-    <div class="mb-3">
+    <div class="mb-3 bt-stack-row">
         <label class="form-label col-sm-3 col-form-label">{{ $customField->field_label }}</label>
         <div class="col-sm-9">
             @if ($customField->field_type == 'dropdown')

@@ -1,9 +1,9 @@
 @include('purchaseorders._js_edit')
 <section class="app-content-header">
-    <h3 class="float-start px-3">@lang('bt.purchaseorder') #{{ $purchaseorder->number }}</h3>
+    <div class="bt-toolbar px-3">
+    <h3 class="mb-0">@lang('bt.purchaseorder') #{{ $purchaseorder->number }}</h3>
     @if ($purchaseorder->status_text)
-        <span style="margin-start: 10px;"
-              class="badge badge-{{strtolower($purchaseorder->status_text)}}">@lang('bt.'.$purchaseorder->status_text)</span>
+        <span class="badge badge-{{strtolower($purchaseorder->status_text)}}">@lang('bt.'.$purchaseorder->status_text)</span>
         {{--    @else--}}
         {{--        <span style="margin-start: 10px;" class="badge bg-secondary">@lang('bt.not_viewed')</span>--}}
     @endif
@@ -15,19 +15,24 @@
     {{--    @if ($purchaseorder->workorder()->count())--}}
     {{--        <span class="badge bg-info"><a href="{{ route('workorders.edit', [$purchaseorder->workorder->id]) }}" style="color: inherit;">@lang('bt.converted_from_workorder') {{ $purchaseorder->workorder->number }}</a></span>--}}
     {{--    @endif--}}
-    <div class="float-end">
-        <a href="{{ route('purchaseorders.pdf', [$purchaseorder->id]) }}" target="_blank" id="btn-pdf-purchaseorder"
-           class="btn btn-secondary"><i class="fa fa-print"></i> @lang('bt.pdf')</a>
-        @if (config('bt.mailConfigured'))
-            <a href="javascript:void(0)" id="btn-email-purchaseorder" class="btn btn-secondary email-purchaseorder"
-               data-purchaseorder-id="{{ $purchaseorder->id }}"
-               data-redirect-to="{{ route('purchaseorders.edit', [$purchaseorder->id]) }}"><i
-                        class="fa fa-envelope"></i> @lang('bt.email')</a>
-        @endif
-        <div class="btn-group">
-            <button type="button" class="btn btn-secondary" data-bs-toggle="dropdown">
-                @lang('bt.other')
-            </button>
+    </div>
+    <div class="px-3 pt-2">
+        <div class="bt-action-bar justify-content-md-end">
+            <a href="{{ route('purchaseorders.pdf', [$purchaseorder->id]) }}" target="_blank" id="btn-pdf-purchaseorder"
+               class="btn btn-secondary" aria-label="@lang('bt.pdf')" title="@lang('bt.pdf')"><i
+                        class="fa fa-print"></i> <span class="d-none d-sm-inline">@lang('bt.pdf')</span></a>
+            @if (config('bt.mailConfigured'))
+                <a href="javascript:void(0)" id="btn-email-purchaseorder" class="btn btn-secondary email-purchaseorder"
+                   aria-label="@lang('bt.email')" title="@lang('bt.email')"
+                   data-purchaseorder-id="{{ $purchaseorder->id }}"
+                   data-redirect-to="{{ route('purchaseorders.edit', [$purchaseorder->id]) }}"><i
+                            class="fa fa-envelope"></i> <span class="d-none d-sm-inline">@lang('bt.email')</span></a>
+            @endif
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="dropdown"
+                        aria-label="@lang('bt.other')" title="@lang('bt.other')">
+                    <i class="fa fa-ellipsis-h"></i> <span class="d-none d-sm-inline">@lang('bt.other')</span>
+                </button>
             <div class="dropdown-menu dropdown-menu-end" role="menu">
                 {{--                @if ($purchaseorder->isPayable or config('bt.allowPaymentsWithoutBalance'))--}}
                 {{--                    <a class="dropdown-item enter-payment" href="javascript:void(0)" id="btn-enter-payment"--}}
@@ -53,28 +58,29 @@
                             class="fa fa-trash-alt"></i> @lang('bt.trash')</a>
             </div>
         </div>
-        <div class="btn-group">
             @if ($returnUrl)
-                <a href="{{ $returnUrl }}" class="btn btn-secondary"><i
-                            class="fa fa-backward"></i> @lang('bt.back')</a>
+                <a href="{{ $returnUrl }}" class="btn btn-secondary" aria-label="@lang('bt.back')"
+                   title="@lang('bt.back')"><i
+                            class="fa fa-backward"></i> <span class="d-none d-sm-inline">@lang('bt.back')</span></a>
             @endif
-        </div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary btn-save-purchaseorder"><i
-                        class="fa fa-save"></i> @lang('bt.save')</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="dropdown"><i class="fas fa-chevron-down"></i>
-            </button>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-save-purchaseorder"
+                        aria-label="@lang('bt.save')" title="@lang('bt.save')"><i
+                            class="fa fa-save"></i> <span class="d-none d-sm-inline">@lang('bt.save')</span></button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="dropdown"
+                        aria-label="@lang('bt.options')"><i class="fas fa-chevron-down"></i>
+                </button>
             <div class="dropdown-menu dropdown-menu-end" role="menu">
-                <a class="dropdown-item" href="#" class="btn-save-purchaseorder"
+                <a class="dropdown-item btn-save-purchaseorder" href="#"
                    data-apply-exchange-rate="1">@lang('bt.save_and_apply_exchange_rate')</a>
             </div>
         </div>
+        </div>
     </div>
-    <div class="clearfix"></div>
 </section>
 <section class="container-fluid">
     <div class="row">
-        <div class="col-lg-10">
+        <div class="col-12 col-lg-9 col-xl-10 order-2 order-lg-1">
             @include('layouts._alerts')
             <div id="form-status-placeholder"></div>
             <div class="row">
@@ -183,7 +189,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-12 col-lg-3 col-xl-2 order-1 order-lg-2">
             <div id="div-totals">
                 @include('purchaseorders._edit_totals')
             </div>

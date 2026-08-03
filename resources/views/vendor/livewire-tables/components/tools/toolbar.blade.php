@@ -786,12 +786,17 @@
                             x-bind:class="{'show' : open}"
                             aria-labelledby="columnSelect-{{ $component->getTableName() }}"
                         >
+                            {{-- ml-2 is a Bootstrap 4 class and is dead in BS5, so the
+                                 titles used to sit flush against a 13px unstyled box.
+                                 form-check-input + d-flex gives a real 44px row on a
+                                 phone (mobile.css sizes .dropdown-menu .form-check-input). --}}
                             <div>
                                 <label
                                     wire:loading.attr="disabled"
-                                    class="px-2 mb-1"
+                                    class="px-2 mb-1 d-flex align-items-center gap-2"
                                 >
                                     <input
+                                        class="form-check-input m-0 flex-shrink-0"
                                         @if($component->allDefaultVisibleColumnsAreSelected())
                                             checked
                                             wire:click="deselectAllColumns"
@@ -802,7 +807,7 @@
                                         wire:loading.attr="disabled"
                                         type="checkbox"
                                     />
-                                    <span class="ml-2">{{ __('All Columns') }}</span>
+                                    <span>{{ __('All Columns') }}</span>
                                 </label>
                             </div>
                             @foreach($component->getColumns() as $column)
@@ -811,16 +816,17 @@
                                         <label
                                             wire:loading.attr="disabled"
                                             wire:target="selectedColumns"
-                                            class="px-2 {{ $loop->last ? 'mb-0' : 'mb-1' }}"
+                                            class="px-2 d-flex align-items-center gap-2 {{ $loop->last ? 'mb-0' : 'mb-1' }}"
                                         >
                                             <input
+                                                class="form-check-input m-0 flex-shrink-0"
                                                 wire:model="selectedColumns"
                                                 wire:target="selectedColumns"
                                                 wire:loading.attr="disabled"
                                                 type="checkbox"
                                                 value="{{ $column->getSlug() }}"
                                             />
-                                            <span class="ml-2">{{ $column->getTitle() }}</span>
+                                            <span>{{ $column->getTitle() }}</span>
                                         </label>
                                     </div>
                                 @endif
@@ -831,11 +837,11 @@
             @endif
 
             @if ($component->paginationIsEnabled() && $component->perPageVisibilityIsEnabled())
-                <div class="ms-0 ms-md-2">
+                <div class="ms-0 ms-md-2 mb-3 mb-md-0">
                     <select
                         wire:model="perPage"
                         id="perPage"
-                        class="form-control"
+                        class="form-select"
                     >
                         @foreach ($component->getPerPageAccepted() as $item)
                             <option value="{{ $item }}" wire:key="per-page-{{ $item }}-{{ $component->getTableName() }}">{{ $item === -1 ? __('All') : $item }}</option>

@@ -6,7 +6,7 @@
             <span class="handle">
                 <i class="fas fa-arrows-alt-v"></i>
             </span>
-            <input type="checkbox" class="checkbox-bulk-action" data-task-id="{{ $task->id }}">
+            <input type="checkbox" class="checkbox-bulk-action form-check-input" data-task-id="{{ $task->id }}">
             @if (!$task->activeTimer)
                 <button class="btn btn-sm btn-green btn-start-timer" data-task-id="{{ $task->id }}"><i
                             class="fa fa-play"></i> <strong>@lang('bt.start_timer')<br>

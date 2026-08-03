@@ -1,20 +1,20 @@
-<h3 class="offset-2">@lang('bt.set_recurrence')</h3>
+<h3 class="offset-md-2">@lang('bt.set_recurrence')</h3>
 <br>
 <div class="mb-3">
     {!! Form::model($rrule) !!}
-    <div class="mb-3 d-flex align-items-center">
+    <div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
         {!! Form::label('frequency',trans('bt.frequency_string'),['class'=>'col-sm-2 text-end fw-bold pe-3']) !!}
         <div class="col-sm-6 ">
             {!! Form::text('frequency',null,['class'=>'form-control','placeholder'=>__('bt.frequency'),'readonly']) !!}
         </div>
     </div>
-    <div class="mb-3 d-flex align-items-center">
+    <div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
         {!! Form::label('freqtext',trans('bt.frequency_text'),['class'=>'col-sm-2 text-end fw-bold pe-3']) !!}
         <div class="col-sm-6">
             {!! Form::text('freqtext',null,['class'=>'form-control','placeholder'=>__('bt.frequency_text'),'readonly']) !!}
         </div>
     </div>
-    <div class="mb-3 d-flex align-items-center">
+    <div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
         {!! Form::label(__('bt.frequency'),null,['for'=>'freq', 'class'=>'col-sm-2 text-end fw-bold pe-3','title'=> 'Frequency']) !!}
         <label class="btn btn-primary ">
             {!! Form::radio('freq','YEARLY',null,['id' => 'freq']) !!}<span> @lang('bt.yearly')</span></label>
@@ -29,7 +29,7 @@
         {{--{!! Form::radio('freq','SECONDLY',false,['disabled' => 'true']) !!}{!! Form::label('SECONDLY',null,['style'=>'margin-right: 10px']) !!}--}}
     </div>
 </div>
-<div class="mb-3 d-flex align-items-center">
+<div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
     {!! Form::label('eventfrom',__('bt.start_datetime'),['class'=>'col-sm-2 text-end fw-bold pe-3','title'=>
     'The recurrence start. Besides being the base for the recurrence, missing parameters in the final recurrence instances will also be extracted from this date. If not given, "new Date" will be used instead.'
     ]) !!}
@@ -67,7 +67,7 @@
         ></x-fp_datetime>
     </div>
 </div>
-<div class="mb-3 d-flex align-items-center">
+<div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
     {!! Form::label(__('bt.count'),null,['for'=>'count', 'class'=>'col-sm-2 text-end fw-bold pe-3','title'=>
     'How many occurrences will be generated.']) !!}
     <div class="col-sm-3">
@@ -80,7 +80,7 @@
         {!! Form::input('number','interval',null, ['id'=>'interval','class'=>'form-control','max'=>'50', 'min'=>'0']) !!}
     </div>
 </div>
-<div class="mb-3 d-flex align-items-center">
+<div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
     {!! Form::label(__('bt.week_start'),null,['for'=>'wkst', 'class'=>'col-sm-2 text-end fw-bold pe-3','title'=>
     'The week start day. Must be one of the "RRule.MO", "RRule.TU", "RRule.WE" constants, or an integer, specifying the first day of the week. This will affect recurrences based on weekly periods. The default week start is "RRule.MO".'
     ]) !!}
@@ -101,7 +101,7 @@
             {!! Form::radio('wkst','SU',null,['id'=>'wkst']) !!}<span> @lang('bt.day_short_sunday')</span></label>
     </div>
 </div>
-<div class="mb-3 d-flex align-items-center">
+<div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
     {!! Form::label(__('bt.week_days'),null,['for'=>'byday', 'class'=>'col-sm-2 text-end fw-bold pe-3','title'=>
     'If given, it must be either an integer ("0 == RRule.MO"), a sequence of integers, one of the weekday constants ("RRule.MO", "RRule.TU", etc), or a sequence of these constants. When given, these variables will define the weekdays where the recurrence will be applied. It is also possible to use an argument n for the weekday instances, which will mean the nth occurrence of this weekday in the period. For example, with "RRule.MONTHLY", or with "RRule.YEARLY" and "BYMONTH", using "RRule.FR.clone(+1)" in "byweekday" will specify the first friday of the month where the recurrence happens. Notice that the RFC documentation, this is specified as "BYDAY", but was renamed to avoid the ambiguity of that argument.'
     ]) !!}
@@ -122,7 +122,7 @@
             {!! Form::checkbox('byday[]', 'SU',null,['class' => 'byday','id'=>'byday']) !!}<span> @lang('bt.day_short_sunday')</span></label>
     </div>
 </div>
-<div class="mb-3 d-flex align-items-center">
+<div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
     {!! Form::label(__('bt.months_sp'),null,['for'=>'bymonth', 'class'=>'col-sm-2 text-end fw-bold pe-3','title'=>
     'If given, it must be either an integer, or a sequence of integers, meaning the months to apply the recurrence to.'
     ]) !!}
@@ -153,7 +153,7 @@
             {!! Form::checkbox('bymonth[]', '12',null,['id'=>'bymonth']) !!}<span> @lang('bt.month_short_december')</span></label>
     </div>
 </div>
-<div class="mb-3 d-flex align-items-center">
+<div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
     {!! Form::label(__('bt.position'),null,['for'=>'bysetpos', 'class'=>'col-sm-2 text-end fw-bold pe-3','title'=>
     'If given, it must be either an integer, or a sequence of integers, positive or negative. Each given integer will specify an occurrence number, corresponding to the nth occurrence of the rule inside the frequency period. For example, a "bysetpos" of "-1" if combined with a "RRule.MONTHLY" frequency, and a byweekday of ("RRule.MO", "RRule.TU", "RRule.WE", "RRule.TH", "FR"), will result in the last work day of every month.'
     ]) !!}
@@ -161,7 +161,7 @@
         {!! Form::input('text','bysetpos',null, ['id'=>'bysetpos','class'=>'form-control']) !!}
     </div>
 </div>
-<div class="mb-3 d-flex align-items-center">
+<div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
     {!! Form::label(__('bt.monthday'),null,['for'=>'bymonthday', 'class'=>'col-sm-2 text-end fw-bold pe-3','title'=>
     'If given, it must be either an integer, or a sequence of integers, meaning the month days to apply the recurrence to.'
     ]) !!}
@@ -199,7 +199,7 @@
     </div>
 </div>--}}
 <hr>
-<div class="mb-3 d-flex align-items-center offset-3 mt-5">
+<div class="mb-3 d-flex flex-wrap align-items-center offset-md-3 mt-4 mt-md-5">
     {!! Form::button(__('bt.show_proposed_recurrence'),['onclick' => 'return showhuman()','class'=>'col-sm-4 btn btn-warning']) !!}
     {{--{!! Form::close() !!}--}}
     <script>

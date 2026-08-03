@@ -5,8 +5,9 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.addons')</div>
-                <div class="clearfix"></div>
+                <div class="bt-toolbar">
+                    <div class="fs-3 me-auto">@lang('bt.addons')</div>
+                </div>
             </div>
         </div>
     </section>
@@ -15,7 +16,8 @@
         @include('layouts._alerts')
         <div class="card card-light">
             <div class="card-body">
-                <table class="table table-hover">
+                <div class="table-responsive">
+                <table class="table table-hover bt-stack">
                     <thead>
                     <tr>
                         <th>@lang('bt.name')</th>
@@ -28,10 +30,10 @@
                     <tbody>
                     @foreach ($addons as $addon)
                         <tr>
-                            <td>{{ $addon->name }}</td>
-                            <td>{{ $addon->author_name }}</td>
-                            <td>{{ $addon->author_url }}</td>
-                            <td>
+                            <td data-label="@lang('bt.name')">{{ $addon->name }}</td>
+                            <td data-label="@lang('bt.author')">{{ $addon->author_name }}</td>
+                            <td data-label="@lang('bt.web_address')" class="text-break">{{ $addon->author_url }}</td>
+                            <td data-label="@lang('bt.status')">
                                 @if ($addon->enabled)
                                     <span class="badge bg-success">@lang('bt.enabled')</span>
                                 @else
@@ -55,6 +57,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </section>

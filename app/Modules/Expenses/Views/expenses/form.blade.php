@@ -10,15 +10,16 @@
     {!! Form::hidden('user_id', auth()->user()->id) !!}
 
     <section class="app-content-header">
-        <h3 class="float-start px-3">
-            @lang('bt.expense_form')
-        </h3>
-        <div class="float-end">
-            <a class="btn btn-warning float-end" href={!! route('expenses.index')  !!}><i
-                        class="fa fa-ban"></i> @lang('bt.cancel')</a>
-            <button class="btn btn-primary" id="save-btn"><i class="fa fa-save"></i> @lang('bt.save')</button>
+        <div class="bt-toolbar px-3">
+            <h3 class="mb-0 me-auto">
+                @lang('bt.expense_form')
+            </h3>
+            <div class="bt-action-bar">
+                <button class="btn btn-primary" id="save-btn"><i class="fa fa-save"></i> @lang('bt.save')</button>
+                <a class="btn btn-warning" href="{!! route('expenses.index') !!}"><i
+                            class="fa fa-ban"></i> @lang('bt.cancel')</a>
+            </div>
         </div>
-        <div class="clearfix"></div>
     </section>
     <section class="container-fluid">
         @include('layouts._alerts')

@@ -10,7 +10,7 @@
                 <h4 class="card-title">@lang('bt.vendor')</h4>
             </div>
             <div class="card-body">
-                <div class="row col-md-12 mb-1" id="col-vendor-name">
+                <div class="row col-md-12 mb-1 bt-stack-row" id="col-vendor-name">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">* @lang('bt.vendor_name'): </label>
                     </div>
@@ -18,7 +18,7 @@
                         {!! Form::text('name', null, ['id' => 'name', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12 mb-1" id="col-vendor-email">
+                <div class="row col-md-12 mb-1 bt-stack-row" id="col-vendor-email">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.email_address'): </label>
                     </div>
@@ -26,7 +26,7 @@
                         {!! Form::text('vendor_email', null, ['id' => 'vendor_email', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12 mb-1">
+                <div class="row col-md-12 mb-1 bt-stack-row">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.phone_number'): </label>
                     </div>
@@ -34,7 +34,7 @@
                         {!! Form::text('phone', null, ['id' => 'phone', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12 mb-1">
+                <div class="row col-md-12 mb-1 bt-stack-row">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.fax_number'): </label>
                     </div>
@@ -42,7 +42,7 @@
                         {!! Form::text('fax', null, ['id' => 'fax', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12 mb-1">
+                <div class="row col-md-12 mb-1 bt-stack-row">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.mobile_number'): </label>
                     </div>
@@ -50,7 +50,7 @@
                         {!! Form::text('mobile', null, ['id' => 'mobile', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12 mb-1">
+                <div class="row col-md-12 mb-1 bt-stack-row">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.web_address'): </label>
                     </div>
@@ -58,7 +58,7 @@
                         {!! Form::text('web', null, ['id' => 'web', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12 mb-1">
+                <div class="row col-md-12 mb-1 bt-stack-row">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.id_number'): </label>
                     </div>
@@ -66,7 +66,7 @@
                         {!! Form::text('id_number', null, ['id' => 'id_number', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12 mb-1">
+                <div class="row col-md-12 mb-1 bt-stack-row">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.vat_number'): </label>
                     </div>
@@ -74,7 +74,7 @@
                         {!! Form::text('vat_number', null, ['id' => 'vat_number', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12" id="col-vendor-active">
+                <div class="row col-md-12 bt-stack-row" id="col-vendor-active">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.active'): </label>
                     </div>
@@ -89,12 +89,14 @@
                 <h4 class="card-title">@lang('bt.address')</h4>
             </div>
             <div class="card-body">
-                <ul class="nav nav-tabs p-2">
-                    <li class="nav-item"><a class="nav-link active show" href="#tab-address"
-                                            data-bs-toggle="tab">@lang('bt.billing_address')</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tab-address_2"
-                                            data-bs-toggle="tab">@lang('bt.shipping_address')</a></li>
-                </ul>
+                <div class="bt-scroll-x">
+                    <ul class="nav nav-tabs p-2 flex-nowrap">
+                        <li class="nav-item"><a class="nav-link text-nowrap active show" href="#tab-address"
+                                                data-bs-toggle="tab">@lang('bt.billing_address')</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap" href="#tab-address_2"
+                                                data-bs-toggle="tab">@lang('bt.shipping_address')</a></li>
+                    </ul>
+                </div>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-address">
                         <div class="row mx-1 mt-3">

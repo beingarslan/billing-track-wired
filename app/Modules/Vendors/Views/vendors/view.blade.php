@@ -14,8 +14,9 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12 align-items-center">
-                <div class="fs-3 float-start">{{__('bt.view_vendor') . ' - ' . $vendor->name}}</div>
-                <div class="btn-group float-end">
+                <div class="bt-toolbar">
+                <div class="fs-3 me-auto">{{__('bt.view_vendor') . ' - ' . $vendor->name}}</div>
+                <div class="btn-group flex-wrap">
                     <a class="btn btn-secondary rounded me-1" href="#" id="btn-create-purchaseorder"
                        {{--                   params 3 thru ... mount(,,$modulefullname, $moduleop, $resource_id = null, $module_id = null, $readonly = null)--}}
                        onclick="window.livewire.emit('showModal', 'modals.create-module-modal',
@@ -29,7 +30,7 @@
 {{--                       onclick="swalConfirm('@lang('bt.trash_vendor_warning')', '@lang('bt.trash_vendor_warning_msg')', '{{ route('vendors.delete', [$vendor->id]) }}');"><i--}}
 {{--                                class="fa fa-trash"></i> @lang('bt.trash')</a>--}}
                 </div>
-                <div class="clearfix"></div>
+                </div>
             </div>
     </section>
     <section class="content">
@@ -37,8 +38,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="card m-2">
-                    <div class="card-header d-flex p-0">
-                        <ul class="nav nav-pills p-2">
+                    <div class="card-header d-flex p-0 bt-scroll-x">
+                        <ul class="nav nav-pills p-2 flex-nowrap text-nowrap">
                             <li class="nav-item "><a class="nav-link active show" data-bs-toggle="tab"
                                                      href="#tab-details">@lang('bt.details')</a></li>
                             <li class="nav-item "><a class="nav-link" data-bs-toggle="tab"
@@ -54,7 +55,7 @@
                             <div id="tab-details" class="tab-pane active">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="float-start mb-3">
+                                        <div class="mb-3">
                                             <h2>{!! $vendor->name !!}</h2>
                                             @lang('bt.payment_terms'):&nbsp;&nbsp;
                                             @if($vendor->paymentterm->id != 1)
@@ -117,14 +118,10 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="float-start">
-                                            <h2>@lang('bt.contacts')</h2>
-                                        </div>
-                                        <div class="float-end mb-3">
-                                            <button class="btn btn-primary btn-sm" id="btn-add-contact"><i
-                                                        class="fa fa-plus"></i> @lang('bt.add_contact')</button>
-                                        </div>
+                                    <div class="col-md-12 d-flex flex-wrap align-items-center gap-2 mb-3">
+                                        <h2 class="mb-0 me-auto">@lang('bt.contacts')</h2>
+                                        <button class="btn btn-primary btn-sm" id="btn-add-contact"><i
+                                                    class="fa fa-plus"></i> @lang('bt.add_contact')</button>
                                     </div>
                                 </div>
                                 <div id="tab-contacts">

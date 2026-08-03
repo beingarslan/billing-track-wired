@@ -4,8 +4,9 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.vendors')</div>
-                <div class="btn-group float-end">
+                <div class="bt-toolbar">
+                <div class="fs-3 me-auto">@lang('bt.vendors')</div>
+                <div class="btn-group flex-wrap">
                     <a href="{{ route('vendors.index', ['status' => 'active']) }}"
                        class="btn btn-secondary @if ($status == 'active') active @endif">@lang('bt.active')</a>
                     <a href="{{ route('vendors.index', ['status' => 'inactive']) }}"
@@ -15,8 +16,8 @@
                     <a href="{{ route('vendors.create') }}" class="btn btn-primary"><i
                                 class="fa fa-plus"></i> @lang('bt.create_vendor')</a>
                 </div>
+                </div>
             </div>
-            <div class="clearfix"></div>
         </div>
     </section>
     <section class="content">

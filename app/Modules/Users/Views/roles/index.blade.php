@@ -4,25 +4,27 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.acl_manage')</div>
+                <div class="bt-toolbar">
+                    <div class="fs-3">@lang('bt.acl_manage')</div>
+                </div>
             </div>
-            <div class="clearfix"></div>
         </div>
     </section>
     <section class="content">
         <div class="card">
-            <div class="card-header h3">@lang('bt.acl_roles')
+            <div class="card-header h3 bt-toolbar">
+                <span class="me-auto">@lang('bt.acl_roles')</span>
                 @can('create_roles')
-                    <div style="float:right;padding-right:20px;"><a href="{{ route('users.roles.create') }}"
-                                                                    title="@lang('bt.acl_add_role')"
-                                                                    class="btn btn-primary "><i
-                                    class="fa fa-plus"></i> @lang('bt.acl_add_role')</a>
-                    </div>
+                    <a href="{{ route('users.roles.create') }}"
+                       title="@lang('bt.acl_add_role')"
+                       class="btn btn-primary "><i
+                            class="fa fa-plus"></i> @lang('bt.acl_add_role')</a>
                 @endcan
             </div>
             <div class="card-body">
                 @if (count($roles))
-                    <table id="roles" class="table table-striped table-hover table-responsive-sm table-sm compact">
+                    <div class="table-responsive">
+                    <table id="roles" class="table table-striped table-hover table-sm compact bt-nowrap">
                         <thead>
                         <tr>
                             <th>@lang('bt.id')</th>
@@ -57,6 +59,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                    </div>
                 @else
                     <div style="text-align: center;">@lang('bt.no_records_found')</div>
                 @endif

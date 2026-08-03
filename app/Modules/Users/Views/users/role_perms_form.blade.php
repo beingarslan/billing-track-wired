@@ -21,14 +21,17 @@
         <div class="card-title border-bottom ps-3 fs-4 bg-secondary">
             @lang('bt.acl_perm_grant_role')
         </div>
-        <input type="button" onclick='selects()' value="@lang('bt.select_all')"/>
-        <input type="button" onclick='deSelect()' value="@lang('bt.deselect_all')"/>
+        <div class="d-flex flex-wrap gap-2 p-3 pb-0">
+            <input type="button" class="btn btn-secondary btn-sm" onclick='selects()' value="@lang('bt.select_all')"/>
+            <input type="button" class="btn btn-secondary btn-sm" onclick='deSelect()' value="@lang('bt.deselect_all')"/>
+        </div>
         <div class="card-body">
             @foreach($permissions as $key => $subgroup)
                 <h1 class="h4">{{$key}}</h1>
                 @if($key <> 'Reports')
+                    <div class="table-responsive">
                     <table id="permissions{{$loop->index}}"
-                           class="table table-striped table-hover table-responsive-sm table-sm compact mb-3">
+                           class="table table-striped table-hover table-sm compact mb-3 bt-nowrap bt-acl-table">
                         <thead>
                         <tr>
                             <th style="width:20%;">@lang('bt.name')</th>
@@ -56,16 +59,16 @@
                                         <td>{{ $subkey }}</td>
                                     @endif
                                     @if(\Illuminate\Support\Str::before($permission->name, '_') == 'view')
-                                        <td><input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
+                                        <td><input type="checkbox" class="form-check-input" name="permissions[]" value="{{ $permission->name }}"
                                                    @if($perm_found) checked @endif></td>
                                     @elseif(\Illuminate\Support\Str::before($permission->name, '_') == 'create')
-                                        <td><input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
+                                        <td><input type="checkbox" class="form-check-input" name="permissions[]" value="{{ $permission->name }}"
                                                    @if($perm_found) checked @endif></td>
                                     @elseif(\Illuminate\Support\Str::before($permission->name, '_') == 'edit')
-                                        <td><input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
+                                        <td><input type="checkbox" class="form-check-input" name="permissions[]" value="{{ $permission->name }}"
                                                    @if($perm_found) checked @endif></td>
                                     @else
-                                        <td><input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
+                                        <td><input type="checkbox" class="form-check-input" name="permissions[]" value="{{ $permission->name }}"
                                                    @if($perm_found) checked @endif></td>
                                     @endif
                                     @continue
@@ -75,9 +78,11 @@
                         @endforeach
                         </tbody>
                     </table>
+                    </div>
                 @else
+                    <div class="table-responsive">
                     <table id="permissions{{$loop->index}}"
-                           class="table table-striped table-hover table-responsive-sm table-sm compact mb-3">
+                           class="table table-striped table-hover table-sm compact mb-3 bt-nowrap bt-acl-table">
                         <thead>
                         <tr>
                             <th style="width:20%;">@lang('bt.name')</th>
@@ -99,7 +104,7 @@
                                     ?>
                                     <td>{{ \Illuminate\Support\Str::after($permission->name, '_') }}</td>
                                     @if(\Illuminate\Support\Str::before($permission->name, '_') == 'view')
-                                        <td><input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
+                                        <td><input type="checkbox" class="form-check-input" name="permissions[]" value="{{ $permission->name }}"
                                                    @if($perm_found) checked @endif></td>
                                     @endif
                                     @continue
@@ -109,6 +114,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    </div>
                 @endif
             @endforeach
         </div>

@@ -2,7 +2,8 @@
     ready(function () {
         document.getElementById('btn-edit-client').addEventListener('click', (e) => {
             loadModal('{{ route('clients.ajax.modalEdit') }}', {
-                client_id: e.target.dataset.clientId,
+                // e.target is the <i> when the icon itself is tapped
+                client_id: e.currentTarget.dataset.clientId,
                 refresh_to_route: '{{ route('invoices.invoiceEdit.refreshTo') }}',
                 id: {{ $invoice->id }}
             })

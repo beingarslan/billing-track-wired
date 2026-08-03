@@ -37,7 +37,7 @@
             const items = [];
             let display_order = 1;
             const custom_fields = {};
-            const apply_exchange_rate = e.target.dataset.applyExchangeRate
+            const apply_exchange_rate = e.target.closest('.btn-save-quote').dataset.applyExchangeRate
 
             document.querySelectorAll('table tr.item').forEach((item) => {
                 const row = {};

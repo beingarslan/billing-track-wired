@@ -61,7 +61,7 @@
     </script>
 
     <div class="modal fade" id="modal-attach-files">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-sm-down">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">@lang('bt.attach_files')</h4>

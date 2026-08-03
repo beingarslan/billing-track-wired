@@ -2,10 +2,13 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>BillingTrack - Self hosted invoicing for freelancers and small businesses</title>
     <link rel="stylesheet" href="/build/assets/app.css">
+    {{-- Mobile layer - must load AFTER app.css. This layout does not include
+         layouts._head, so the link is declared here directly. --}}
+    <link href="{{ asset('css/mobile.css') }}?v=1" rel="stylesheet" type="text/css"/>
     <script src="/build/assets/app.js"></script>
     @include('layouts._js_global')
 </head>
@@ -23,7 +26,7 @@
 </nav>
 <div class="container mt-5">
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-3 order-2 order-lg-1">
             <div class="bs-sidebar">
                 <h4>BillingTrack 6.x.x</h4>
                 <p style="padding-start: 15px; font-size: 1em;"><a href="Overview">Overview</a>

@@ -1,34 +1,37 @@
 @php($msg = '')
 @foreach ($errors->all() as $error)
-    @php($msg .= $error . '\n')
+    @php($msg .= $error . "\n")
 @endforeach
+{{-- Messages are passed through @json so Laravel escapes quotes/apostrophes for us. The old
+     '{!! $msg !!}' form broke the whole <script> tag on any message containing an apostrophe,
+     which silently swallowed login/validation errors - the exact path a phone user hits. --}}
 @if($msg)
 <script>
-    notify('{!! $msg !!}','error')
+    notify(@json($msg), 'error')
 </script>
 @endif
 
 
 @if (session()->has('error'))
     <script>
-        notify('{!! session('error') !!}','error')
+        notify(@json(session('error')), 'error')
     </script>
 @endif
 
 @if (session()->has('alert'))
     <script>
-        notify('{!! session('alert') !!}','warning')
+        notify(@json(session('alert')), 'warning')
     </script>
 @endif
 
 @if (session()->has('alertSuccess'))
     <script>
-        notify('{!! session('alertSuccess') !!}','success')
+        notify(@json(session('alertSuccess')), 'success')
     </script>
 @endif
 
 @if (session()->has('alertInfo'))
     <script>
-        notify('{!! session('alertInfo') !!}','info')
+        notify(@json(session('alertInfo')), 'info')
     </script>
 @endif

@@ -5,14 +5,13 @@
     {!! Form::hidden('invoice_id') !!}
     {!! Form::hidden('client_id') !!}
     <section class="app-content-header">
-        <h3 class="float-start px-3">
-            @lang('bt.payment_form')
-        </h3>
-        <div class="float-end">
-            <a href="{{ route('payments.index') }}" class="btn btn-secondary">Cancel</a>
+        <div class="bt-toolbar px-3">
+            <h3 class="mb-0 me-auto">
+                @lang('bt.payment_form')
+            </h3>
+            <a href="{{ route('payments.index') }}" class="btn btn-secondary">@lang('bt.cancel')</a>
             {!! Form::submit(trans('bt.save'), ['class' => 'btn btn-primary']) !!}
         </div>
-        <div class="clearfix"></div>
     </section>
     <section class="container-fluid">
         @include('layouts._alerts')
@@ -24,12 +23,12 @@
                             <label>@lang('bt.email_payment_warning')</label>
                         </div>
                         <div class="mb-3">
-                            <label>@lang('bt.amount'): </label>
+                            <label class="form-label" for="amount">@lang('bt.amount'): </label>
                             {!! Form::text('amount', $payment->formatted_numeric_amount, ['id' => 'amount',
-                            'class' => 'form-control']) !!}
+                            'class' => 'form-control', 'inputmode' => 'decimal']) !!}
                         </div>
                         <div class="mb-3">
-                            <label>@lang('bt.payment_date'): </label>
+                            <label class="form-label" for="paid_at">@lang('bt.payment_date'): </label>
                             <x-fp_common
                                     name="paid_at"
                                     id="paid_at"
@@ -37,12 +36,12 @@
                                     value="{{$payment->paid_at}}"></x-fp_common>
                         </div>
                         <div class="mb-3">
-                            <label>@lang('bt.payment_method')</label>
+                            <label class="form-label" for="payment_method_id">@lang('bt.payment_method')</label>
                             {!! Form::select('payment_method_id', $paymentMethods, null, ['id' =>
-                            'payment_method_id', 'class' => 'form-control']) !!}
+                            'payment_method_id', 'class' => 'form-select']) !!}
                         </div>
                         <div class="mb-3">
-                            <label>@lang('bt.note')</label>
+                            <label class="form-label" for="note">@lang('bt.note')</label>
                             {!! Form::textarea('note', null, ['id' => 'note', 'rows' => '2', 'class' => 'form-control']) !!}
                         </div>
                         @if ($customFields->count())

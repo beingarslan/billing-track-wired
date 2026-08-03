@@ -1,19 +1,18 @@
 <div class="card card-outline card-primary">
     <div class="card-body">
-        <span class="float-start"><strong>@lang('bt.subtotal')</strong></span><span
-                class="float-end">{{ $quote->amount->formatted_subtotal }}</span>
-        <div class="clearfix"></div>
+        <div class="d-flex justify-content-between gap-2">
+            <strong>@lang('bt.subtotal')</strong><span>{{ $quote->amount->formatted_subtotal }}</span>
+        </div>
         @if ($quote->discount > 0)
-            <span class="float-start"><strong>@lang('bt.discount')</strong></span><span
-                    class="float-end">{{ $quote->amount->formatted_discount }}</span>
-
-            <div class="clearfix"></div>
+            <div class="d-flex justify-content-between gap-2">
+                <strong>@lang('bt.discount')</strong><span>{{ $quote->amount->formatted_discount }}</span>
+            </div>
         @endif
-        <span class="float-start"><strong>@lang('bt.tax')</strong></span><span
-                class="float-end">{{ $quote->amount->formatted_tax }}</span>
-        <div class="clearfix"></div>
-        <span class="float-start"><strong>@lang('bt.total')</strong></span><span
-                class="float-end">{{ $quote->amount->formatted_total }}</span>
-        <div class="clearfix"></div>
+        <div class="d-flex justify-content-between gap-2">
+            <strong>@lang('bt.tax')</strong><span>{{ $quote->amount->formatted_tax }}</span>
+        </div>
+        <div class="d-flex justify-content-between gap-2">
+            <strong>@lang('bt.total')</strong><span>{{ $quote->amount->formatted_total }}</span>
+        </div>
     </div>
 </div>

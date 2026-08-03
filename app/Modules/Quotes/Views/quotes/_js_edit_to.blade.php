@@ -2,7 +2,7 @@
     ready(function () {
         document.getElementById('btn-edit-client').addEventListener('click', (e) => {
             loadModal('{{ route('clients.ajax.modalEdit') }}', {
-                client_id: e.target.dataset.clientId,
+                client_id: e.currentTarget.dataset.clientId,
                 refresh_to_route: '{{ route('quotes.quoteEdit.refreshTo') }}',
                 id: {{ $quote->id }}
             })

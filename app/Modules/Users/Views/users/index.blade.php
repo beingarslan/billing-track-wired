@@ -5,9 +5,9 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.users')</div>
-                @if (!config('app.demo'))
-                    <div class="float-end">
+                <div class="bt-toolbar">
+                    <div class="fs-3 me-auto">@lang('bt.users')</div>
+                    @if (!config('app.demo'))
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary" data-bs-toggle="dropdown"
                                     aria-expanded="false"><i
@@ -23,19 +23,20 @@
                                    href="{{ route('users.create', ['client']) }}">@lang('bt.client_account')</a>
                             </div>
                         </div>
-                    </div>
-                    <div class="clearfix"></div>
+                    @endif
+                </div>
             </div>
         </div>
     </section>
-    <section class="container-fluid">
-        @include('layouts._alerts')
-        <div class=" card card-light">
-            <div class="card-body">
-                <livewire:data-tables.module-table :module_type="'User'"/>
+    @if (!config('app.demo'))
+        <section class="container-fluid">
+            @include('layouts._alerts')
+            <div class=" card card-light">
+                <div class="card-body">
+                    <livewire:data-tables.module-table :module_type="'User'"/>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
     @else
         <br><br>
         User configuration is disabled in the demo.

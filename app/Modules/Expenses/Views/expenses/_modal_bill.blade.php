@@ -27,7 +27,7 @@
     });
 </script>
 <div class="modal fade" id="create-expense-bill">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-sm-down">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">@lang('bt.bill_this_expense')</h4>

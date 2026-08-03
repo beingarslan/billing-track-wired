@@ -1,4 +1,4 @@
-<div class="modal-dialog ">
+<div class="modal-dialog modal-fullscreen-sm-down">
     <div class="modal-content">
         <div class="modal-header">
             @if($module)
@@ -11,7 +11,7 @@
         <div class="modal-body">
             <div id="modal-status-placeholder"></div>
             <form id="saveCalendarEvent">
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.title')</label>
                     </div>
@@ -29,7 +29,7 @@
                         @error('title') <span class="text-sm text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.location')</label>
                     </div>
@@ -38,7 +38,7 @@
                                class="form-control" value="">
                     </div>
                 </div>
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.description')</label>
                     </div>
@@ -47,7 +47,7 @@
                                class="form-control" value="">
                     </div>
                 </div>
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.category')</label></div>
                     <div class="col-sm-7">
@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <hr>
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.start_datetime')</label>
                     </div>
@@ -71,7 +71,7 @@
                         @error('start_date') <span class="text-sm text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.end_datetime')</label>
                     </div>
@@ -87,7 +87,7 @@
                         @error('end_date') <span class="text-sm text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
-                {{--                                 <div class="row g-3 mb-3 align-items-center">--}}
+                {{--                                 <div class="row g-3 mb-3 align-items-center bt-stack-row">--}}
                 {{--                        <label for="recurring" class="col-sm-4 text-right text">@lang('bt.recurring')</label>--}}
                 {{--                        <div class="col-sm-7">--}}
                 {{--                            <select id="recurring" class="form-control">--}}
@@ -103,7 +103,7 @@
                 {{--                        </div>--}}
                 {{--                    </div>--}}
                 <hr>
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-auto text-start fw-bold">
                         <label class="col-form-label ps-2">@lang('bt.reminder')</label>
                     </div>

@@ -1,4 +1,5 @@
-<table class="table table-hover">
+<div class="table-responsive">
+<table class="table table-hover bt-nowrap">
     <thead>
     <tr>
         <th>@lang('bt.status')</th>
@@ -33,7 +34,7 @@
             <td style="text-align: right; padding-end: 25px;">{{ $purchaseorder->amount->formatted_total }}</td>
             <td style="text-align: right; padding-end: 25px;">{{ $purchaseorder->amount->formatted_balance }}</td>
             <td>
-                <div class="btn-group">
+                <div class="btn-group position-static">
                     <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="dropdown">
                         @lang('bt.options')
                     </button>
@@ -67,3 +68,4 @@
     @endforeach
     </tbody>
 </table>
+</div>

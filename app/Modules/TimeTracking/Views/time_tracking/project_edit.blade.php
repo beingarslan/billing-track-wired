@@ -203,10 +203,12 @@
 
 @section('content')
     <section class="app-content-header">
-        <h3 class="float-start px-3">@lang('bt.time_tracking')
-            <small>{{ $project->name }}</small>
-        </h3>
-        <div class="float-end">
+        <div class="bt-toolbar px-3">
+            <h3 class="me-auto mb-0">@lang('bt.time_tracking')
+                <small>{{ $project->name }}</small>
+            </h3>
+        </div>
+        <div class="bt-action-bar px-3 pt-2">
             <a href="#" class="btn btn-secondary"
                onclick="swalConfirm('@lang('bt.confirm_trash_project')', '', '{{ route('timeTracking.projects.delete', [$project->id]) }}');"><i
                         class="fa fa-trash-alt"></i> @lang('bt.trash_project')</a>
@@ -214,15 +216,14 @@
                         class="fa fa-backward"></i> @lang('bt.back')</a>
             <button class="btn btn-primary" id="btn-save-settings"><i class="fa fa-save"></i> @lang('bt.save')</button>
         </div>
-        <div class="clearfix"></div>
     </section>
     <section class="container-fluid">
         <div class="row">
-            <div class="col-lg-10">
+            <div class="col-12 col-lg-10">
                 <div class="card card-outline card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title"><i class="fa fa-list"></i> @lang('bt.tasks')</h3>
-                        <div class="card-tools float-end">
+                    <div class="card-header bt-toolbar">
+                        <h3 class="card-title me-auto mb-0"><i class="fa fa-list"></i> @lang('bt.tasks')</h3>
+                        <div class="card-tools">
                             <button class="btn btn-sm btn-primary" id="btn-add-task">
                                 <i class="fa fa-plus"></i> @lang('bt.add_task')
                             </button>
@@ -244,7 +245,9 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="small"><a href="javascript:void(0)" id="btn-bulk-select-all">Select All</a> | <a
+                        <span class="small d-inline-flex align-items-center gap-1"><a class="bt-tap px-2"
+                                    href="javascript:void(0)" id="btn-bulk-select-all">Select All</a> | <a
+                                    class="bt-tap px-2"
                                     href="javascript:void(0)" id="btn-bulk-deselect-all">Deselect All</a></span>
                         <ul class="todo-list" id="project-task-list">
                             @include('time_tracking._task_list')
@@ -256,6 +259,7 @@
                         <h3 class="card-title"><i class="fa fa-list"></i> @lang('bt.billed_tasks')</h3>
                     </div>
                     <div class="card-body">
+                        <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
                             <tr>
@@ -280,10 +284,11 @@
                             @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2">
+            <div class="col-12 col-lg-2">
                 <div id="div-totals">
                     @include('time_tracking._project_edit_totals')
                 </div>

@@ -66,8 +66,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
-                        <button type="button" class="btn btn-primary btn-flat"
+                    <div class="col-sm-12 mt-2">
+                        <button type="button" class="btn btn-primary btn-flat bt-fluid-sm"
                                 id="btn-create-note">@lang('bt.add_note')</button>
                     </div>
                 </div>

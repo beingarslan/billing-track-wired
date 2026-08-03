@@ -37,7 +37,8 @@
 @include('layouts._alerts')
 <div class="row">
     <div class="col-lg-12">
-        <table class="table table-hover">
+        <div class="table-responsive">
+        <table class="table table-hover bt-nowrap">
             <thead>
             <tr>
                 <th>@lang('bt.name')</th>
@@ -78,7 +79,7 @@
                     <td>{{ $contact->formatted_is_primary }}</td>
                     <td>{{ $contact->formatted_optin }}</td>
                     <td>
-                        <div class="btn-group">
+                        <div class="btn-group position-static">
                             <button type="button" class="btn btn-secondary btn-sm"
                                     data-bs-toggle="dropdown">
                                 @lang('bt.options')
@@ -98,5 +99,6 @@
             @endforeach
             </tbody>
         </table>
+        </div>
     </div>
 </div>

@@ -4,7 +4,11 @@
 
     <script type="text/javascript">
         ready(function () {
-            document.getElementById('name').focus()
+            // Do not pop the soft keyboard before the page settles on a touch device.
+            var nameField = document.getElementById('name')
+            if (nameField && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                nameField.focus()
+            }
 
             addEvent(document, 'click', "#btn-generate-api-keys", (e) => {
                 axios.post("{{ route('api.generateKeys') }}").then(function (response) {
@@ -29,12 +33,15 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start"> @lang('bt.admin') @lang('bt.user_form')</div>
-                <a class="btn btn-warning float-end" href={!! route('users.index')  !!}><i
-                            class="fa fa-ban"></i> @lang('bt.cancel')</a>
-                <button type="submit" class="btn btn-primary float-end"><i
-                            class="fa fa-save"></i> @lang('bt.save') </button>
-                <div class="clearfix"></div>
+                <div class="bt-toolbar">
+                    <div class="fs-3 me-auto"> @lang('bt.admin') @lang('bt.user_form')</div>
+                    <div class="bt-action-bar">
+                        <button type="submit" class="btn btn-primary"><i
+                                    class="fa fa-save"></i> @lang('bt.save') </button>
+                        <a class="btn btn-warning" href={!! route('users.index')  !!}><i
+                                    class="fa fa-ban"></i> @lang('bt.cancel')</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -44,13 +51,13 @@
         <div class=" card card-light">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label>@lang('bt.name'): </label>
                             {!! Form::text('name', null, ['id' => 'name', 'class' => 'form-control']) !!}
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label>@lang('bt.email'): </label>
                             {!! Form::text('email', null, ['id' => 'email', 'class' => 'form-control']) !!}
@@ -58,7 +65,7 @@
                     </div>
                 </div>
 {{--                <div class="row">--}}
-{{--                    <div class="col-md-3">--}}
+{{--                    <div class="col-12 col-md-3">--}}
 {{--                        <div class="mb-3">--}}
 {{--                            <label>@lang('bt.avatar'): </label>--}}
 {{--                            {!! Form::select('avatar', ['Gravatar'=>'Gravatar', 'Custom'=>'Custom'],'Gravatar', ['id' => 'avatar', 'class' => 'form-select']) !!}--}}
@@ -78,22 +85,22 @@
                 @endif
 
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-12 col-md-3">
                         <div class="mb-3">
                             <label>@lang('bt.api_public_key'): </label>
                             {!! Form::text('api_public_key', null, ['id' => 'api_public_key', 'class' => 'form-control', 'readonly' => 'readonly']) !!}
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-12 col-md-3">
                         <div class="mb-3">
                             <label>@lang('bt.api_secret_key'): </label>
                             {!! Form::text('api_secret_key', null, ['id' => 'api_secret_key', 'class' => 'form-control', 'readonly' => 'readonly']) !!}
                         </div>
                     </div>
                 </div>
-                <div class="mb-5">
-                <a href="#" class="btn btn-secondary" id="btn-generate-api-keys">@lang('bt.generate_keys')</a>
-                <a href="#" class="btn btn-secondary" id="btn-clear-api-keys">@lang('bt.clear_keys')</a>
+                <div class="mb-5 d-flex flex-wrap gap-2">
+                    <a href="#" class="btn btn-secondary" id="btn-generate-api-keys">@lang('bt.generate_keys')</a>
+                    <a href="#" class="btn btn-secondary" id="btn-clear-api-keys">@lang('bt.clear_keys')</a>
                 </div>
                 @include('users.user_roles_form', [ 'userType' => 'admin'])
             </div>

@@ -1,6 +1,6 @@
 @include('purchaseorders._js_receive')
 <div class="modal fade" id="receive-purchaseorder">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">@lang('bt.receive_purchaseorder')</h4>
@@ -11,7 +11,7 @@
                 <form>
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" id="user_id">
                     <div class="table-responsive">
-                        <table class="table items-list">
+                        <table class="table items-list bt-nowrap">
                             <thead>
                             <tr>
                                 <th>Status</th>
@@ -25,8 +25,8 @@
                             <tbody>
                             @foreach($items as $item)
                                 <tr>
-                                    <input type="hidden" name="id" value="{!! $item->id !!}">
                                     <td>
+                                        <input type="hidden" name="id" value="{!! $item->id !!}">
                                         <span class="badge badge-{{ $item->status_text }}"> {!! ucfirst($item->status_text) !!}</span>
                                     </td>
                                     <td>{!! $item->name !!}</td>
@@ -38,10 +38,10 @@
                             @endforeach
                             </tbody>
                         </table>
-                        <div class="ms-3 form-check form-switch form-switch-md">
-                            {{ Form::checkbox('itemrec', 1, config('bt.updateProductsDefault'), ['id' => 'itemrec', 'class' => 'form-check-input']) }}
-                            {{ Form::label('itemrec', trans('bt.update_products'), ['class' => 'form-check-label fw-bold ps-3 pt-1', 'for' => 'itemrec']) }}
-                        </div>
+                    </div>
+                    <div class="ms-md-3 form-check form-switch form-switch-md">
+                        {{ Form::checkbox('itemrec', 1, config('bt.updateProductsDefault'), ['id' => 'itemrec', 'class' => 'form-check-input']) }}
+                        {{ Form::label('itemrec', trans('bt.update_products'), ['class' => 'form-check-label fw-bold ps-3 pt-1', 'for' => 'itemrec']) }}
                     </div>
                 </form>
             </div>

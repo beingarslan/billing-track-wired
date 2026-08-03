@@ -128,9 +128,19 @@
   margin-left: 0;
 }
 
+// Public client-facing documents (invoice / quote / workorder links emailed to a client).
+// This used to be a hard `width: 938px`, which forced horizontal PAGE scroll on every
+// phone. It is now fluid up to the same 938px CONTENT width, so rendering at >= 938px
+// is unchanged - the cap includes the horizontal padding because box-sizing is
+// border-box, otherwise the content box would shrink to 914px on desktop.
+// NOTE: resources/public/css/mobile.css carries the identical override at runtime,
+// because public/build/assets/app.css is a committed artifact and this file is only
+// compiled if someone runs `npm run build`.
 .public-wrapper {
-  width: 938px;
-  margin: auto;
+  width: 100%;
+  max-width: calc(938px + 1.5rem); // 938px content box + padding-inline
+  margin-inline: auto;
+  padding-inline: .75rem;
 }
 
 .public-doc-wrapper {

@@ -6,7 +6,7 @@
     </section>
     <section class="content">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-12 col-md-8">
                 <div class=" card card-light">
                     <div class="card-body">
                         <p>@lang('bt.step_prerequisites')</p>

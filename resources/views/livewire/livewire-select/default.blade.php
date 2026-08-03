@@ -1,6 +1,6 @@
 <select
     name="{{ $name }}"
-    class="{{ $styles['default'] }}"
+    class="{{ $styles['default'] }} form-select"
     wire:model="value">
 
     <option value="">

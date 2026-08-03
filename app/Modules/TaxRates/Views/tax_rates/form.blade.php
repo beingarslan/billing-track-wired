@@ -17,12 +17,15 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.tax_rate_form')</div>
-                <a class="btn btn-warning float-end" href={!! route('taxRates.index')  !!}><i
-                            class="fa fa-ban"></i> @lang('bt.cancel')</a>
-                <button type="submit" class="btn btn-primary float-end"><i
-                            class="fa fa-save"></i> @lang('bt.save') </button>
-                <div class="clearfix"></div>
+                <div class="bt-toolbar">
+                    <div class="fs-3 me-auto">@lang('bt.tax_rate_form')</div>
+                    <div class="bt-action-bar">
+                        <button type="submit" class="btn btn-primary"><i
+                                    class="fa fa-save"></i> @lang('bt.save') </button>
+                        <a class="btn btn-warning" href={!! route('taxRates.index')  !!}><i
+                                    class="fa fa-ban"></i> @lang('bt.cancel')</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

@@ -4,12 +4,13 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.currencies')</div>
-                <div class="float-end">
+                <div class="bt-toolbar">
+                <div class="fs-3 me-auto">@lang('bt.currencies')</div>
+                <div class="d-flex flex-wrap gap-2">
                     <a href="{{ route('currencies.create') }}" class="btn btn-primary"><i
                                 class="fa fa-plus"></i> @lang('bt.create_currency')</a>
                 </div>
-                <div class="clearfix"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -17,7 +18,8 @@
         @include('layouts._alerts')
         <div class="card card-light">
             <div class="card-body">
-                <table class="table table-hover">
+                <div class="table-responsive">
+                <table class="table table-hover bt-nowrap">
                     <thead>
                     <tr>
                         <th>{!! Sortable::link('name', trans('bt.name')) !!}</th>
@@ -39,7 +41,7 @@
                             <td>{{ $currency->decimal }}</td>
                             <td>{{ $currency->thousands }}</td>
                             <td>
-                                <div class="btn-group">
+                                <div class="btn-group position-static">
                                     <button type="button" class="btn btn-secondary btn-sm"
                                             data-bs-toggle="dropdown">
                                         @lang('bt.options')
@@ -58,9 +60,10 @@
                     @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
-        <div class="float-end">
+        <div class="d-flex justify-content-center justify-content-md-end flex-wrap">
             {!! $currencies->appends(request()->except('page'))->render() !!}
         </div>
     </section>

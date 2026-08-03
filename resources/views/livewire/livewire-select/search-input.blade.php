@@ -5,6 +5,8 @@
     placeholder="{{ $placeholder }}"
     class="{{ $styles['searchInput'] }}"
     autocomplete="off"
+    autocapitalize="none"
+    enterkeyhint="search"
 
     wire:keydown.enter.prevent=""
     wire:model.debounce.500ms="searchTerm"

@@ -6,7 +6,7 @@
     </section>
     <section class="content">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
                 <div class=" card card-light">
                     <div class="card-body">
                         <p>@lang('bt.you_may_now_sign_in')</p>

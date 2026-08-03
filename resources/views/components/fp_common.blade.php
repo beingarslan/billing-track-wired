@@ -29,9 +29,14 @@
             type="text"
             value="{{$value}}"
             data-input
-            class="text-bg-light"
-            {{$attributes}}
-{{--            {{ $attributes->merge(['class' => 'block w-full disabled:bg-gray-200 p-2 border border-gray-300 rounded-md focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 sm:text-sm sm:leading-5']) }}--}}
+            {{-- The class list must be MERGED, not emitted twice. A hard-coded
+                 class attribute followed by the caller's class attribute inside
+                 the attribute bag produces two class attributes on one element
+                 and the browser keeps only the first, so every caller that
+                 passed form-control was silently losing it. Carrying
+                 form-control here also gives the field the 16px font and 44px
+                 height that mobile.css applies to .form-control below 992px. --}}
+            {{ $attributes->merge(['class' => 'form-control text-bg-light']) }}
     />
     <span class="input-group-text"><i class="fas fa-calendar-alt"></i> </span>
 </div>

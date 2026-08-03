@@ -6,7 +6,9 @@
             <i class="my-1"></i>
           </span>
     </button>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme"
+    {{-- 26 items in one menu is ~900px tall; overflow-auto plus the max-height clamp in
+         mobile.css keeps it inside the viewport if this include is ever re-enabled. --}}
+    <ul class="dropdown-menu dropdown-menu-end overflow-auto" aria-labelledby="bd-theme"
         style="--bs-dropdown-min-width: 8rem;">
         <li>
             <button type="button" class="dropdown-item d-flex align-items-center active"
@@ -242,14 +244,18 @@
         const showActiveTheme = theme => {
             const activeThemeIcon = document.querySelector('.theme-icon-active i')
             const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
-            const svgOfActiveBtn = btnToActive.querySelector('i').getAttribute('class')
+            // A stored theme value that is not one of the buttons below (e.g. a theme removed
+            // from this list) used to throw here and abort the whole DOMContentLoaded callback.
+            if (!btnToActive || !activeThemeIcon) return
+            const iconOfActiveBtn = btnToActive.querySelector('i')
+            const svgOfActiveBtn = iconOfActiveBtn ? iconOfActiveBtn.getAttribute('class') : null
 
             document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
                 element.classList.remove('active')
             })
 
             btnToActive.classList.add('active')
-            activeThemeIcon.setAttribute('class', svgOfActiveBtn)
+            if (svgOfActiveBtn) activeThemeIcon.setAttribute('class', svgOfActiveBtn)
         }
 
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {

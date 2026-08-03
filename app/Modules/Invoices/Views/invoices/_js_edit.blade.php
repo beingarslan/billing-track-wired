@@ -23,7 +23,10 @@
             const items = [];
             let display_order = 1;
             const custom_fields = {};
-            const apply_exchange_rate = e.target.dataset.applyExchangeRate
+            // e.target can be the <i> inside the button on a touch tap, so read
+            // the data attribute off the trigger element itself
+            const trigger = e.target.closest('.btn-save-invoice')
+            const apply_exchange_rate = trigger.dataset.applyExchangeRate
 
             document.querySelectorAll('table tr.item').forEach((item) => {
                 const row = {};

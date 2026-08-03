@@ -2,10 +2,13 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('bt.headerTitleText') }}</title>
     <link rel="stylesheet" href="/build/assets/app.css">
+    {{-- Mobile layer - must load AFTER app.css. This layout does not include
+         layouts._head, so the link is declared here directly. --}}
+    <link href="{{ asset('css/mobile.css') }}?v=1" rel="stylesheet" type="text/css"/>
     <script src="/build/assets/app.js"></script>
     @yield('javaScript')
 </head>
@@ -21,17 +24,17 @@
 <!-- Responsive navbar-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <div class="align-items-center">
+        <div class="d-flex align-items-center flex-wrap">
             <img src="/img/billingtrack_logo.svg" alt="BillingTrack Logo"
                  class="brand-image img-circle elevation-3 img-size-50"
                  style="opacity: .8">
-            <span class="brand-text h1 ms-5">{{ config('bt.headerTitleText', config('app.name','BillingTrack')) }}</span>
+            <span class="brand-text h1 mb-0 ms-2 ms-md-5">{{ config('bt.headerTitleText', config('app.name','BillingTrack')) }}</span>
         </div>
     </div>
 </nav>
 <!-- Page content-->
 <div class="container">
-    <div class="text-center mt-5">
+    <div class="text-center mt-3 mt-md-5">
         @yield('content')
     </div>
 </div>

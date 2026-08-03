@@ -3,21 +3,27 @@
 @section('content')
     <script type="text/javascript">
         ready(function () {
-            document.getElementById('password').focus()
+            var passwordField = document.getElementById('password')
+            if (passwordField && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                passwordField.focus()
+            }
         });
     </script>
 
     {!! Form::open(['route' => ['users.password.update', $user->id]]) !!}
 
     <section class="app-content-header">
-        <h3 class="float-start px-3">
-            @lang('bt.reset_password'): {{ $user->name }} ({{ $user->email }})
-        </h3>
-        <a class="btn btn-warning float-end" href={!! route('users.index')  !!}><i
-                    class="fa fa-ban"></i> @lang('bt.cancel')</a>
-        <button type="submit" class="btn btn-primary float-end"><i
-                    class="fa fa-user-lock"></i> @lang('bt.reset_password') </button>
-        <div class="clearfix"></div>
+        <div class="bt-toolbar px-3">
+            <h3 class="me-auto mb-0">
+                @lang('bt.reset_password'): {{ $user->name }} ({{ $user->email }})
+            </h3>
+            <div class="bt-action-bar">
+                <button type="submit" class="btn btn-primary"><i
+                            class="fa fa-user-lock"></i> @lang('bt.reset_password') </button>
+                <a class="btn btn-warning" href={!! route('users.index')  !!}><i
+                            class="fa fa-ban"></i> @lang('bt.cancel')</a>
+            </div>
+        </div>
     </section>
 
     <section class="container-fluid">

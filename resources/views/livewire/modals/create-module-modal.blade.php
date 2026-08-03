@@ -1,4 +1,4 @@
-<div class="modal-dialog">
+<div class="modal-dialog modal-fullscreen-sm-down">
     <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title"
@@ -11,7 +11,7 @@
         </div>
         <div class="modal-body">
             <form action="" method="get">
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         @if($moduletype <> 'Purchaseorder')
                         <label class="col-form-label">@lang('bt.client')</label>
@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 @if($moduletype <> 'RecurringInvoice')
-                    <div class="row g-3 mb-3 align-items-center">
+                    <div class="row g-3 mb-3 align-items-center bt-stack-row">
                         <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.date')</label>
                         </div>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                     <label class="col-form-label">@lang('bt.company_profile')</label>
                     </div>
@@ -66,7 +66,7 @@
                         ['wire:model' => 'company_profile_id','id' => 'company_profile_id', 'class' => 'form-select']) !!}
                     </div>
                 </div>
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                     <label class="col-form-label">@lang('bt.group')</label>
                     </div>
@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 @if($moduletype == 'RecurringInvoice')
-                    <div class="row g-3 mb-3 align-items-center">
+                    <div class="row g-3 mb-3 align-items-center bt-stack-row">
                         <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.start_date')</label>
                         </div>
@@ -87,7 +87,7 @@
                             @error('next_date') <span class="text-sm text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
-                    <div class="row g-3 mb-3 align-items-center">
+                    <div class="row g-3 mb-3 align-items-center bt-stack-row">
                         <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.every')</label>
                         </div>
@@ -104,7 +104,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row g-3 mb-3 align-items-center">
+                    <div class="row g-3 mb-3 align-items-center bt-stack-row">
                         <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.stop_date')</label>
                         </div>

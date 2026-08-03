@@ -4,7 +4,9 @@
 <!-- <html lang="en" dir="rtl"> -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{-- viewport-fit=cover makes env(safe-area-inset-*) resolve on notched iPhones,
+         which mobile.css uses for the sticky action bar and back-to-top button. --}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('bt.headerTitleText') }}</title>
     <link rel="stylesheet" href="/build/assets/app.css">

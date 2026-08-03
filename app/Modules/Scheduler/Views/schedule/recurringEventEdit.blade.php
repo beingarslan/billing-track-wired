@@ -6,17 +6,17 @@
         <div class="container-fluid m-2">
             {!! Form::model($schedule,['route' => ['scheduler.updaterecurringevent', $schedule->id],'id' => 'recurringevent', 'accept-charset' => 'utf-8']) !!}
             <div class="card card-light">
-                <div class="card-header">
-                    <h3 class="card-title"><i
+                <div class="card-header bt-toolbar">
+                    <h3 class="card-title me-auto mb-0"><i
                                 class="fa fa-edit fa-fw"></i> {{ trans('bt.'.$title) }}
                     </h3>
-                    <a class="btn btn-warning float-end" href={!! url('/scheduler/table_recurring_event')  !!}><i
-                                class="fa fa-ban"></i> @lang('bt.cancel') </a>
-                    <button type="submit" class="btn btn-primary float-end"><i
+                    <button type="submit" class="btn btn-primary"><i
                                 class="fa fa-save"></i> {{ trans('bt.'.$title) }} </button>
+                    <a class="btn btn-warning" href={!! url('/scheduler/table_recurring_event')  !!}><i
+                                class="fa fa-ban"></i> @lang('bt.cancel') </a>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3 d-flex align-items-center">
+                    <div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
                         {!! Form::label('title',trans('bt.title'),['class'=>'col-sm-2 text-end fw-bold pe-3']) !!}
                         <div class="col-sm-6">
                             <livewire:employee-search
@@ -31,25 +31,25 @@
                             />
                         </div>
                     </div>
-                    <div class="mb-3 d-flex align-items-center">
+                    <div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
                         <label for="location" class="col-sm-2 text-end fw-bold pe-3">@lang('bt.location')</label>
                         <div class="col-sm-6">
                             {!! Form::text('location_str',null,['class'=>'form-control']) !!}
                         </div>
                     </div>
-                    <div class="mb-3 d-flex align-items-center">
+                    <div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
                         {!! Form::label('description',trans('bt.description'),['class'=>'col-sm-2 text-end fw-bold pe-3']) !!}
                         <div class="col-sm-6">
                             {!! Form::text('description',null,['class'=>'form-control']) !!}
                         </div>
                     </div>
-                    <div class="mb-3 d-flex align-items-center">
+                    <div class="mb-3 d-flex flex-wrap align-items-center bt-stack-row">
                         {!! Form::label('category_id',trans('bt.category'),['class'=>'col-sm-2 text-end fw-bold pe-3']) !!}
                         <div class="col-sm-3">
                             {!! Form::select('category_id',$categories,null, ['id' => 'category_id','class'=>'form-control']) !!}
                         </div>
                     </div>
-                    <div class="row g-3 mb-3 align-items-center ">
+                    <div class="row g-3 mb-3 align-items-center bt-stack-row">
                             <label for="reminder_qty" class="col-sm-2 text-end fw-bold pe-3">@lang('bt.reminder')</label>
                         <div class="col-sm-2">
                             <input type="number" id="reminder_qty" name="reminder_qty"
@@ -75,7 +75,10 @@
 @section('javaScript')
     <script type="text/javascript">
         ready(function () {
-            document.getElementById('employee').focus()
+            var employeeField = document.getElementById('employee')
+            if (employeeField && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                employeeField.focus()
+            }
             // handle readOnly of reminder_qty input
             var form = document.getElementById('recurringevent'),
                 interval = form.elements.reminder_interval;

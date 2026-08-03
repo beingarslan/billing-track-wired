@@ -2,7 +2,7 @@
     ready(function () {
         document.getElementById('btn-edit-vendor').addEventListener('click', (e) => {
             loadModal('{{ route('vendors.ajax.modalEdit') }}', {
-                vendor_id: e.target.dataset.vendorId,
+                vendor_id: e.currentTarget.dataset.vendorId,
                 refresh_to_route: '{{ route('purchaseorders.purchaseorderEdit.refreshTo') }}',
                 id: {{ $purchaseorder->id }}
             })

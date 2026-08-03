@@ -5,14 +5,14 @@
     {!! Form::open(['route' => ['import.map.submit', $importType], 'class' => 'form-horizontal']) !!}
 
     <section class="app-content-header">
-        <h3 class="float-start px-3">
-            @lang('bt.map_fields_to_import')
-        </h3>
-
-        <div class="float-end">
-            {!! Form::submit(trans('bt.submit'), ['class' => 'btn btn-primary']) !!}
+        <div class="bt-toolbar px-3">
+            <h3 class="mb-0 me-auto">
+                @lang('bt.map_fields_to_import')
+            </h3>
+            <div class="d-flex flex-wrap gap-2">
+                {!! Form::submit(trans('bt.submit'), ['class' => 'btn btn-primary bt-fluid-sm']) !!}
+            </div>
         </div>
-        <div class="clearfix"></div>
     </section>
 
     <section class="container-fluid">
@@ -24,7 +24,7 @@
                     <tbody>
                     @foreach ($importFields as $key => $field)
                         <tr>
-                            <td style="width: 20%;">{{ $field }}</td>
+                            <td class="w-25 text-break">{{ $field }}</td>
                             <td>{!! Form::select($key, $fileFields, (is_numeric(array_search($key, $fileFields)) ? array_search($key, $fileFields) : null), ['class' => 'form-control']) !!}
                             </td>
                         </tr>

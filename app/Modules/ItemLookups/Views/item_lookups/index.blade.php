@@ -4,12 +4,13 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.item_lookups')</div>
-                <div class="btn-group float-end">
+                <div class="bt-toolbar">
+                <div class="fs-3 me-auto">@lang('bt.item_lookups')</div>
+                <div class="btn-group flex-wrap">
                     <a href="{{ route('itemLookups.create') }}" class="btn btn-primary "><i
                                 class="fa fa-plus"></i> @lang('bt.create_itemlookup')</a>
                 </div>
-                <div class="clearfix"></div>
+                </div>
             </div>
         </div>
     </section>

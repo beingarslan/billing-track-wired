@@ -2,7 +2,11 @@
 <html class="public-layout" data-bs-theme="purple-light">
 <head>
     <meta charset="UTF-8">
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    {{-- maximum-scale/user-scalable=no removed: WCAG 1.4.4 violation. This is the page a
+         client opens from an emailed invoice link, and the document renders inside an
+         iframe - pinch-zoom is the only way to read it, so it must not be disabled.
+         viewport-fit=cover enables env(safe-area-inset-*) for notched iPhones. --}}
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <link rel="stylesheet" href="/build/assets/app.css">
     <script src="/build/assets/app.js"></script>

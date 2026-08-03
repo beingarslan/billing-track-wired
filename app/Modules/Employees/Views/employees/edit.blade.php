@@ -7,19 +7,21 @@
         {!! Form::model($employees, array('route' => array('employees.update', $employees->id),
                                                         'id'=>'employees_form','action'=>'#','method' => 'PUT', 'class'=>'form-horizontal')) !!}
         <div class="card card-light">
-            <div class="card-header">
-                <div class="card-title  h4 mt-2"><i
-                            class="fa fa-edit fa-fw float-start"></i>
+            <div class="card-header bt-toolbar">
+                <div class="card-title  h4 mt-2 me-auto"><i
+                            class="fa fa-edit fa-fw"></i>
                     @lang('bt.edit_employee')
                 </div>
-                <a class="btn btn-warning float-end" href="{{ $returnUrl }}"><i
-                            class="fa fa-ban"></i> @lang('bt.cancel')</a>
-                <button type="submit" class="btn btn-primary float-end"><i
-                            class="fa fa-save"></i> @lang('bt.save') </button>
+                <div class="bt-action-bar">
+                    <button type="submit" class="btn btn-primary"><i
+                                class="fa fa-save"></i> @lang('bt.save') </button>
+                    <a class="btn btn-warning" href="{{ $returnUrl }}"><i
+                                class="fa fa-ban"></i> @lang('bt.cancel')</a>
+                </div>
             </div>
             <div class="card-body">
                 <!-- Employee Number input-->
-                <div class="row col-md-6 mb-3">
+                <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                     <label class="col-form-label fw-bold"
                            for="number">@lang('bt.employee_number')</label>
@@ -29,7 +31,7 @@
                     </div>
                 </div>
                 <!-- First Name input-->
-                <div class="row col-md-6 mb-3">
+                <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                     <label class="col-form-label fw-bold"
                            for="first_name">@lang('bt.employee_first_name')</label>
@@ -39,7 +41,7 @@
                     </div>
                 </div>
                 <!-- Last Name input-->
-                <div class="row col-md-6 mb-3">
+                <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                     <label class="col-form-label fw-bold"
                            for="last_name">@lang('bt.employee_last_name')</label>
@@ -49,7 +51,7 @@
                     </div>
                 </div>
                 <!-- Title input-->
-                <div class="row col-md-6 mb-3">
+                <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                     <label class="col-form-label fw-bold"
                            for="title">@lang('bt.employee_title')</label>
@@ -65,7 +67,7 @@
                     </div>
                 </div>
                 <!-- Employee Type input-->
-                <div class="row col-md-6 mb-3">
+                <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="col-form-label fw-bold"
                                for="type_id">@lang('bt.type')</label>
@@ -75,7 +77,7 @@
                     </div>
                 </div>
                 <!-- Expected Termination Date input-->
-                <div class="row col-md-6 mb-3">
+                <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="col-form-label fw-bold"
                                for="term_date">@lang('bt.term_date')</label>
@@ -85,7 +87,7 @@
                     </div>
                 </div>
                 <!-- Billing Rate input-->
-                <div class="row col-md-6 mb-3">
+                <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                     <label class="col-form-label fw-bold"
                            for="billing_rate">@lang('bt.employee_billing_rate')</label>
@@ -95,7 +97,7 @@
                     </div>
                 </div>
                 <!-- Schedule Checkbox-->
-                <div class="row col-md-6 mb-3 align-items-center">
+                <div class="row col-md-6 mb-3 align-items-center bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="form-check-label fw-bold"
                                for="schedule">@lang('bt.scheduleable')</label>
@@ -105,7 +107,7 @@
                     </div>
                 </div>
                 <!-- Active Checkbox-->
-                <div class="row col-md-6 mb-3 align-items-center">
+                <div class="row col-md-6 mb-3 align-items-center bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="form-check-label fw-bold"
                                for="schedule">@lang('bt.employee_active')</label>
@@ -115,7 +117,7 @@
                     </div>
                 </div>
                 <!-- Driver Checkbox-->
-                <div class="row col-md-6 mb-3 align-items-center">
+                <div class="row col-md-6 mb-3 align-items-center bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="form-check-label fw-bold"
                                for="schedule">@lang('bt.employee_driver')</label>

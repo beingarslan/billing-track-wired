@@ -7,28 +7,28 @@
         <form method='POST' action="{{ route('users.roles.store') }}">
             @csrf
             <div class="card card-light">
-                <div class="card-header">
-                    <h3 class="card-title"><i
-                                class="fa fa-edit fa-fw float-start"></i>
+                <div class="card-header bt-toolbar">
+                    <h3 class="card-title me-auto mb-0"><i
+                                class="fa fa-edit fa-fw"></i>
                         @lang('bt.acl_add_role')
                     </h3>
-                    <a class="btn btn-warning float-end" href="{{ $returnUrl }}"><i
-                                class="fa fa-ban"></i> @lang('bt.cancel')</a>
-                    <button type="submit" class="btn btn-primary float-end"><i
+                    <button type="submit" class="btn btn-primary"><i
                                 class="fa fa-save"></i> @lang('bt.save') </button>
+                    <a class="btn btn-warning" href="{{ $returnUrl }}"><i
+                                class="fa fa-ban"></i> @lang('bt.cancel')</a>
                 </div>
                 <div class="card-body">
-                    <div class="form-group col-md-3 mb-3">
+                    <div class="form-group col-12 col-md-3 mb-3">
                         <label class="fw-bold mb-1" for="name">@lang('bt.acl_role_name')</label>
                         <input type="text" name="name" value="" class='form-control'
                                placeholder='@lang('bt.acl_role_name')'>
                     </div>
-                    <div class="form-group col-md-3 mb-3">
+                    <div class="form-group col-12 col-md-3 mb-3">
                         <label class="fw-bold mb-1" for="description">@lang('bt.description')</label>
                         <textarea name="description" class='form-control'
                                   placeholder='@lang('bt.description')'></textarea>
                     </div>
-                    <div class="form-group col-md-3 mb-3">
+                    <div class="form-group col-12 col-md-3 mb-3">
                         <label class="fw-bold mb-1" for="guard_name">@lang('bt.acl_guard_name')</label>
                         <input type="text" name="guard_name" value="web" class='form-control'
                                placeholder='@lang('bt.acl_guard_name')'>

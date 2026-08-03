@@ -51,11 +51,10 @@
             <div class="col-lg-8 col-sm-8">
                 @foreach (\BT\Modules\Settings\Models\Setting::$coreevents as $entityType => $value)
                     <div class="form-check">
-                        <label for="enabledCoreEvents{{ $value}}" class="form-check-label">
-                            <input name="enabledCoreEvents[]" id="enabledCoreEvents{{ $value}}" type="checkbox"
-                                   {{ (new \BT\Modules\Settings\Models\Setting())->isCoreeventEnabled($entityType) ? 'checked="checked"' : '' }}
-                                   value="{{ $value }}" class="form-check-input">{{ trans("bt.{$entityType}") }}
-                        </label>
+                        <input name="enabledCoreEvents[]" id="enabledCoreEvents{{ $value}}" type="checkbox"
+                               {{ (new \BT\Modules\Settings\Models\Setting())->isCoreeventEnabled($entityType) ? 'checked="checked"' : '' }}
+                               value="{{ $value }}" class="form-check-input">
+                        <label for="enabledCoreEvents{{ $value}}" class="form-check-label">{{ trans("bt.{$entityType}") }}</label>
                     </div>
                 @endforeach
             </div>

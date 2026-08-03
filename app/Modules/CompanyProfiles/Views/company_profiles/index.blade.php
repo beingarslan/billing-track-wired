@@ -4,18 +4,19 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.company_profiles')</div>
-        <div class="float-end">
-            <a href="{{ route('companyProfiles.create') }}" class="btn btn-primary"><i
-                        class="fa fa-plus"></i> @lang('bt.create_companyprofile')</a>
+                <div class="bt-toolbar">
+                    <div class="fs-3 me-auto">@lang('bt.company_profiles')</div>
+                    <a href="{{ route('companyProfiles.create') }}" class="btn btn-primary"><i
+                                class="fa fa-plus"></i> @lang('bt.create_companyprofile')</a>
+                </div>
+            </div>
         </div>
-        <div class="clearfix"></div>
-            </div></div>
     </section>
     <section class="container-fluid">
         @include('layouts._alerts')
         <div class=" card card-light">
             <div class="card-body">
+                <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
                     <tr>
@@ -28,7 +29,8 @@
                         <tr>
                             <td>{{ $companyProfile->company }}</td>
                             <td>
-                                <div class="btn-group">
+                                {{-- position-static: the .table-responsive wrapper is overflow:auto at EVERY width, which would clip this menu on desktop too --}}
+                                <div class="btn-group position-static">
                                     <button type="button" class="btn btn-secondary btn-sm"
                                             data-bs-toggle="dropdown">
                                         @lang('bt.options')
@@ -47,9 +49,10 @@
                     @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
-        <div class="float-end">
+        <div class="d-flex justify-content-center justify-content-md-end flex-wrap">
             {!! $companyProfiles->appends(request()->except('page'))->render() !!}
         </div>
     </section>

@@ -1,7 +1,7 @@
 @include('company_profiles._js_subchange')
 
 <div class="modal fade" id="modal-lookup-company-profile">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">@lang('bt.change_company_profile')</h4>
@@ -10,8 +10,8 @@
             <div class="modal-body">
                 <div id="modal-status-placeholder"></div>
                 <form>
-                    <div class="mb-3">
-                        <label class="form-label col-sm-4 col-form-label">@lang('bt.company_profile')</label>
+                    <div class="mb-3 bt-stack-row">
+                        <label class="form-label col-sm-4 col-form-label" for="change_company_profile_id">@lang('bt.company_profile')</label>
                         <div class="col-sm-8">
                             {!! Form::select('change_company_profile_id', $companyProfiles, null, ['id' => 'change_company_profile_id', 'class' => 'form-control']) !!}
                         </div>

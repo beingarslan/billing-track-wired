@@ -1,18 +1,19 @@
 <div class="card">
-    <div class="card-header h3">@lang('bt.acl_permissions')
+    <div class="card-header h3 bt-toolbar">
+        <span class="me-auto">@lang('bt.acl_permissions')</span>
         @can('create_permissions')
-            <div style="float:right;padding-right:20px;"><a href="{{ route('users.permissions.create') }}"
-                                                            title="@lang('bt.acl_add_permission')"
-                                                            class="btn btn-primary "><i
-                            class="fa fa-plus"></i> @lang('bt.acl_add_permission')</a>
-            </div>
+            <a href="{{ route('users.permissions.create') }}"
+               title="@lang('bt.acl_add_permission')"
+               class="btn btn-primary "><i
+                    class="fa fa-plus"></i> @lang('bt.acl_add_permission')</a>
         @endcan
     </div>
     <div class="card-body">
         @if (count($permissions))
             @foreach($permissions->groupBy('group') as $group)
                 <div class="h4">{{$group->first()->group}}</div>
-                <table id="permissions" class="table table-striped table-hover table-responsive-sm table-sm compact mb-3">
+                <div class="table-responsive">
+                <table id="permissions" class="table table-striped table-hover table-sm compact mb-3 bt-nowrap">
                     <thead>
                     <tr>
                         <th>@lang('bt.id')</th>
@@ -46,6 +47,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                </div>
             @endforeach
         @else
             <div style="text-align: center;">@lang('bt.no_records_found')</div>

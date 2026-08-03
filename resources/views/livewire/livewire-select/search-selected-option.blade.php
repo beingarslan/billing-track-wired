@@ -16,7 +16,8 @@
         <span
                 type="text"
                 wire:click.prevent="selectValue(null)"
-                class="{{ $styles['searchSelectedOptionReset'] }}"
+                class="{{ $styles['searchSelectedOptionReset'] }} bt-tap"
+                title="@lang('bt.clear')"
         >
     </span>
     @endif

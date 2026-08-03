@@ -1,4 +1,4 @@
-<div class="modal-dialog">
+<div class="modal-dialog modal-fullscreen-sm-down">
     <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title">@lang('bt.change_'.$search_type)</h4>
@@ -9,7 +9,7 @@
             <form>
                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" id="user_id">
                 {{--                @if(!$readonly)--}}
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.client')</label>
                     </div>

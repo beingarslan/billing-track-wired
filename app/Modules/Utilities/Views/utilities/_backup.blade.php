@@ -6,8 +6,9 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.database')</div>
-                <div class="clearfix"></div>
+                <div class="bt-toolbar">
+                    <div class="fs-3">@lang('bt.database')</div>
+                </div>
             </div>
         </div>
     </section>
@@ -15,7 +16,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-12 col-md-12">
                         <h3>@lang('bt.database_backup')</h3>
                         @if (!config('app.demo'))
                             <a href="{{ route('utilities.backup.database') }}" target="_blank"
@@ -28,13 +29,13 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-12 col-md-12">
                         <h3>@lang('bt.set_clients_inactive')</h3>
                         @if (!config('app.demo'))
                             {!! Form::open(['route' => 'utilities.clientprior.database','method' => 'get', 'id' => 'clientprior']) !!}
-                            <div class="col-md-6 mb-3">@lang('bt.set_clients_inactive_msg')</div>
+                            <div class="col-12 col-md-6 mb-3">@lang('bt.set_clients_inactive_msg')</div>
                             <div class="row align-items-center">
-                                <div class="col-md-2">
+                                <div class="col-12 col-md-2">
                                     <label class="form-label fw-bold">@lang('bt.set_clients_inactive_date')</label>
                                     <div class="input-group">
                                         {!! Form::text('clientprior_date', Carbon\Carbon::parse('first day of january')->subYears(2)->format('m/d/Y'),
@@ -42,8 +43,8 @@
                                         <span class="input-group-text"><i class="fas fa-calendar-alt"></i> </span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <button type="button" id="btnSubmitClient" class="btn btn-danger float-end"><i
+                                <div class="col-12 col-md-4 mt-3 mt-md-0">
+                                    <button type="button" id="btnSubmitClient" class="btn btn-danger float-md-end"><i
                                                 class="fa fa-exclamation pe-1"></i>@lang('bt.execute_now')
                                     </button>
                                 </div>
@@ -56,15 +57,15 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-12 col-md-12">
                         <h3>@lang('bt.database_entities_trash')</h3>
                         @if (!config('app.demo'))
                             {!! Form::open(['route' => 'utilities.trashprior.database','method' => 'get', 'id' => 'tprior']) !!}
                             {{--            quotes workorders invoices payments purchaseorders schedule--}}
-                            <div class="col-md-6 mb-3">
+                            <div class="col-12 col-md-6 mb-3">
                                 @lang('bt.database_entities_trash_msg')
                             </div>
-                            <div class="col-md-2 mb-3">
+                            <div class="col-12 col-md-2 mb-3">
                                 <label class="form-label fw-bold">@lang('bt.trash_before_date')</label>
                                 <div class="input-group">
                                     {!! Form::text('trashprior_date', Carbon\Carbon::parse('first day of january')->subYears(2)->format('m/d/Y'),
@@ -73,14 +74,14 @@
                                 </div>
                             </div>
                             <div class="row align-items-center">
-                                <div class="col-md-2">
+                                <div class="col-12 col-md-2">
                                     <label class="form-label fw-bold">@lang('bt.module_to_trash')</label>
                                     {!! Form::select('trashprior_module', ['Quote'=>'Quotes', 'Workorder'=>'Workorders',
                                      'Invoice'=>'Invoices', 'Purchaseorder'=>'Purchaseorders',
                                       'Schedule'=>'Schedule', 'Payment' => 'Payments'], null, ['class' => 'form-select']) !!}
                                 </div>
-                                <div class="col-md-4">
-                                    <button type="button" id="btnSubmitTrash" class="btn btn-danger float-end"><i
+                                <div class="col-12 col-md-4 mt-3 mt-md-0">
+                                    <button type="button" id="btnSubmitTrash" class="btn btn-danger float-md-end"><i
                                                 class="fa fa-trash pe-1"></i>@lang('bt.trash_now')
                                     </button>
                                 </div>
@@ -93,7 +94,7 @@
                 </div>
                 <hr>
                 <h3>@lang('bt.trashed_current_count')</h3>
-                <div class="col-md-12">
+                <div class="col-12 col-md-12">
                     @lang('bt.trashed_quote_count'){{$quotecount}}<br>
                     @lang('bt.trashed_workorder_count'){{$workordercount}}<br>
                     @lang('bt.trashed_invoice_count'){{$invoicecount}}<br>
@@ -103,15 +104,15 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-12 col-md-12">
                         <h3>@lang('bt.database_entities_delete_trash')</h3>
                         @if (!config('app.demo'))
                             {!! Form::open(['route' => 'utilities.deleteprior.database','method' => 'get', 'id' => 'dprior']) !!}
                             {{--            quotes workorders invoices payments purchaseorders schedule--}}
-                            <div class="col-md-6 mb-3">
+                            <div class="col-12 col-md-6 mb-3">
                                 @lang('bt.database_entities_delete_trash_msg')
                             </div>
-                            <div class="col-md-2 mb-3">
+                            <div class="col-12 col-md-2 mb-3">
                                 <label class="form-label fw-bold">@lang('bt.delete_before_date')</label>
                                 <div class="input-group">
                                     {!! Form::text('deleteprior_date', Carbon\Carbon::parse('first day of january')->subYears(2)->format('m/d/Y'),
@@ -120,14 +121,14 @@
                                 </div>
                             </div>
                             <div class="row align-items-center">
-                                <div class="col-md-2">
+                                <div class="col-12 col-md-2">
                                     <label class="form-label fw-bold">@lang('bt.trashed_module_delete')</label>
                                     {!! Form::select('deleteprior_module', ['Quote'=>'Quotes', 'Workorder'=>'Workorders',
                                      'Invoice'=>'Invoices', 'Purchaseorder'=>'Purchaseorders',
                                       'Schedule'=>'Schedule', 'Payment' => 'Payments'], null, ['class' => 'form-select']) !!}
                                 </div>
-                                <div class="col-md-4">
-                                    <button type="button" id="btnSubmitDelete" class="btn btn-danger float-end"><i
+                                <div class="col-12 col-md-4 mt-3 mt-md-0">
+                                    <button type="button" id="btnSubmitDelete" class="btn btn-danger float-md-end"><i
                                                 class="fa fa-ban pe-1"></i>@lang('bt.delete_now')
                                     </button>
                                 </div>

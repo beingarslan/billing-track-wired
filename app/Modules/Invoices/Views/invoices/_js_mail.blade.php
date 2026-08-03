@@ -2,6 +2,9 @@
     ready(function () {
         let attachPdf = 0;
         var tsconfig = {
+            // the modal body scrolls on small screens, which would clip an
+            // absolutely positioned dropdown - render it at body level instead
+            dropdownParent: 'body',
             plugins: {
                 remove_button: {
                     title: 'Remove this item',
@@ -38,7 +41,13 @@
                 body: document.getElementById('body').value,
                 attach_pdf: attachPdf
             }).then(function (response) {
-                document.getElementById('modal-status-placeholder').innerHTML = '<div class="alert alert-success">' + '@lang('bt.sent')' + '</div>'
+                const statusEl = document.getElementById('modal-status-placeholder')
+                statusEl.innerHTML = '<div class="alert alert-success">' + '@lang('bt.sent')' + '</div>'
+                // #modal-status-placeholder sits at the TOP of a .modal-body that
+                // scrolls on a phone, while Send lives in the sticky footer - so the
+                // confirmation rendered ~500px above the fold and was never seen
+                // before the redirect below fired.
+                statusEl.scrollIntoView({block: 'nearest'})
                 setTimeout("window.location='" + decodeURIComponent('{{ $redirectTo }}') + "'", 1000);
             }).catch(function (error) {
                 btn.innerHTML = 'Fail'

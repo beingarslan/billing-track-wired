@@ -17,15 +17,17 @@
     @include('layouts._alerts')
     <section class="app-content-header">
         <div class="card card-light">
-            <div class="card-header">
-                <h3 class="card-title"><i
-                            class="fa fa-edit fa-fw float-start"></i>
+            <div class="card-header bt-toolbar">
+                <h3 class="card-title mb-0 me-auto"><i
+                            class="fa fa-edit fa-fw"></i>
                     @lang('bt.item_lookup_form')
                 </h3>
-                    <a class="btn btn-warning float-end" href={!! route('itemLookups.index')  !!}><i
-                                class="fa fa-ban"></i> @lang('bt.cancel')</a>
-                    <button type="submit" class="btn btn-primary float-end"><i
+                <div class="bt-action-bar">
+                    <button type="submit" class="btn btn-primary"><i
                                 class="fa fa-save"></i> @lang('bt.save') </button>
+                    <a class="btn btn-warning" href="{!! route('itemLookups.index') !!}"><i
+                                class="fa fa-ban"></i> @lang('bt.cancel')</a>
+                </div>
             </div>
             <div class="card-body">
                 <div class="mb-3">

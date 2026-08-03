@@ -4,8 +4,9 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.mail_log')</div>
-                <div class="clearfix"></div>
+                <div class="bt-toolbar">
+                    <div class="fs-3">@lang('bt.mail_log')</div>
+                </div>
             </div>
         </div>
     </section>
@@ -17,7 +18,7 @@
                     ready(function () {
                         addEvent(document, 'click', ".btn-show-content", (e) => {
                             loadModal('{{ route('mailLog.content') }}', {
-                                id: e.target.dataset.id
+                                id: e.target.closest('.btn-show-content').dataset.id
                             })
                         })
                     })

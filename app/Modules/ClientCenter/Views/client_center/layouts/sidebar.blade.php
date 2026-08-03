@@ -5,6 +5,12 @@
                  class="brand-image img-circle elevation-3 img-sm pe-1">
             <span class="brand-text">{{ config('bt.headerTitleText', config('app.name','BillingTrack')) }}</span>
         </div>
+        {{-- Below lg the 250px drawer covers the hamburger, leaving only a narrow unlabelled
+             backdrop strip to dismiss it. Reuse AdminLTE's own toggle so there is no new JS. --}}
+        <button type="button" class="btn btn-link text-body d-lg-none ms-auto me-2"
+                data-lte-toggle="sidebar" aria-label="@lang('bt.close')" title="@lang('bt.close')">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
     </div>
     <div class="sidebar-wrapper">
         <nav class="mt-2">

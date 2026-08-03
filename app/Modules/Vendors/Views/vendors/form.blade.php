@@ -7,23 +7,24 @@
         @else
             {!! Form::open(['route' => 'vendors.store']) !!}
         @endif
-        <h3 class="float-start px-3">@lang('bt.vendor_form')</h3>
-        <div class="float-end">
-            <button class="btn btn-primary"><i class="fa fa-save"></i> @lang('bt.save')</button>
-            {{--            @if ($editMode)--}}
-            <a href="{{ $returnUrl }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> @lang('bt.cancel')
-            </a>
-            {{--            @endif--}}
+        <div class="bt-toolbar px-3">
+            <h3 class="mb-0 me-auto">@lang('bt.vendor_form')</h3>
+            <div class="bt-action-bar">
+                <button class="btn btn-primary"><i class="fa fa-save"></i> @lang('bt.save')</button>
+                {{--            @if ($editMode)--}}
+                <a href="{{ $returnUrl }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> @lang('bt.cancel')
+                </a>
+                {{--            @endif--}}
+            </div>
         </div>
-        <div class="clearfix"></div>
     </section>
     <section class="content">
         @include('layouts._alerts')
         <div class="row">
             <div class="col-12">
                 <div class="card m-2">
-                    <div class="card-header d-flex p-0">
-                        <ul class="nav nav-tabs p-2">
+                    <div class="card-header d-flex p-0 bt-scroll-x">
+                        <ul class="nav nav-tabs p-2 flex-nowrap text-nowrap">
                             <li class="nav-item"><a class="nav-link active show" href="#tab-general"
                                                     data-bs-toggle="tab">@lang('bt.general')</a></li>
                             @if ($editMode)

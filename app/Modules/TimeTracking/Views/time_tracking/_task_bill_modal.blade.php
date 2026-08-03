@@ -38,7 +38,7 @@
     });
 </script>
 <div class="modal fade" id="modal-bill-task">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">@lang('bt.how_to_bill')</h4>

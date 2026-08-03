@@ -7,18 +7,20 @@
         {!! Form::model($products, array('route' => array('products.update', $products->id),
                                                        'id'=>'products_form','action'=>'#','method' => 'PUT', 'class'=>'form-horizontal', 'autocomplete'=>'off')) !!}
         <div class="card card-light">
-            <div class="card-header">
-                <div class="card-title h4 mt-2">
+            <div class="card-header bt-toolbar">
+                <div class="card-title h4 mt-2 me-auto">
                     @lang('bt.edit_product')
                 </div>
-                <a class="btn btn-warning float-end" href="{{ $returnUrl }}"><i
-                            class="fa fa-ban"></i> @lang('bt.cancel')</a>
-                <button type="submit" class="btn btn-primary float-end"><i
-                            class="fa fa-save"></i> @lang('bt.save') </button>
+                <div class="bt-action-bar">
+                    <button type="submit" class="btn btn-primary"><i
+                                class="fa fa-save"></i> @lang('bt.save') </button>
+                    <a class="btn btn-warning" href="{{ $returnUrl }}"><i
+                                class="fa fa-ban"></i> @lang('bt.cancel')</a>
+                </div>
             </div>
             <div class="card-body">
                 <!-- Name input-->
-                 <div class="row col-md-6 mb-3">
+                 <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="col-form-label fw-bold"
                            for="name">@lang('bt.product_name')</label>
@@ -28,7 +30,7 @@
                     </div>
                 </div>
                 <!-- Description input-->
-                 <div class="row col-md-6 mb-3">
+                 <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="col-form-label fw-bold"
                            for="description">@lang('bt.product_description')</label>
@@ -38,7 +40,7 @@
                     </div>
                 </div>
                 <!-- Serial Number input-->
-                 <div class="row col-md-6 mb-3">
+                 <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="col-form-label fw-bold"
                            for="serialnum">@lang('bt.product_partnum')</label>
@@ -48,7 +50,7 @@
                     </div>
                 </div>
                 <!-- Sales Price input-->
-                <div class="row col-md-6 mb-3">
+                <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="col-form-label fw-bold"
                            for="price">@lang('bt.price_sales')</label>
@@ -58,7 +60,7 @@
                     </div>
                 </div>
                 <!-- Active Checkbox-->
-                <div class="row col-md-6 mb-3 align-items-center">
+                <div class="row col-md-6 mb-3 align-items-center bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="form-check-label fw-bold"
                            for="active">@lang('bt.product_active')</label>
@@ -68,7 +70,7 @@
                     </div>
                 </div>
                 <!-- Vendor input-->
-                 <div class="row col-md-6 mb-3">
+                 <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="col-form-label fw-bold"
                            for="vendor">@lang('bt.vendor_preferred')</label>
@@ -83,7 +85,7 @@
                     </div>
                 </div>
                 <!-- Cost input-->
-                 <div class="row col-md-6 mb-3">
+                 <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="col-form-label fw-bold"
                            for="cost">@lang('bt.product_cost')</label>
@@ -93,7 +95,7 @@
                     </div>
                 </div>
                 <!-- Category input-->
-                 <div class="row col-md-6 mb-3">
+                 <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="col-form-label fw-bold"
                            for="category">@lang('bt.product_category')</label>
@@ -108,7 +110,7 @@
                     </div>
                 </div>
                 <!-- Type input-->
-                 <div class="row col-md-6 mb-3">
+                 <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="col-form-label fw-bold"
                            for="type">@lang('bt.product_type')</label>
@@ -119,7 +121,7 @@
                     </div>
                 </div>
                 <!-- Numstock input-->
-                 <div class="row col-md-6 mb-3">
+                 <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="col-form-label fw-bold"
                            for="numstock">@lang('bt.product_numstock')</label>
@@ -129,7 +131,7 @@
                     </div>
                 </div>
                 <!-- taxrate inputs-->
-                 <div class="row col-md-6 mb-3">
+                 <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="col-form-label fw-bold">@lang('bt.tax_1'): </label>
                     </div>
@@ -137,7 +139,7 @@
                         {!! Form::select('tax_rate_id', $taxRates, null, ['class' => 'form-select']) !!}
                     </div>
                 </div>
-                 <div class="row col-md-6 mb-3">
+                 <div class="row col-md-6 mb-3 bt-stack-row">
                     <div class="col-md-4 text-end">
                         <label class="col-form-label fw-bold">@lang('bt.tax_2'): </label>
                     </div>

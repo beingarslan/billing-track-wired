@@ -22,7 +22,7 @@
                     <div class="card-header h2 d-flex justify-content-center">@lang('bt.employee'){{'/'}}@lang('bt.resource') @lang('bt.schedule')</div>
                     {!! Form::open(['route' => 'scheduler.showschedule','id' => 'showschedule']) !!}
                     <div class="card-body p-1">
-                        <div class="card-text d-flex justify-content-center mt-1 mb-3">
+                        <div class="card-text d-flex flex-wrap justify-content-center gap-2 mt-1 mb-3">
                             <input type="hidden" value=" {{ $dates[0] }}" name="sdate">
                             <input class="btn btn-success" type="submit" name="back" value="<< Back">
                             <input class="btn btn-secondary" type="submit" name="today" value="<< Today >>">
@@ -30,7 +30,7 @@
                         </div>
                         <div class="row fc-view-harness">
                             @foreach($dates as $date)
-                                <div class="col-sm-3">
+                                <div class="col-12 col-lg-3">
                                     <div class="h4 d-flex justify-content-center">{{ Carbon\Carbon::parse($date)->format('l m/d/Y') }}
                                         @if(config('bt.schedulerCreateWorkorder'))
                                             <button type='button' id='createWorkorder{{ $loop->index }}'
@@ -40,19 +40,20 @@
                                         @endif
                                     </div>
                                     <div class="card">
-                                        <div class="card-header" id="headingOne">
+                                        <div class="card-header" id="headingOne{{ $loop->index }}">
                                             <h2 class="mb-0">
                                                 <button class="btn btn-success " type="button"
-                                                        data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                        aria-expanded="false" aria-controls="collapseOne">
+                                                        data-bs-toggle="collapse" data-bs-target="#collapseOne{{ $loop->index }}"
+                                                        aria-expanded="false" aria-controls="collapseOne{{ $loop->index }}">
                                                     @lang('bt.employees_not_scheduled')
                                                 </button>
                                             </h2>
                                         </div>
-                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
+                                        <div id="collapseOne{{ $loop->index }}" class="collapse show" aria-labelledby="headingOne{{ $loop->index }}">
                                             <div class="card-body p-0">
-                                                <table class="table table-striped table-bordered table-sm"
-                                                       id="table1">
+                                                <div class="table-responsive">
+                                                <table class="table table-striped table-bordered table-sm bt-nowrap"
+                                                       id="table1{{ $loop->index }}">
                                                     <thead>
                                                     <tr>
                                                         <th>@lang('bt.employee')</th>
@@ -76,23 +77,25 @@
                                                     @endforeach
                                                     </tbody>
                                                 </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card">
-                                        <div class="card-header" id="headingTwo">
+                                        <div class="card-header" id="headingTwo{{ $loop->index }}">
                                             <h2 class="mb-0">
                                                 <button class="btn btn-success collapsed" type="button"
-                                                        data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                                                        aria-expanded="false" aria-controls="collapseTwo">
+                                                        data-bs-toggle="collapse" data-bs-target="#collapseTwo{{ $loop->index }}"
+                                                        aria-expanded="false" aria-controls="collapseTwo{{ $loop->index }}">
                                                     @lang('bt.resources_not_scheduled')
                                                 </button>
                                             </h2>
                                         </div>
-                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo">
+                                        <div id="collapseTwo{{ $loop->index }}" class="collapse" aria-labelledby="headingTwo{{ $loop->index }}">
                                             <div class="card-body p-0">
-                                                <table class="table table-striped table-bordered table-sm"
-                                                       id="table1">
+                                                <div class="table-responsive">
+                                                <table class="table table-striped table-bordered table-sm bt-nowrap"
+                                                       id="table2{{ $loop->index }}">
                                                     <thead>
                                                     <tr>
                                                         <th>@lang('bt.resource')</th>
@@ -110,23 +113,25 @@
                                                     @endforeach
                                                     </tbody>
                                                 </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card">
-                                        <div class="card-header" id="headingThree">
+                                        <div class="card-header" id="headingThree{{ $loop->index }}">
                                             <h2 class="mb-0">
                                                 <button class="btn btn-warning " type="button"
-                                                        data-bs-toggle="collapse" data-bs-target="#collapseThree"
-                                                        aria-expanded="false" aria-controls="collapseThree">
+                                                        data-bs-toggle="collapse" data-bs-target="#collapseThree{{ $loop->index }}"
+                                                        aria-expanded="false" aria-controls="collapseThree{{ $loop->index }}">
                                                     @lang('bt.employees_scheduled')
                                                 </button>
                                             </h2>
                                         </div>
-                                        <div id="collapseThree" class="collapse show" aria-labelledby="headingThree">
+                                        <div id="collapseThree{{ $loop->index }}" class="collapse show" aria-labelledby="headingThree{{ $loop->index }}">
                                             <div class="card-body p-0">
-                                                <table class="table table-striped table-bordered table-sm"
-                                                       id="table1">
+                                                <div class="table-responsive">
+                                                <table class="table table-striped table-bordered table-sm bt-nowrap"
+                                                       id="table3{{ $loop->index }}">
                                                     <thead>
                                                     <tr>
                                                         <th>@lang('bt.employee')</th>
@@ -158,23 +163,25 @@
                                                     @endforeach
                                                     </tbody>
                                                 </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card">
-                                        <div class="card-header" id="headingFour">
+                                        <div class="card-header" id="headingFour{{ $loop->index }}">
                                             <h2 class="mb-0">
                                                 <button class="btn btn-warning " type="button"
-                                                        data-bs-toggle="collapse" data-bs-target="#collapseFour"
-                                                        aria-expanded="false" aria-controls="collapseFour">
+                                                        data-bs-toggle="collapse" data-bs-target="#collapseFour{{ $loop->index }}"
+                                                        aria-expanded="false" aria-controls="collapseFour{{ $loop->index }}">
                                                     @lang('bt.resources_scheduled')
                                                 </button>
                                             </h2>
                                         </div>
-                                        <div id="collapseFour" class="collapse show" aria-labelledby="headingFour">
+                                        <div id="collapseFour{{ $loop->index }}" class="collapse show" aria-labelledby="headingFour{{ $loop->index }}">
                                             <div class="card-body p-0">
-                                                <table class="table table-striped table-bordered table-sm"
-                                                       id="table1">
+                                                <div class="table-responsive">
+                                                <table class="table table-striped table-bordered table-sm bt-nowrap"
+                                                       id="table4{{ $loop->index }}">
                                                     <thead>
                                                     <tr>
                                                         <th>@lang('bt.resource')</th>
@@ -200,25 +207,27 @@
                                                     @endforeach
                                                     </tbody>
                                                 </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card">
-                                        <div class="card-header" id="headingFive">
+                                        <div class="card-header" id="headingFive{{ $loop->index }}">
                                             <h2 class="mb-0">
                                                 {{--                                            remove class collapsed--}}
                                                 <button class="btn btn-warning " type="button"
-                                                        data-bs-toggle="collapse" data-bs-target="#collapseFive"
-                                                        aria-expanded="false" aria-controls="collapseFive">
+                                                        data-bs-toggle="collapse" data-bs-target="#collapseFive{{ $loop->index }}"
+                                                        aria-expanded="false" aria-controls="collapseFive{{ $loop->index }}">
                                                     @lang('bt.employee_appointments')
                                                 </button>
                                             </h2>
                                         </div>
                                         {{--                                    add class show--}}
-                                        <div id="collapseFive" class="collapse show" aria-labelledby="headingFive">
+                                        <div id="collapseFive{{ $loop->index }}" class="collapse show" aria-labelledby="headingFive{{ $loop->index }}">
                                             <div class="card-body p-0">
-                                                <table class="table table-striped table-bordered table-sm"
-                                                       id="table1">
+                                                <div class="table-responsive">
+                                                <table class="table table-striped table-bordered table-sm bt-nowrap"
+                                                       id="table5{{ $loop->index }}">
                                                     <thead>
                                                     <tr>
                                                         <th>@lang('bt.employee')</th>
@@ -242,6 +251,7 @@
                                                     @endforeach
                                                     </tbody>
                                                 </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

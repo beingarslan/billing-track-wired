@@ -37,12 +37,13 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.time_tracking')</div>
-                <div class="btn-group float-end">
-                    <button class="btn btn-primary" id="btn-run-report">@lang('bt.run_report')</button>
+                <div class="bt-toolbar">
+                    <div class="fs-3 me-auto">@lang('bt.time_tracking')</div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" id="btn-run-report">@lang('bt.run_report')</button>
+                    </div>
                 </div>
             </div>
-            <div class="clearfix"></div>
         </div>
     </section>
     <section class="container-fluid">
@@ -90,9 +91,9 @@
                 </div>
             </div>
         </div>
-        <div class="row" id="preview"
-             style="height: 100%; background-color: #e6e6e6; padding: 25px; margin: 0; display: none;">
-            <div class="col-lg-8 offset-2" style="background-color: white;">
+        <div class="row m-0 p-2 p-md-4" id="preview"
+             style="background-color: #e6e6e6; display: none;">
+            <div class="col-12 col-lg-8 offset-lg-2" style="background-color: white;">
                 <iframe src="about:blank" id="preview-results" style="border: 0;width: 100%;overflow:hidden;"
                         onload="resizeIframe(this, 500);"></iframe>
             </div>

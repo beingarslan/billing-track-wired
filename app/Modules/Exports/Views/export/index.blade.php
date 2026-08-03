@@ -4,17 +4,18 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.export_data')</div>
+                <div class="bt-toolbar">
+                    <div class="fs-3 me-auto">@lang('bt.export_data')</div>
+                </div>
             </div>
-            <div class="clearfix"></div>
         </div>
     </section>
 
     <section class="content">
         <div class="card">
                 <div class="card m-2">
-                    <div class="card-header d-flex p-0">
-                        <ul class="nav nav-tabs" id="setting-tabs">
+                    <div class="card-header d-flex p-0 bt-scroll-x">
+                        <ul class="nav nav-tabs flex-nowrap text-nowrap" id="setting-tabs">
                             <li class="nav-item"><a class="nav-link active show" data-bs-toggle="tab"
                                                     href="#tab-clients">@lang('bt.clients')</a></li>
                             <li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
@@ -38,7 +39,7 @@
                                 <label>@lang('bt.format'):</label>
                                 {!! Form::select('writer', $writers, null, ['class' => 'form-select']) !!}
                             </div>
-                            <button class="btn btn-primary"><i
+                            <button class="btn btn-primary bt-fluid-sm"><i
                                         class="fa fa-download"></i> @lang('bt.export_clients')</button>
                             {!! Form::close() !!}
                         </div>
@@ -48,7 +49,7 @@
                                 <label>@lang('bt.format'):</label>
                                 {!! Form::select('writer', $writers, null, ['class' => 'form-select']) !!}
                             </div>
-                            <button class="btn btn-primary"><i
+                            <button class="btn btn-primary bt-fluid-sm"><i
                                         class="fa fa-download"></i> @lang('bt.export_quotes')</button>
                             {!! Form::close() !!}
                         </div>
@@ -58,7 +59,7 @@
                                 <label>@lang('bt.format'):</label>
                                 {!! Form::select('writer', $writers, null, ['class' => 'form-select']) !!}
                             </div>
-                            <button class="btn btn-primary"><i
+                            <button class="btn btn-primary bt-fluid-sm"><i
                                         class="fa fa-download"></i> @lang('bt.export_quote_items')</button>
                             {!! Form::close() !!}
                         </div>
@@ -68,7 +69,7 @@
                                 <label>@lang('bt.format'):</label>
                                 {!! Form::select('writer', $writers, null, ['class' => 'form-select']) !!}
                             </div>
-                            <button class="btn btn-primary"><i
+                            <button class="btn btn-primary bt-fluid-sm"><i
                                         class="fa fa-download"></i> @lang('bt.export_invoices')</button>
                             {!! Form::close() !!}
                         </div>
@@ -78,7 +79,7 @@
                                 <label>@lang('bt.format'):</label>
                                 {!! Form::select('writer', $writers, null, ['class' => 'form-select']) !!}
                             </div>
-                            <button class="btn btn-primary"><i
+                            <button class="btn btn-primary bt-fluid-sm"><i
                                         class="fa fa-download"></i> @lang('bt.export_invoice_items')</button>
                             {!! Form::close() !!}
                         </div>
@@ -88,7 +89,7 @@
                                 <label>@lang('bt.format'):</label>
                                 {!! Form::select('writer', $writers, null, ['class' => 'form-select']) !!}
                             </div>
-                            <button class="btn btn-primary"><i
+                            <button class="btn btn-primary bt-fluid-sm"><i
                                         class="fa fa-download"></i> @lang('bt.export_payments')</button>
                             {!! Form::close() !!}
                         </div>
@@ -98,7 +99,7 @@
                                 <label>@lang('bt.format'):</label>
                                 {!! Form::select('writer', $writers, null, ['class' => 'form-select']) !!}
                             </div>
-                            <button class="btn btn-primary"><i
+                            <button class="btn btn-primary bt-fluid-sm"><i
                                         class="fa fa-download"></i> @lang('bt.export_expenses')</button>
                             {!! Form::close() !!}
                         </div>

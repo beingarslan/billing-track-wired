@@ -5,8 +5,9 @@
         <div class="card-body">
             @foreach($permissions->groupBy('group') as $group)
                 <div class="h4">{{$group->first()->group}}</div>
+                <div class="table-responsive">
                 <table id="permissions"
-                       class="table table-striped table-hover table-responsive-sm table-sm compact mb-3">
+                       class="table table-striped table-hover table-sm compact mb-3 bt-nowrap bt-acl-table">
                     <thead>
                     <tr>
                         <th>@lang('bt.id')</th>
@@ -27,13 +28,14 @@
                             <td>{{ $permission->guard_name }}</td>
                             <td>{{ $permission->created_at->toFormattedDateString() }}</td>
                             <td>{{ $permission->updated_at->toFormattedDateString() }}</td>
-                            <td><input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
+                            <td><input type="checkbox" class="form-check-input" name="permissions[]" value="{{ $permission->name }}"
                                        @if(isset($user) && $user->hasDirectPermission($permission->name)) checked @endif>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+                </div>
             @endforeach
         </div>
     </div>

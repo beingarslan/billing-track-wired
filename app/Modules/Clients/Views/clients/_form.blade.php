@@ -19,7 +19,7 @@
 {{--                        {!! Form::select('client_type', ['0' => trans('bt.lead'), '1' => trans('bt.prospect'), '2' => trans('bt.customer'), '3' => trans('bt.affiliate')], ((isset($editMode) and $editMode) ? null : 0), ['id' => 'client_type', 'class' => 'form-select']) !!}--}}
 {{--                    </div>--}}
 {{--                </div>--}}
-                <div class="row col-md-12 mb-1" id="col-client-is_company">
+                <div class="row col-md-12 mb-1 bt-stack-row" id="col-client-is_company">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.company_or_individual'): </label>
                     </div>
@@ -27,7 +27,7 @@
                         {!! Form::select('is_company', ['0' => trans('bt.individual'), '1' => trans('bt.company')], ((isset($editMode) and $editMode) ? null : 0), ['id' => 'is_company', 'class' => 'form-select']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12  " id="col-client-name">
+                <div class="row col-md-12 bt-stack-row" id="col-client-name">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">* @lang('bt.client_name'): </label>
                     </div>
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="row col-md-12 mb-1" id="col-client-email">
+                <div class="row col-md-12 mb-1 bt-stack-row" id="col-client-email">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.email_address'): </label>
                     </div>
@@ -90,7 +90,7 @@
                         {!! Form::text('client_email', null, ['id' => 'client_email', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12 mb-1">
+                <div class="row col-md-12 mb-1 bt-stack-row">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.phone_number'): </label>
                     </div>
@@ -98,7 +98,7 @@
                         {!! Form::text('phone', null, ['id' => 'phone', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12 mb-1">
+                <div class="row col-md-12 mb-1 bt-stack-row">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.fax_number'): </label>
                     </div>
@@ -106,7 +106,7 @@
                         {!! Form::text('fax', null, ['id' => 'fax', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12 mb-1">
+                <div class="row col-md-12 mb-1 bt-stack-row">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.mobile_number'): </label>
                     </div>
@@ -114,7 +114,7 @@
                         {!! Form::text('mobile', null, ['id' => 'mobile', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12 mb-1">
+                <div class="row col-md-12 mb-1 bt-stack-row">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.web_address'): </label>
                     </div>
@@ -122,7 +122,7 @@
                         {!! Form::text('web', null, ['id' => 'web', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12 mb-1">
+                <div class="row col-md-12 mb-1 bt-stack-row">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.id_number'): </label>
                     </div>
@@ -130,7 +130,7 @@
                         {!! Form::text('id_number', null, ['id' => 'id_number', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12 mb-1">
+                <div class="row col-md-12 mb-1 bt-stack-row">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.vat_number'): </label>
                     </div>
@@ -138,7 +138,7 @@
                         {!! Form::text('vat_number', null, ['id' => 'vat_number', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="row col-md-12" id="col-client-active">
+                <div class="row col-md-12 bt-stack-row" id="col-client-active">
                     <div class="col-md-4 fw-bold text-end">
                         <label class="col-form-label">@lang('bt.active'): </label>
                     </div>
@@ -153,12 +153,14 @@
                 <h4 class="card-title">@lang('bt.address')</h4>
             </div>
             <div class="card-body">
-                <ul class="nav nav-tabs p-2">
-                    <li class="nav-item"><a class="nav-link active show" href="#tab-address"
-                                            data-bs-toggle="tab">@lang('bt.billing_address')</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tab-address_2"
-                                            data-bs-toggle="tab">@lang('bt.shipping_address')</a></li>
-                </ul>
+                <div class="bt-scroll-x">
+                    <ul class="nav nav-tabs p-2 flex-nowrap">
+                        <li class="nav-item"><a class="nav-link text-nowrap active show" href="#tab-address"
+                                                data-bs-toggle="tab">@lang('bt.billing_address')</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap" href="#tab-address_2"
+                                                data-bs-toggle="tab">@lang('bt.shipping_address')</a></li>
+                    </ul>
+                </div>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-address">
                         <div class="row mx-1 mt-3">

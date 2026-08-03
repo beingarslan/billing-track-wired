@@ -1,4 +1,4 @@
-<div class="modal-dialog">
+<div class="modal-dialog modal-fullscreen-sm-down">
     <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title">@lang('bt.enter_payment')@if($module): @lang('bt.invoice')
@@ -10,7 +10,7 @@
             <form>
                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" id="user_id">
                 @if(!$readonly)
-                    <div class="row g-3 mb-3 align-items-center">
+                    <div class="row g-3 mb-3 align-items-center bt-stack-row">
                         <div class="col-sm-4 text-end fw-bold">
                             <label class="col-form-label">@lang('bt.client')</label></div>
                         <div class="col-sm-7">
@@ -28,7 +28,7 @@
                             @error('resource_id') <span class="text-sm text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
-                    <div class="row g-3 mb-3 align-items-center">
+                    <div class="row g-3 mb-3 align-items-center bt-stack-row">
                         <div class="col-sm-4 text-end fw-bold">
                             <label class="col-form-label">@lang('bt.invoice')</label></div>
                         <div class="col-sm-7">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.amount')</label></div>
                     <div class="col-sm-7">
@@ -58,7 +58,7 @@
                         @error('amount') <span class="text-sm text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.payment_date')</label></div>
                     <div class="col-sm-7">
@@ -72,14 +72,14 @@
                         @error('paymentdate') <span class="text-sm text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.payment_method')</label></div>
                     <div class="col-sm-7">
                         {!! Form::select('payment_method_id', $paymentmethods, null, ['wire:model' => 'payment_method_id','id' => 'payment_method_id', 'class' => 'form-select']) !!}
                     </div>
                 </div>
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label class="col-form-label">@lang('bt.note')</label></div>
                     <div class="col-sm-7">
@@ -89,7 +89,7 @@
                 {{--@if (config('bt.mailConfigured') and $client->email)--}}
                 @if (config('bt.mailConfigured'))
                     <hr>
-                    <div class="row g-3 mb-3 align-items-center">
+                    <div class="row g-3 mb-3 align-items-center bt-stack-row">
                         <div class="col-sm-7 text-end fw-bold">
                             <label class="form-check-label">@lang('bt.email_payment_receipt')</label></div>
                         <div class="form-check form-switch form-switch-md col-sm-4 ms-2">
@@ -100,7 +100,7 @@
                 <div id="payment-custom-fields">
                     @if ($customFields->count())
                         @foreach ($customFields as $key => $value)
-                            <div class="row g-3 mb-3 align-items-center">
+                            <div class="row g-3 mb-3 align-items-center bt-stack-row">
                                 <div class="col-sm-4 text-end fw-bold">
                                     <label class="col-form-label">{{ $value->field_label }}</label></div>
                                 <div class="col-sm-7">

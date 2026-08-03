@@ -4,12 +4,13 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.custom_fields')</div>
-                <div class="float-end">
+                <div class="bt-toolbar">
+                <div class="fs-3 me-auto">@lang('bt.custom_fields')</div>
+                <div class="d-flex flex-wrap gap-2">
                     <a href="{{ route('customFields.create') }}" class="btn btn-primary"><i
                                 class="fa fa-plus"></i> @lang('bt.create_customfield')</a>
                 </div>
-                <div class="clearfix"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -17,7 +18,8 @@
         @include('layouts._alerts')
         <div class="card card-light">
             <div class="card-body">
-                <table class="table table-hover">
+                <div class="table-responsive">
+                <table class="table table-hover bt-stack">
                     <thead>
                     <tr>
                         <th>{!! Sortable::link('tbl_name', trans('bt.table_name')) !!}</th>
@@ -30,12 +32,12 @@
                     <tbody>
                     @foreach ($customFields as $customField)
                         <tr>
-                            <td>{{ $tableNames[$customField->tbl_name] }}</td>
-                            <td>{{ $customField->column_name }}</td>
-                            <td>{{ $customField->field_label }}</td>
-                            <td>{{ $customField->field_type }}</td>
+                            <td data-label="@lang('bt.table_name')">{{ $tableNames[$customField->tbl_name] }}</td>
+                            <td data-label="@lang('bt.column_name')">{{ $customField->column_name }}</td>
+                            <td data-label="@lang('bt.field_label')">{{ $customField->field_label }}</td>
+                            <td data-label="@lang('bt.field_type')">{{ $customField->field_type }}</td>
                             <td>
-                                <div class="btn-group">
+                                <div class="btn-group position-static">
                                     <button type="button" class="btn btn-secondary btn-sm"
                                             data-bs-toggle="dropdown">
                                         @lang('bt.options')
@@ -55,9 +57,10 @@
                     @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
-        <div class="float-end">
+        <div class="d-flex justify-content-center justify-content-md-end flex-wrap">
             {!! $customFields->appends(request()->except('page'))->render() !!}
         </div>
     </section>

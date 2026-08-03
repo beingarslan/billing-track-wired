@@ -4,15 +4,14 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.orphan_check')</div>
-                    <br>
-                    <br>
-                    <div>
-                        <h5 class="float-start">@lang('bt.orphan_list')</h5>
-                    </div>
+                <div class="bt-toolbar">
+                    <div class="fs-3">@lang('bt.orphan_check')</div>
                 </div>
-                <div class="clearfix"></div>
+                <div class="bt-toolbar">
+                    <h5 class="mb-0">@lang('bt.orphan_list')</h5>
+                </div>
             </div>
+        </div>
     </section>
     <section class="container-fluid">
         @include('layouts._alerts')
@@ -20,7 +19,8 @@
             <div class="col-lg-12">
                 <div class="card card-light">
                     <div class="card-body">
-                        <table class="table table-hover">
+                        <div class="table-responsive">
+                        <table class="table table-hover bt-stack">
                             <thead>
                             <tr>
                                 <th>@lang('bt.name')</th>
@@ -34,13 +34,14 @@
                             <tbody>
                             @foreach ($empresources as $resource)
                                 <tr>
-                                    <td>{{ $resource->name }}</td>
-                                    <td>{{ $resource->workorder->number }}</td>
-                                    <td>{{ $resource->workorder->formatted_job_date }}</td>
-                                    <td>{{ $resource->workorder->summary }}</td>
-                                    <td>{{ $resource->workorder->client->name }}</td>
+                                    <td data-label="@lang('bt.name')">{{ $resource->name }}</td>
+                                    <td data-label="@lang('bt.workorder_number')">{{ $resource->workorder->number }}</td>
+                                    <td data-label="@lang('bt.job_date')">{{ $resource->workorder->formatted_job_date }}</td>
+                                    <td data-label="@lang('bt.description')">{{ $resource->workorder->summary }}</td>
+                                    <td data-label="@lang('bt.client')">{{ $resource->workorder->client->name }}</td>
                                     <td>
-                                        <div class="btn-group">
+                                        {{-- position-static: the .table-responsive wrapper is overflow:auto at EVERY width, which would clip this menu on desktop too --}}
+                                        <div class="btn-group position-static">
                                             <button type="button" class="btn btn-secondary btn-sm"
                                                     data-bs-toggle="dropdown">
                                                 @lang('bt.options')
@@ -60,6 +61,7 @@
                             @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,7 +71,8 @@
 @section('javaScript')
     <script>
         addEvent(document, 'click', ".replace-employee", (e) => {
-            loadModal(e.target.dataset.route)
+            // e.target is the <i class="fa fa-sync"> on a touch tap, whose dataset is empty.
+            loadModal(e.target.closest('.replace-employee').dataset.route)
         })
     </script>
 @stop

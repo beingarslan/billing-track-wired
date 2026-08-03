@@ -10,14 +10,14 @@
 
     <section class="app-content-header">
         <div class="card">
-            <div class="col-lg-12">
+            <div class="col-12 col-lg-12">
                 <div class="card card-light">
 {{--                    <div class="card-header">--}}
 {{--                        <h6 class="card-title"><i class="fa fa-fw fa-th fa-fw"></i><a--}}
 {{--                                    href="{{ route('scheduler.index') }}">@lang('bt.schedule')</a> @lang('bt.calendar')--}}
 {{--                        </h6>--}}
 {{--                    </div>--}}
-                    <div class="card-body">
+                    <div class="card-body p-2 p-md-3">
                         <div id="calendar">
                         </div>
                     </div>

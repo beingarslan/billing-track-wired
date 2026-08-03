@@ -3,7 +3,10 @@
         let delbtns = document.querySelectorAll('.btn-delete-attachment')
         delbtns.forEach(function (delbtn) {
             delbtn.addEventListener('click', function (e) {
-                let attachmentId = e.target.dataset.attachmentId
+                // The button's whole hit area is the <i class="fa fa-trash-alt"> glyph, so on a
+                // touch tap e.target is that <i> and its dataset is empty. Read the attribute
+                // from the button the listener is bound to instead of from e.target.
+                let attachmentId = delbtn.dataset.attachmentId
                 deleteAttachment(attachmentId)
             })
         })
@@ -59,7 +62,8 @@
     @else
         <button class="btn btn-primary btn-sm" type="button">File attachments are disabled in the demo</button>
     @endif
-    <table class="table table-sm">
+    <div class="table-responsive">
+    <table class="table table-sm bt-stack">
         <thead>
         <tr>
             <th>@lang('bt.attachment')</th>
@@ -69,8 +73,8 @@
         <tbody>
         @foreach ($object->attachments()->orderBy('created_at', 'desc')->get() as $attachment)
             <tr>
-                <td><a href="{{ $attachment->download_url }}">{{ $attachment->filename }}</a></td>
-                <td>
+                <td data-label="@lang('bt.attachment')" class="text-break"><a href="{{ $attachment->download_url }}">{{ $attachment->filename }}</a></td>
+                <td data-label="@lang('bt.client_visibility')">
                     <div class="row">
                         <div class="col-md-4">
                             {!! Form::select('', $object->attachment_permission_options, $attachment->client_visibility, ['class' => 'form-control client-visibility', 'data-attachment-id' => $attachment->id]) !!}
@@ -87,4 +91,5 @@
         @endforeach
         </tbody>
     </table>
+    </div>
 </div>

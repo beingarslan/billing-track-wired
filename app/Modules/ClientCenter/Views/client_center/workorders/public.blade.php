@@ -4,13 +4,17 @@
     <script type="text/javascript">
         ready(function () {
             document.getElementById('view-notes').style.display = 'none'
+            // e.target is the <i> glyph whenever the icon itself is tapped (very common on a
+            // phone), and an <i> has no dataset.buttonToggle - the toggle silently died and
+            // the wrong element got display:none. Resolve the button with closest().
             addEvent(document, 'click', ".btn-notes", (e) => {
+                const btn = e.target.closest('.btn-notes')
                 document.getElementById('view-doc').toggleid()
                 document.getElementById('view-notes').toggleid()
                 if (document.getElementById('approve-btn')) document.getElementById('approve-btn').toggleid()
                 if (document.getElementById('reject-btn')) document.getElementById('reject-btn').toggleid()
-                document.getElementById(e.target.dataset.buttonToggle).style.display = 'block'
-                e.target.style.display = 'none'
+                document.getElementById(btn.dataset.buttonToggle).style.display = 'block'
+                btn.style.display = 'none'
             });
         });
     </script>
@@ -20,7 +24,9 @@
     <section class="content">
         <div class="public-wrapper">
             @include('layouts._alerts')
-            <div style="margin-bottom: 15px;">
+            {{-- Was a bare div with inline-block .btn-group children, which simply
+                 overflowed the wrapper at 375px. Flex + wrap + gap instead. --}}
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
                 <a href="{{ route('clientCenter.public.workorder.pdf', [$workorder->url_key]) }}" target="_blank"
                    class="btn btn-primary"><i class="fa fa-print"></i> <span>@lang('bt.pdf')</span>
                 </a>
@@ -66,6 +72,7 @@
             <div class="public-doc-wrapper">
                 <div id="view-doc">
                     <iframe src="{{ route('clientCenter.public.workorder.html', [$urlKey]) }}"
+                            title="@lang('bt.workorder')"
                             style="width: 100%;" onload="resizeIframe(this, 800);"></iframe>
                 </div>
                 @if (auth()->check())

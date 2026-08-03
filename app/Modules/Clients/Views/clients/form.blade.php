@@ -6,20 +6,24 @@
             <div class="col-sm-12">
                 @if ($editMode)
                     {!! Form::model($client, ['route' => ['clients.update', $client->id]]) !!}
-                    <div class=" fs-3 float-start">@lang('bt.client_form') - @lang('bt.edit')</div>
                 @else
                     {!! Form::open(['route' => 'clients.store']) !!}
-                    <div class="fs-3 float-start">@lang('bt.client_form') - @lang('bt.create')</div>
                 @endif
-                <div class="float-end">
-                    <button class="btn btn-primary"><i class="fa fa-save"></i> @lang('bt.save')</button>
-                    {{--            @if ($editMode)--}}
-                    <a href="{{ $returnUrl }}" class="btn btn-secondary"><i
-                                class="fa fa-times-circle"></i> @lang('bt.cancel')
-                    </a>
-                    {{--            @endif--}}
+                <div class="bt-toolbar">
+                    @if ($editMode)
+                        <div class="fs-3 me-auto">@lang('bt.client_form') - @lang('bt.edit')</div>
+                    @else
+                        <div class="fs-3 me-auto">@lang('bt.client_form') - @lang('bt.create')</div>
+                    @endif
+                    <div class="bt-action-bar">
+                        <button class="btn btn-primary"><i class="fa fa-save"></i> @lang('bt.save')</button>
+                        {{--            @if ($editMode)--}}
+                        <a href="{{ $returnUrl }}" class="btn btn-secondary"><i
+                                    class="fa fa-times-circle"></i> @lang('bt.cancel')
+                        </a>
+                        {{--            @endif--}}
+                    </div>
                 </div>
-                <div class="clearfix"></div>
             </div>
         </div>
     </section>

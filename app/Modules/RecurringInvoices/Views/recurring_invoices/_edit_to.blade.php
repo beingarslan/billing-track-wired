@@ -1,8 +1,8 @@
 @include('recurring_invoices._js_edit_to')
 <div class="card card-outline card-primary">
-    <div class="card-header">
-        <h3 class="card-title">@lang('bt.to')</h3>
-        <div class="card-tools float-end">
+    <div class="card-header d-flex flex-wrap align-items-center gap-2">
+        <h3 class="card-title float-none mb-0 me-auto">@lang('bt.to')</h3>
+        <div class="card-tools float-none d-flex flex-wrap gap-2 m-0">
             <button class="btn btn-secondary btn-sm"
                     {{--                                     params 3 thru ...> mount(,,$modulefullname, $module_id = null, $search_type)--}}
                     onclick="window.livewire.emit('showModal', 'modals.search-modal', '{{  addslashes(get_class($recurringInvoice)) }}', {{$recurringInvoice->id}}, 'client')"

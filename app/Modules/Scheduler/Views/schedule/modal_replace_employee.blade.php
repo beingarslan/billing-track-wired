@@ -1,7 +1,7 @@
 @include('partials._js_replace_employee')
 
 <div class="modal fade" id="replace-employee">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">@lang('bt.replace_employee')</h4>

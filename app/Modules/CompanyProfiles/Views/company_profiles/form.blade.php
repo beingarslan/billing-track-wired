@@ -3,7 +3,11 @@
 @section('content')
     <script type="text/javascript">
         ready(function () {
-            document.getElementById('name').focus()
+            // Do not pop the soft keyboard before the page settles on a touch device.
+            var nameField = document.getElementById('name')
+            if (nameField && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                nameField.focus()
+            }
             @if ($editMode == true)
             addEvent(document, 'click', '#btn-delete-logo', (e) => {
                 axios.post("{{ route('companyProfiles.deleteLogo', [$companyProfile->id]) }}").then(function () {
@@ -23,13 +27,17 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.company_profile_form')</div>
-        <a class="btn btn-warning float-end" href={!! route('companyProfiles.index')  !!}><i
-                    class="fa fa-ban"></i> @lang('bt.cancel')</a>
-        <button type="submit" class="btn btn-primary float-end"><i
-                    class="fa fa-save"></i> @lang('bt.save') </button>
-        <div class="clearfix"></div>
-            </div></div>
+                <div class="bt-toolbar">
+                    <div class="fs-3 me-auto">@lang('bt.company_profile_form')</div>
+                    <div class="bt-action-bar">
+                        <button type="submit" class="btn btn-primary"><i
+                                    class="fa fa-save"></i> @lang('bt.save') </button>
+                        <a class="btn btn-warning" href={!! route('companyProfiles.index')  !!}><i
+                                    class="fa fa-ban"></i> @lang('bt.cancel')</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     <section class="container-fluid">
         @include('layouts._alerts')

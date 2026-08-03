@@ -14,6 +14,26 @@
             /* init first - init first */
             var calendarEl = document.getElementById('calendar');
 
+            /* --- mobile view selection -------------------------------------------------
+               dayGridMonth is unreadable on a phone (7 columns of multi-event cells), so
+               below 768px we open on the week list instead and move the six view buttons
+               out of the header (which cannot fit them) into a second toolbar row. */
+            var btFcBreakpoint = 768;
+            var btFcIsMobile = window.innerWidth < btFcBreakpoint;
+            var btFcViewButtons = 'dayGridMonth,timeGridWeek,timeGridDay,listMonth,listWeek,listDay';
+            var btFcMobileView = 'listWeek';
+            var btFcDesktopView = 'dayGridMonth';
+
+            function btFcHeaderToolbar(isMobile) {
+                return isMobile
+                    ? {start: 'prev,next', center: 'title', end: 'today'}
+                    : {start: 'prev,next today', center: 'title', end: btFcViewButtons};
+            }
+
+            function btFcFooterToolbar(isMobile) {
+                return isMobile ? {center: btFcViewButtons} : false;
+            }
+
             let calendar = new Calendar(calendarEl, {
                 plugins: [
                     dayGridPlugin,
@@ -23,12 +43,27 @@
                     listPlugin,
                     bootstrap5Plugin
                 ],
-                initialView: 'dayGridMonth',
+                initialView: btFcIsMobile ? btFcMobileView : btFcDesktopView,
                 themeSystem: '{!! config('bt.schedulerFcThemeSystem') !!}', //'standard' 'bootstrap5'
-                headerToolbar: {
-                    start: 'prev,next today',
-                    center: 'title',
-                    end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth,listWeek,listDay'
+                headerToolbar: btFcHeaderToolbar(btFcIsMobile),
+                footerToolbar: btFcFooterToolbar(btFcIsMobile),
+                /* Only react when the viewport actually crosses the breakpoint. A bare
+                   changeView() here would fire on every iOS URL-bar collapse and every
+                   Android soft-keyboard open, both of which are height-only resizes. */
+                windowResize: function () {
+                    var nowMobile = window.innerWidth < btFcBreakpoint;
+                    if (nowMobile === btFcIsMobile) {
+                        return;
+                    }
+                    btFcIsMobile = nowMobile;
+                    calendar.setOption('headerToolbar', btFcHeaderToolbar(nowMobile));
+                    calendar.setOption('footerToolbar', btFcFooterToolbar(nowMobile));
+                    var currentView = calendar.view.type;
+                    if (nowMobile && (currentView === 'dayGridMonth' || currentView === 'timeGridWeek')) {
+                        calendar.changeView(btFcMobileView);
+                    } else if (!nowMobile && currentView === btFcMobileView) {
+                        calendar.changeView(btFcDesktopView);
+                    }
                 },
                 buttonText: {
                     today: '@lang('bt.today')',

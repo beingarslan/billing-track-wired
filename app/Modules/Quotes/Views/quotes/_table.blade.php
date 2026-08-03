@@ -1,4 +1,5 @@
-<table class="table table-hover" style="height: 100%;">
+<div class="table-responsive">
+<table class="table table-hover bt-nowrap" style="height: 100%;">
     <thead>
     <tr>
         <th>@lang('bt.status')</th>
@@ -38,7 +39,7 @@
                 @endif
             </td>
             <td>
-                <div class="btn-group">
+                <div class="btn-group position-static">
                     <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="dropdown">
                         @lang('bt.options')
                     </button>
@@ -64,3 +65,4 @@
     @endforeach
     </tbody>
 </table>
+</div>

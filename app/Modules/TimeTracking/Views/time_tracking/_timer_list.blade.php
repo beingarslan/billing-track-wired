@@ -6,9 +6,18 @@
     .timer-row:hover .tools {
         display: block;
     }
+
+    /* A touch device never fires :hover, so the delete-timer button was
+       permanently invisible on a phone. */
+    @media (hover: none), (max-width: 991.98px) {
+        .timer-row .tools {
+            display: block;
+        }
+    }
 </style>
 
-<table class="table table-hover" style="margin-top: 15px;">
+<div class="table-responsive">
+<table class="table table-hover bt-nowrap" style="margin-top: 15px;">
     <thead>
     <tr>
         <th>@lang('bt.start_time')</th>
@@ -35,3 +44,4 @@
     @endforeach
     </tbody>
 </table>
+</div>

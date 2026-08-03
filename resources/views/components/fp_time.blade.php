@@ -36,8 +36,8 @@
             type="text"
             value="{{$value}}"
             data-input
-            class="text-bg-light"
-            {{$attributes}}
+            {{-- merged, not emitted twice - see fp_common.blade.php --}}
+            {{ $attributes->merge(['class' => 'form-control text-bg-light']) }}
     />
     <span class="input-group-text p-1"><i class="far fa-clock"></i> </span>
 </div>

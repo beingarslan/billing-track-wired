@@ -73,21 +73,22 @@
         {!! Form::open(['route' => 'settings.update', 'files' => true, 'id' => 'form-settings']) !!}
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.system_settings')</div>
-                <div class="btn-group float-end">
-                    <div class="btn-group">
-                        <a class="btn btn-warning " href={!! route('dashboard.index')  !!}><i
-                                    class="fa fa-ban"></i> @lang('bt.cancel')</a>
-                        @if (!config('app.demo'))
-                            <button type="submit" class="btn btn-primary "><i
-                                        class="fa fa-save"></i> @lang('bt.save') </button>
-                        @else
-                            <p class="btn btn-primary  " disabled><i
-                                        class="fa fa-save"></i> Save disabled in demo. </p>
-                        @endif
+                <div class="bt-toolbar">
+                    <div class="fs-3 me-auto">@lang('bt.system_settings')</div>
+                    <div class="bt-action-bar">
+                        <div class="btn-group">
+                            <a class="btn btn-warning " href={!! route('dashboard.index')  !!}><i
+                                        class="fa fa-ban"></i> @lang('bt.cancel')</a>
+                            @if (!config('app.demo'))
+                                <button type="submit" class="btn btn-primary "><i
+                                            class="fa fa-save"></i> @lang('bt.save') </button>
+                            @else
+                                <p class="btn btn-primary  " disabled><i
+                                            class="fa fa-save"></i> Save disabled in demo. </p>
+                            @endif
+                        </div>
                     </div>
                 </div>
-                <div class="clearfix"></div>
             </div>
         </div>
     </section>

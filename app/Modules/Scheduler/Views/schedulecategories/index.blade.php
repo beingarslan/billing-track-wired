@@ -4,13 +4,14 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.categories')</div>
-                <div class="btn-group float-end">
-                    <a href="{!! route('scheduler.categories.create') !!}" class="btn btn-primary rounded border"><i
-                                class="fas fa-plus"></i> @lang('bt.create_category')</a>
+                <div class="bt-toolbar">
+                    <div class="fs-3 me-auto">@lang('bt.categories')</div>
+                    <div class="btn-group">
+                        <a href="{!! route('scheduler.categories.create') !!}" class="btn btn-primary rounded border"><i
+                                    class="fas fa-plus"></i> @lang('bt.create_category')</a>
+                    </div>
                 </div>
             </div>
-            <div class="clearfix"></div>
         </div>
     </section>
     <section class="container-fluid">

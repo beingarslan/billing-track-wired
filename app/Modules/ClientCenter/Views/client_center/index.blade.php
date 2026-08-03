@@ -22,8 +22,10 @@
                     @if (count($quotes))
                         <div class="card-body">
                             @include('client_center.quotes._table')
-                            <p style="text-align: center;"><a href="{{ route('clientCenter.quotes') }}"
-                                                              class="btn btn-secondary">@lang('bt.view_all')</a></p>
+                            <div class="d-grid d-sm-block text-center mt-3">
+                                <a href="{{ route('clientCenter.quotes') }}"
+                                   class="btn btn-secondary">@lang('bt.view_all')</a>
+                            </div>
                         </div>
                     @else
                         <div class="card-body">
@@ -42,8 +44,10 @@
                     @if (count($workorders))
                         <div class="card-body">
                             @include('client_center.workorders._table')
-                            <p style="text-align: center;"><a href="{{ route('clientCenter.workorders') }}"
-                                                              class="btn btn-secondary">@lang('bt.view_all')</a></p>
+                            <div class="d-grid d-sm-block text-center mt-3">
+                                <a href="{{ route('clientCenter.workorders') }}"
+                                   class="btn btn-secondary">@lang('bt.view_all')</a>
+                            </div>
                         </div>
                     @else
                         <div class="card-body">
@@ -62,8 +66,10 @@
                     @if (count($invoices))
                         <div class="card-body">
                             @include('client_center.invoices._table')
-                            <p style="text-align: center;"><a href="{{ route('clientCenter.invoices') }}"
-                                                              class="btn btn-secondary">@lang('bt.view_all')</a></p>
+                            <div class="d-grid d-sm-block text-center mt-3">
+                                <a href="{{ route('clientCenter.invoices') }}"
+                                   class="btn btn-secondary">@lang('bt.view_all')</a>
+                            </div>
                         </div>
                     @else
                         <div class="card-body">
@@ -82,8 +88,10 @@
                     @if (count($payments))
                         <div class="card-body">
                             @include('client_center.payments._table')
-                            <p style="text-align: center;"><a href="{{ route('clientCenter.payments') }}"
-                                                              class="btn btn-secondary">@lang('bt.view_all')</a></p>
+                            <div class="d-grid d-sm-block text-center mt-3">
+                                <a href="{{ route('clientCenter.payments') }}"
+                                   class="btn btn-secondary">@lang('bt.view_all')</a>
+                            </div>
                         </div>
                     @else
                         <div class="card-body">

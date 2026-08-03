@@ -4,40 +4,45 @@
 
     <script type="text/javascript">
         ready(function () {
-            document.getElementById('name').focus()
+            // Do not pop the soft keyboard before the page settles on a touch device.
+            var nameField = document.getElementById('name')
+            if (nameField && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                nameField.focus()
+            }
         })
     </script>
 
     {!! Form::open(['route' => 'timeTracking.projects.store']) !!}
 
     <section class="app-content-header">
-        <h3 class="float-start px-3">
-            @lang('bt.create_project')
-        </h3>
-        <div class="float-end">
-            <a class="btn btn-warning float-end" href={!! route('timeTracking.projects.index')  !!}><i
-                        class="fa fa-ban"></i> @lang('bt.cancel')</a>
-            <button class="btn btn-primary" id="save-btn"><i class="fa fa-save"></i> @lang('bt.save')</button>
+        <div class="bt-toolbar px-3">
+            <h3 class="me-auto mb-0">
+                @lang('bt.create_project')
+            </h3>
+            <div class="bt-action-bar">
+                <button class="btn btn-primary" id="save-btn"><i class="fa fa-save"></i> @lang('bt.save')</button>
+                <a class="btn btn-warning" href={!! route('timeTracking.projects.index')  !!}><i
+                            class="fa fa-ban"></i> @lang('bt.cancel')</a>
+            </div>
         </div>
-        <div class="clearfix"></div>
     </section>
     <section class="container-fluid">
         @include('layouts._alerts')
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-12 col-md-12">
                 <div class="card card-outline card-primary">
                     <div class="card-body" id="create-project">
                         <div class="mb-3">
-                            <label>* @lang('bt.project_name'): </label>
+                            <label class="form-label fw-bold" for="name">* @lang('bt.project_name'): </label>
                             {!! Form::text('name', null, ['id' => 'name', 'class' => 'form-control']) !!}
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-12 col-md-4">
                                 <label>* @lang('bt.company_profile'):</label>
                                 {!! Form::select('company_profile_id', $companyProfiles, config('bt.defaultCompanyProfile'),
                                 ['id' => 'company_profile_id', 'class' => 'form-control']) !!}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-12 col-md-4">
                                 <label>* @lang('bt.client'):</label>
                                 <livewire:client-search
                                         {{-- module base name, adds hidden fields with _id and _name --}}
@@ -50,7 +55,7 @@
                                         :readonly="$readonly ?? null"
                                 />
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-12 col-md-4">
                                 <label>* @lang('bt.due_date'):</label>
                                 <x-fp_common
                                         name="due_at"
@@ -61,7 +66,7 @@
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-12 col-md-4">
                                 <label>* @lang('bt.hourly_rate'):</label>
                                 {!! Form::text('hourly_rate', null, ['id' => 'hourly_rate', 'class' => 'form-control']) !!}
                             </div>

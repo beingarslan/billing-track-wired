@@ -1,11 +1,15 @@
 @include('recurring_invoices._js_edit')
 <section class="app-content-header">
-    <h3 class="float-start px-3">@lang('bt.recurring_invoice') #{{ $recurringInvoice->id }}</h3>
-    <div class="float-end">
-        <div class="btn-group">
-            <button type="button" class="btn btn-secondary" data-bs-toggle="dropdown">
-                @lang('bt.other')
-            </button>
+    <div class="bt-toolbar px-3">
+        <h3 class="mb-0">@lang('bt.recurring_invoice') #{{ $recurringInvoice->id }}</h3>
+    </div>
+    <div class="px-3 pt-2">
+        <div class="bt-action-bar justify-content-md-end">
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="dropdown"
+                        aria-label="@lang('bt.other')" title="@lang('bt.other')">
+                    <i class="fa fa-ellipsis-h"></i> <span class="d-none d-sm-inline">@lang('bt.other')</span>
+                </button>
             <div class="dropdown-menu dropdown-menu-end" role="menu">
                 <a class="dropdown-item" href="#" id="btn-copy-recurring-invoice"
                    {{--                   params 3 thru ... mount(,,$modulefullname, $moduleop, $resource_id = null, $module_id = null, $readonly = null)--}}
@@ -17,28 +21,29 @@
                             class="fa fa-trash-alt"></i> @lang('bt.trash')</a>
             </div>
         </div>
-        <div class="btn-group">
             @if ($returnUrl)
-                <a href="{{ $returnUrl }}" class="btn btn-secondary"><i
-                            class="fa fa-backward"></i> @lang('bt.back')</a>
+                <a href="{{ $returnUrl }}" class="btn btn-secondary" aria-label="@lang('bt.back')"
+                   title="@lang('bt.back')"><i
+                            class="fa fa-backward"></i> <span class="d-none d-sm-inline">@lang('bt.back')</span></a>
             @endif
-        </div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary btn-save-recurring-invoice"><i
-                        class="fa fa-save"></i> @lang('bt.save')</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="dropdown"><i class="fas fa-chevron-down"></i>
-            </button>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-save-recurring-invoice"
+                        aria-label="@lang('bt.save')" title="@lang('bt.save')"><i
+                            class="fa fa-save"></i> <span class="d-none d-sm-inline">@lang('bt.save')</span></button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="dropdown"
+                        aria-label="@lang('bt.options')"><i class="fas fa-chevron-down"></i>
+                </button>
             <div class="dropdown-menu dropdown-menu-end" role="menu">
-                <a class="dropdown-item" href="#" class="btn-save-recurring-invoice"
+                <a class="dropdown-item btn-save-recurring-invoice" href="#"
                    data-apply-exchange-rate="1">@lang('bt.save_and_apply_exchange_rate')</a>
             </div>
         </div>
+        </div>
     </div>
-    <div class="clearfix"></div>
 </section>
 <section class="container-fluid">
     <div class="row">
-        <div class="col-lg-10">
+        <div class="col-12 col-lg-9 col-xl-10 order-2 order-lg-1">
             @include('layouts._alerts')
             <div id="form-status-placeholder"></div>
             <div class="row">
@@ -102,7 +107,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-12 col-lg-3 col-xl-2 order-1 order-lg-2">
             <div id="div-totals">
                 @include('recurring_invoices._edit_totals')
             </div>

@@ -20,6 +20,9 @@
         });
 
         addEvent(document, 'click', ".btn-delete-timer", (e) => {
+            // e.target is the <i class="fa fa-trash-alt"> on a touch tap, and it is resolved
+            // here rather than inside the Swal callback because e is reused asynchronously.
+            const trigger = e.target.closest('.btn-delete-timer')
             Swal.fire({
                 title: '@lang('bt.trash_record_warning')',
                 icon: 'warning',
@@ -29,7 +32,7 @@
             }).then((result) => {
                 if (result.value) {
                     axios.post('{{ route('timeTracking.timers.delete') }}', {
-                        id: e.target.dataset.timerId
+                        id: trigger.dataset.timerId
                     }).then(function () {
                         refreshTaskList();
                         refreshTimerList();
@@ -54,7 +57,7 @@
     })
 </script>
 <div class="modal fade" id="modal-show-timers">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">@lang('bt.timers')</h4>

@@ -2,6 +2,10 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    {{-- Needed when this document is displayed in the client-center iframe:
+         without it the framed document falls back to the ~980px default layout
+         viewport and is illegible on a phone. PDF renderers ignore it. --}}
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>@lang('bt.quote') #{{ $quote->number }}</title>
 
     <style>

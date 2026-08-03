@@ -26,7 +26,7 @@
     });
 </script>
 <div class="modal fade" id="modal-contact">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable modal-fullscreen-sm-down">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">

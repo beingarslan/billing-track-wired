@@ -50,7 +50,11 @@
     <script type="text/javascript">
         ready(function () {
             document.getElementById('view-notes').style.display = 'none'
+            // e.target is the <i> glyph whenever the icon itself is tapped (very common on a
+            // phone), and an <i> has no dataset.buttonToggle - the toggle silently died and
+            // the wrong element got display:none. Resolve the button with closest().
             addEvent(document, 'click', ".btn-notes", (e) => {
+                const btn = e.target.closest('.btn-notes')
                 document.getElementById('view-doc').toggleid()
                 document.getElementById('view-notes').toggleid()
                 document.querySelectorAll('.btn-pay').forEach((item) => {
@@ -60,13 +64,13 @@
                         item.style.display = 'none'
                     }
                 });
-                document.getElementById(e.target.dataset.buttonToggle).style.display = 'block'
-                e.target.style.display = 'none'
+                document.getElementById(btn.dataset.buttonToggle).style.display = 'block'
+                btn.style.display = 'none'
             });
 
-            document.querySelectorAll('.btn-pay').forEach((btn) => {
-                btn.addEventListener('click', (e) => {
-                    const btn = e.target
+            document.querySelectorAll('.btn-pay').forEach((payBtn) => {
+                payBtn.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.btn-pay')
                     btn.innerHTML = 'loading'
 
                     axios.post("{{ route('merchant.pay') }}", {
@@ -89,7 +93,10 @@
     <section class="content">
         <div class="public-wrapper">
             @include('layouts._alerts')
-            <div class="d-flex align-items-center justify-content-evenly mb-3">
+            {{-- flex-wrap + gap: without it the PDF/Notes/Attachments/Pay buttons were squeezed
+                 onto one line at 375px and the Pay button - the point of this page - became a
+                 sliver. Each direct .btn/.btn-group also goes full width below 576px. --}}
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-evenly gap-2 mb-3">
                 <a href="{{ route('clientCenter.public.invoice.pdf', [$invoice->url_key]) }}" target="_blank"
                    class="btn btn-primary"><i class="fa fa-print"></i> <span>@lang('bt.pdf')</span>
                 </a>
@@ -118,7 +125,10 @@
                 @endif
                 @if ($invoice->isPayable)
                     @foreach ($merchantDrivers as $driver)
-                        <form action="{{ route('clientCenter.public.invoice.pay', ['invoiceKey' => $urlKey])}}" method="POST">
+                        {{-- bt-fluid-sm: the <form> is the flex item, so without it the
+                             full-width Pay button inside would shrink-to-fit the form. --}}
+                        <form action="{{ route('clientCenter.public.invoice.pay', ['invoiceKey' => $urlKey])}}" method="POST"
+                              class="bt-fluid-sm">
                             @csrf
                             <button type="submit" class="btn btn-primary btn-pay"
                                 data-driver="{{ $driver->getName() }}" data-loading-text="@lang('bt.please_wait')">
@@ -131,6 +141,7 @@
             <div class="public-doc-wrapper">
                 <div id="view-doc">
                     <iframe src="{{ route('clientCenter.public.invoice.html', [$urlKey]) }}"
+                            title="@lang('bt.invoice')"
                             style="width: 100%;" onload="resizeIframe(this, 800);"></iframe>
                 </div>
                 @if (auth()->check())

@@ -1,6 +1,10 @@
 <script type="text/javascript">
     ready(function () {
-        document.getElementById('name').focus()
+        // Do not pop the soft keyboard before the page settles on a touch device.
+        var nameField = document.getElementById('name')
+        if (nameField && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            nameField.focus()
+        }
     })
 </script>
 <div class="container-fluid m-0 p-0">
@@ -11,7 +15,7 @@
             </div>
             <div class="card-body">
                 <div class="row col-md-12 mb-1" id="col-companyprofile-name">
-                    <div class="col-md-4 fw-bold text-end">
+                    <div class="col-md-4 fw-bold text-md-end">
                         <label class="col-form-label">* @lang('bt.name'): </label>
                     </div>
                     <div class="col-md-8">
@@ -19,7 +23,7 @@
                     </div>
                 </div>
                 <div class="row col-md-12 mb-1" id="col-companyprofile-email">
-                    <div class="col-md-4 fw-bold text-end">
+                    <div class="col-md-4 fw-bold text-md-end">
                         <label class="col-form-label">@lang('bt.email_address'): </label>
                     </div>
                     <div class="col-md-8">
@@ -27,7 +31,7 @@
                     </div>
                 </div>
                 <div class="row col-md-12 mb-1">
-                    <div class="col-md-4 fw-bold text-end">
+                    <div class="col-md-4 fw-bold text-md-end">
                         <label class="col-form-label">@lang('bt.phone_number'): </label>
                     </div>
                     <div class="col-md-8">
@@ -35,7 +39,7 @@
                     </div>
                 </div>
                 <div class="row col-md-12 mb-1">
-                    <div class="col-md-4 fw-bold text-end">
+                    <div class="col-md-4 fw-bold text-md-end">
                         <label class="col-form-label">@lang('bt.fax_number'): </label>
                     </div>
                     <div class="col-md-8">
@@ -43,7 +47,7 @@
                     </div>
                 </div>
                 <div class="row col-md-12 mb-1">
-                    <div class="col-md-4 fw-bold text-end">
+                    <div class="col-md-4 fw-bold text-md-end">
                         <label class="col-form-label">@lang('bt.mobile_number'): </label>
                     </div>
                     <div class="col-md-8">
@@ -51,7 +55,7 @@
                     </div>
                 </div>
                 <div class="row col-md-12 mb-1">
-                    <div class="col-md-4 fw-bold text-end">
+                    <div class="col-md-4 fw-bold text-md-end">
                         <label class="col-form-label">@lang('bt.web_address'): </label>
                     </div>
                     <div class="col-md-8">
@@ -59,7 +63,7 @@
                     </div>
                 </div>
                 <div class="row col-md-12 mb-1">
-                    <div class="col-md-4 fw-bold text-end">
+                    <div class="col-md-4 fw-bold text-md-end">
                         <label class="col-form-label">@lang('bt.id_number'): </label>
                     </div>
                     <div class="col-md-8">
@@ -67,7 +71,7 @@
                     </div>
                 </div>
                 <div class="row col-md-12 mb-1">
-                    <div class="col-md-4 fw-bold text-end">
+                    <div class="col-md-4 fw-bold text-md-end">
                         <label class="col-form-label">@lang('bt.vat_number'): </label>
                     </div>
                     <div class="col-md-8">
@@ -197,7 +201,7 @@
                                                 id="btn-delete-logo">@lang('bt.remove_logo')</button>
                                     @endif
                                 </div>
-                                {!! Form::file('logo') !!}
+                                {!! Form::file('logo', ['class' => 'form-control']) !!}
                             @else
                                 Disabled for demo
                             @endif

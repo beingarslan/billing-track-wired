@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-lg" id="create-seeded-workorder-modal">
+<div class="modal-dialog modal-lg modal-fullscreen-sm-down" id="create-seeded-workorder-modal">
     <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title"
@@ -13,7 +13,7 @@
         </div>
         <div class="modal-body">
             <form autocomplete="off">
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label for="company_profile_id" class="col-form-label">@lang('bt.company_profile')</label>
                     </div>
@@ -22,7 +22,7 @@
                         ['id' => 'company_profile_id', 'class' => 'form-select']) !!}
                     </div>
                 </div>
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label for="resource_name" class="col-form-label">@lang('bt.customer')</label>
                     </div>
@@ -40,7 +40,7 @@
                         @error('resource_name') <span class="text-sm text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-4 text-end fw-bold">
                         <label for="summary" class="col-form-label">@lang('bt.job_summary')</label>
                     </div>
@@ -49,7 +49,7 @@
                                placeholder="Enter Job Summary - (500 characters max)">
                     </div>
                 </div>
-                <div class="row g-3 mb-3 align-items-center">
+                <div class="row g-3 mb-3 align-items-center bt-stack-row">
                     <div class="col-sm-2 text-end fw-bold">
                         <label for="start_time"
                                class="col-form-label">@lang('bt.start_time')</label>
@@ -85,56 +85,58 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-5 ms-5">
+                    <div class="col-12 col-md-5 ms-md-5">
                         <br>
                         <b>@lang('bt.available_employees')</b><br>
                         @lang('bt.select_workers_toworkorder')<br>
-                        <div class="form-check" id="ScrollCB1" style="max-height:200px;overflow:auto;padding-left:1.75em">
+                        {{-- one .form-check per row (the class used to sit on the scroll
+                             container, which turned the whole list into a single row) --}}
+                        <div id="ScrollCB1" style="max-height:200px;overflow:auto;">
                             @foreach($available_employees as $key => $value)
-                                <input class="form-check-input"
-                                       type="checkbox"
-                                       name="workers[]"
-                                       id="workers{{$value->id}}"
-                                       wire:model.defer="selected_employees"
-                                       value="{{$value->id}}"
-                                       style="transform: scale(1.3);"
-                                />
-                                @if($value->driver)
-                                    <label class="form-check-label mb-1" style="display:block;color:blue;">
-                                @else
-                                    <label class="form-check-label mb-1" style="display:block;">
-                                @endif
-                                    {{$value->short_name}}
+                                <div class="form-check mb-1">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           name="workers[]"
+                                           id="workers{{$value->id}}"
+                                           wire:model.defer="selected_employees"
+                                           value="{{$value->id}}"
+                                    />
+                                    <label class="form-check-label" for="workers{{$value->id}}"
+                                           @if($value->driver) style="color:blue;" @endif>
+                                        {{$value->short_name}}
                                     </label>
+                                </div>
                             @endforeach
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <br>
                         <b>@lang('bt.available_equip')</b><br>
                         @lang('bt.select_items_toworkorder')
-                        <div class="form-check" id="ScrollCB2" style="max-height:200px;overflow:auto;padding-left:1.75em">
+                        <div id="ScrollCB2" style="max-height:200px;overflow:auto;">
                             @foreach($available_resources as $key => $value)
-                                <input class="form-check-input"
-                                       type="checkbox"
-                                       name="resources[]"
-                                       id="resources{{$value->id}}"
-                                       wire:model="selected_resources.{{$key}}"
-                                       value="{{$value->id}}"
-                                       style="transform: scale(1.3);"
-                                />
-                                <label class="mb-1" style="display:block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                                    {{ $value->name }}
+                                <div class="form-check mb-1">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           name="resources[]"
+                                           id="resources{{$value->id}}"
+                                           wire:model="selected_resources.{{$key}}"
+                                           value="{{$value->id}}"
+                                    />
+                                    <label class="form-check-label" for="resources{{$value->id}}">
+                                        {{ $value->name }}
+                                    </label>
                                     <input
                                             type="number"
                                             name="quantity[{{$value->id}}]"
                                             wire:model.defer="selected_qty.{{$value->id}}"
                                             min="0"
-                                            style="width:40px;height:25px;margin-left:10px;margin-right:5px;"
+                                            class="form-control form-control-sm d-inline-block ms-2"
+                                            style="width:4.5rem;"
                                             {{ !in_array($value->id, $selected_resources) ? 'disabled' : '' }}
                                             value="0"
                                     />
-                                </label>
+                                </div>
                             @endforeach
                         </div>
                     </div>

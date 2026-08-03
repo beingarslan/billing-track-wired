@@ -3,10 +3,10 @@
 @section('content')
     @include('layouts._alerts')
     <section class="app-content-header">
-        <nav class="navbar navbar-expand navbar-light border-bottom">   {{--bg-primary navbar-default--}}
+        <nav class="navbar navbar-expand flex-wrap navbar-light border-bottom">   {{--bg-primary navbar-default--}}
             <div class="container-fluid">
                 <a class="navbar-brand mb-0" href="#">@lang('bt.schedule_dashboard')</a>
-                <div class="navbar-nav me-auto">
+                <div class="navbar-nav me-auto flex-wrap">
                     <li class="nav-item"><a class="nav-link"
                                             href="{!! route('scheduler.fullcalendar') !!}">@lang('bt.calendar')</a>
                     </li>
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </nav>
-        <div class="row col-lg-12 ps-5">
+        <div class="row col-lg-12 ps-2 ps-lg-5">
             <div class="col-lg-4 col-md-4">
                 <div class="small-box text-bg-green">
                     <div class="inner">
@@ -75,7 +75,7 @@
                 </div>
             </div>
         </div>
-        <div class="row col-lg-12 ps-5">
+        <div class="row col-lg-12 ps-2 ps-lg-5">
             <div class="col-lg-4 col-md-4">
                 <div class="small-box text-bg-green">
                     <div class="inner">
@@ -117,7 +117,8 @@
                     <h3 class="card-title"><i class="fa fa-bell"></i> @lang('bt.reminders')</h3>
                 </div>
                 <div class="card-body">
-                    <table id="dt-reminderstable" class="display table dataTable">
+                    <div class="table-responsive">
+                    <table id="dt-reminderstable" class="display table dataTable bt-stack">
                         <thead>
                         <tr>
                             <th>@lang('bt.event_title')</th>
@@ -130,10 +131,10 @@
                         <tbody>
                         @foreach($reminders_occ as $reminder)
                             <tr>
-                                <td>{!! $reminder->schedule->title !!}</td>
-                                <td>{!! $reminder->schedule->location_str !!}</td>
-                                <td>{!! $reminder->formatted_start_date !!}</td>
-                                <td>{!! $reminder->formatted_end_date !!}</td>
+                                <td data-label="@lang('bt.event_title')">{!! $reminder->schedule->title !!}</td>
+                                <td data-label="@lang('bt.location')">{!! $reminder->schedule->location_str !!}</td>
+                                <td data-label="@lang('bt.occasion_start')">{!! $reminder->formatted_start_date !!}</td>
+                                <td data-label="@lang('bt.occasion_end')">{!! $reminder->formatted_end_date !!}</td>
                                 <td>
                                     <a href="#" class="btn btn-danger btn-sm" id="delete-reminder-{{ $reminder->id }}"
                                        onclick="swalConfirm('@lang('bt.reminder_trash_warning')', '', '{{ route('scheduler.trashreminder', $reminder->id) }}');"><i
@@ -143,6 +144,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -152,7 +154,7 @@
                     <h3 class="card-title"><i
                                 class="fa fa-chart-bar fa-bar fa-fw"></i> @lang('bt.month_day_events')</h3>
                 </div>
-                <div>
+                <div class="p-2">
                     <canvas id="monthEventsBarChart" height="50"></canvas>
                 </div>
             </div>
@@ -163,7 +165,7 @@
                     <h3 class="card-title"><i class="fa fa-chart-bar fa-fw"></i> @lang('bt.year_month_report')
                     </h3>
                 </div>
-                <div>
+                <div class="p-2">
                     <canvas id="yearEventsBarChart" height="50"></canvas>
                 </div>
             </div>

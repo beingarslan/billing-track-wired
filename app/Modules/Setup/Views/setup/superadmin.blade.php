@@ -13,12 +13,13 @@
     <section class="content">
         {!! Form::open(['route' => 'setup.postAccount', 'class' => 'form-install', 'autocomplete' => 'off']) !!}
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-12 col-md-12">
                 <div class=" card card-light">
                     <div class="card-body">
                         @include('layouts._alerts')
                         <h4>@lang('bt.user_account')</h4>
-                        <table class="table table-responsive table-striped table-bordered mb-5">
+                        <div class="table-responsive mb-5">
+                        <table class="table table-striped table-bordered bt-nowrap">
                             <thead class="table-light">
                             <tr>
                                 <th scope="col">@lang('acl.id')</th>
@@ -48,6 +49,7 @@
                             @endforeach
                             </tbody>
                         </table>
+                        </div>
                         <script>
                             // get superadmin radios
                             var superrb = document.querySelectorAll('input[name="role1"]');

@@ -5,10 +5,10 @@
             <div class="col-lg-8 col-sm-8">
                 @foreach (\BT\Modules\Settings\Models\Setting::$modules as $entityType => $value)
                     <div class="form-check">
-                        <label for="enabledModules{{ $value}}">
-                            <input name="enabledModules[]" id="enabledModules{{ $value}}" type="checkbox"
-                                   {{ (new \BT\Modules\Settings\Models\Setting())->isModuleEnabled($entityType) ? 'checked="checked"' : '' }} value="{{ $value }}"> {{ trans("bt.{$entityType}") }}
-                        </label>
+                        <input name="enabledModules[]" id="enabledModules{{ $value}}" type="checkbox"
+                               class="form-check-input"
+                               {{ (new \BT\Modules\Settings\Models\Setting())->isModuleEnabled($entityType) ? 'checked="checked"' : '' }} value="{{ $value }}">
+                        <label class="form-check-label" for="enabledModules{{ $value}}">{{ trans("bt.{$entityType}") }}</label>
                     </div>
                 @endforeach
             </div>

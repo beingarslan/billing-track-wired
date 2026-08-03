@@ -10,13 +10,14 @@
     <section class="app-content-header">
         <section class="container-fluid">
             <div class="col-sm-12 mb-3">
-                <div class="fs-3 float-start">@lang('bt.batchprint')</div>
                 {!! Form::open(['route' => 'utilities.batchprint', 'class'=>'form-horizontal']) !!}
-                <div class="btn-group float-end">
-                    <button type="submit" class="btn btn-primary float-end"><i
-                                class="fa fa-save"></i> @lang('bt.process') </button>
+                <div class="bt-toolbar">
+                    <div class="fs-3 me-auto">@lang('bt.batchprint')</div>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary"><i
+                                    class="fa fa-save"></i> @lang('bt.process') </button>
+                    </div>
                 </div>
-                <div class="clearfix"></div>
             </div>
         </section>
         <section class="content">
@@ -27,11 +28,11 @@
                     </h3>
                 </div>
                 <div class="card-body">
-                    <div class="col-md-4 mb-3">
+                    <div class="col-12 col-md-4 mb-3">
                         {!! Form::hidden('batch_type', $module) !!}
                     </div>
 
-                    <div class="col-md-4 mb-3">
+                    <div class="col-12 col-md-4 mb-3">
                         <label class="form-label fw-bold">@lang('bt.date_range'):</label>
                         {!! Form::hidden('from_date', null, ['id' => 'from_date']) !!}
                         {!! Form::hidden('to_date', null, ['id' => 'to_date']) !!}
@@ -51,4 +52,5 @@
             </div>
             {!! Form::close() !!}
         </section>
+    </section>
 @stop

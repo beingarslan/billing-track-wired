@@ -21,7 +21,7 @@
                         @include('client_center.workorders._table')
                     </div>
                 </div>
-                <div class="float-end">
+                <div class="d-flex flex-wrap justify-content-center justify-content-md-end">
                     {!! $workorders->render() !!}
                 </div>
             </div>

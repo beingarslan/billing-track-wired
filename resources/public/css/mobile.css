@@ -1,0 +1,1890 @@
+/* ==========================================================================
+   BillingTrack - mobile.css
+   --------------------------------------------------------------------------
+   CANONICAL SOURCE:  resources/public/css/mobile.css
+   RUNTIME MIRROR:    public/css/mobile.css      (must stay byte-identical)
+
+   WHY THIS FILE EXISTS
+   --------------------
+   public/build/assets/app.css is a COMMITTED build artifact and node_modules
+   is empty, so resources/sass/*.scss cannot be recompiled. Every mobile fix
+   therefore lives here, in plain hand-written CSS, loaded AFTER app.css:
+
+       <link rel="stylesheet" href="/build/assets/app.css">
+       <link rel="stylesheet" href="{{ asset('css/mobile.css') }}?v=1">   <-- this file
+       ... custom/custom.css (a site's own overrides still win) ...
+
+   Because it loads later, equal-specificity selectors win WITHOUT !important.
+   !important is used ONLY where genuinely unavoidable and is always commented:
+     (a) beating Bootstrap utility classes (.float-end etc. are !important),
+     (b) beating plugin CSS injected AFTER us (tom-select is <link>-ed inside
+         an ajax-loaded modal body; vanilla-datetimerange-picker is <link>-ed
+         from @section('javaScript'); SweetAlert2 injects its CSS at runtime),
+     (c) beating JS-written inline styles (daterangepicker positioning).
+
+   RULES OF THE ROAD
+   -----------------
+   1. Every mobile-only rule lives inside a max-width media query
+      (991.98px / 767.98px / 575.98px). Desktop must never regress.
+   2. Universal rules (no media query) are only used where the change is a
+      genuine improvement at every width (e.g. .public-wrapper fluidity,
+      momentum scrolling on .table-responsive).
+   3. We deliberately do NOT use html,body{overflow-x:hidden} - it silently
+      kills every position:sticky descendant. We contain overflow at the real
+      offenders and use overflow-x:clip (which preserves sticky) as a defensive
+      backstop on the layout shell.
+
+   TABLE OF CONTENTS
+   -----------------
+    1. Foundations & overflow containment
+    2. iOS focus-zoom killer (16px minimum input text)
+    3. Tap targets (44x44 - Apple HIG), incl. hover-only affordances
+    4. Forms, labels and grid rows
+    5. Layout shell (header, sidebar drawer, content header, back-to-top)
+    6. Cards & tables (incl. .card-group destacking)
+    7. Dropdown menus
+    8. Modals
+    9. Pagination
+   10. Third-party widgets (tom-select, flatpickr, daterangepicker,
+       SweetAlert2, livewire-tables, FullCalendar)
+   11. Dashboard widgets (small-box)
+   12. Public documents (.public-wrapper) & login page
+   13. bt-* helper classes  <-- the ONLY new classes fix-agents may use
+   14. Livewire components (line-item tables, livewire-select results panel)
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. FOUNDATIONS & OVERFLOW CONTAINMENT
+   ========================================================================== */
+
+/* Stop iOS/Android inflating text in landscape. Universal + harmless. */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* Honour the notch. viewport-fit=cover is set on every layout head, which is
+   what makes env(safe-area-inset-*) resolve to non-zero.
+   NOTE: the inset is applied to the CONTENT padding, never to <body>. Padding
+   body while its children are sized with 100vw would itself create horizontal
+   overflow in landscape - exactly what we are trying to eliminate. */
+@media (max-width: 991.98px) and (orientation: landscape) {
+    .app-content,
+    .app-content-header,
+    .public-wrapper,
+    .login-page > .container {
+        padding-left: max(.5rem, env(safe-area-inset-left));
+        padding-right: max(.5rem, env(safe-area-inset-right));
+    }
+}
+
+@media (max-width: 991.98px) {
+
+    /* Defensive backstop for the layout shell. overflow-x:clip (NOT hidden)
+       clips runaway children without creating a scroll container, so
+       position:sticky descendants keep working. Browsers without clip support
+       fall back to visible - i.e. today's behaviour, no regression. */
+    .app-wrapper {
+        max-width: 100%;
+        overflow-x: clip;
+    }
+
+    .app-main {
+        max-width: 100vw;
+        overflow-x: clip;
+    }
+
+    /* Flex/grid children default to min-width:auto, which makes them refuse to
+       shrink below their content and is the #1 source of page-level h-scroll.
+       Letting grid columns shrink is the single highest-leverage overflow fix. */
+    .row > * {
+        min-width: 0;
+    }
+
+    /* Replaced/embedded content must never be wider than its column. */
+    img,
+    svg,
+    video,
+    canvas,
+    iframe,
+    embed,
+    object {
+        max-width: 100%;
+    }
+
+    img {
+        height: auto;
+    }
+
+    pre,
+    code {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 767.98px) {
+    /* Long unbroken strings (email addresses, URLs, reference numbers) are a
+       common overflow source in headings and chrome. Scoped to text containers
+       so table cells and numerics are untouched. */
+    .card-header,
+    .card-title,
+    .app-content-header h1,
+    .app-content-header h2,
+    .app-content-header h3,
+    .app-content-header h4,
+    .brand-text,
+    .breadcrumb,
+    .alert,
+    .badge {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    /* Card BODIES print raw contact data as bare text nodes - the "From"/"To"
+       panels on every document edit screen render
+       `@lang('bt.email'): accounts@somelongcompanyname.com` with no wrapper
+       element to hang a utility on. At 375px the usable body width is ~330px,
+       i.e. ~41 characters, so a normal business email address overflows the
+       card and is then CLIPPED by `.app-main { overflow-x: clip }` - the
+       address becomes unreadable with no way to scroll to it.
+
+       `break-word` deliberately, NOT `anywhere`: only `anywhere` contributes to
+       the min-content size, which would let flex/grid children inside a card
+       body shrink further than they do today and could reflow desktop-derived
+       layouts at tablet widths. `break-word` breaks the word only when it
+       cannot fit a line on its own, which is exactly the failure here. */
+    .card-body {
+        overflow-wrap: break-word;
+    }
+
+    /* Page titles are desktop-sized by default and eat a phone viewport. */
+    .app-content-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .app-content-header h2 {
+        font-size: 1.35rem;
+    }
+
+    .app-content-header h3 {
+        font-size: 1.25rem;
+    }
+}
+
+
+/* ==========================================================================
+   2. iOS FOCUS-ZOOM KILLER  (highest-value rule in this file)
+   --------------------------------------------------------------------------
+   iOS Safari force-zooms the page whenever a focused form control renders
+   below 16px. Bootstrap ships .form-control-sm/.form-select-sm/.input-group-sm
+   at .875rem (14px) and this app uses those in 40+ view files, so nearly every
+   field zooms. Combined with the (now removed) user-scalable=no metas the user
+   could not zoom back out.
+
+   font-size is stated in px, not rem, so a changed root font-size can never
+   push it back under the 16px threshold.
+
+   !important IS REQUIRED HERE:
+     - tom-select's stylesheet is <link>-ed from inside _modal_mail.blade.php,
+       i.e. it lands in #modal-placeholder in <body>, AFTER this file;
+     - vanilla-datetimerange-picker's stylesheet is <link>-ed via
+       @section('javaScript'), also after this file;
+     - several modules set inline font-size on compact editors.
+   ========================================================================== */
+
+@media (max-width: 991.98px) {
+
+    input,
+    select,
+    textarea,
+    .form-control,
+    .form-select,
+    .form-control-sm,
+    .form-select-sm,
+    .form-control-lg,
+    .form-select-lg,
+    .input-group-sm > .form-control,
+    .input-group-sm > .form-select,
+    .input-group-sm > .input-group-text,
+    .input-group-sm > .btn,
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="date"],
+    input[type="datetime-local"],
+    input[type="month"],
+    input[type="time"],
+    input[type="week"],
+    textarea.form-control,
+    select.form-select,
+    /* tom-select renders its own control + inner input */
+    .ts-wrapper,
+    .ts-control,
+    .ts-control > input,
+    .ts-dropdown,
+    .ts-dropdown .option,
+    /* flatpickr falls back to a native input on touch devices */
+    input.flatpickr-input,
+    input.flatpickr-mobile,
+    /* vanilla-datetimerange-picker's hour/minute/meridiem selects */
+    .daterangepicker select {
+        font-size: 16px !important;
+    }
+
+    /* Nothing above should inherit a smaller size from a compact wrapper. */
+    .form-floating > .form-control,
+    .form-floating > .form-select {
+        font-size: 16px !important;
+    }
+}
+
+
+/* ==========================================================================
+   3. TAP TARGETS - 44x44 minimum (Apple HIG)
+   --------------------------------------------------------------------------
+   Implemented through Bootstrap's own CSS custom properties wherever possible
+   (--bs-btn-padding-y, --bs-nav-link-padding-y, --bs-dropdown-item-padding-y,
+   --bs-pagination-padding-y) rather than by changing `display`. That matters:
+   switching .btn to inline-flex would swallow the leading space in markup like
+   `<i class="fa fa-envelope"></i> Email`, gluing the icon to the label.
+   ========================================================================== */
+
+@media (max-width: 991.98px) {
+
+    /* --- Buttons ---------------------------------------------------------- */
+    /* 1rem * 1.5 line-height = 24px content + 2 * .625rem padding = 44px. */
+    .btn {
+        --bs-btn-padding-y: .625rem;
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* .875rem * 1.5 = 21px content + 2 * .71875rem = 44px. btn-sm keeps its
+       smaller label but gains a full-size hit area - this is what makes the
+       row-action buttons in every _actions.blade.php partial usable. */
+    .btn-sm,
+    .btn-group-sm > .btn {
+        --bs-btn-padding-y: .71875rem;
+        --bs-btn-padding-x: .75rem;
+        min-height: 44px;
+    }
+
+    .btn-lg,
+    .btn-group-lg > .btn {
+        min-height: 48px;
+    }
+
+    /* Close buttons are 1em squares by default - far under the minimum. */
+    .btn-close {
+        min-width: 44px;
+        min-height: 44px;
+        background-position: center;
+        background-size: .85em;
+    }
+
+    /* Icon-only link buttons must not be stretched into a 44px-wide block when
+       they sit inline inside running text. */
+    .btn-link.p-0,
+    .btn-link.border-0 {
+        min-width: 0;
+        min-height: 0;
+    }
+
+    /* --- Nav links -------------------------------------------------------- */
+    .nav-link {
+        --bs-nav-link-padding-y: .625rem;
+        min-height: 44px;
+    }
+
+    /* AdminLTE pins .app-header .nav-link to height:2.5rem (0,2,0); this
+       0,4,0 chain beats it without !important. */
+    .app-header .navbar-nav > .nav-item > .nav-link {
+        height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* --- Dropdown items --------------------------------------------------- */
+    .dropdown-menu {
+        --bs-dropdown-item-padding-y: .625rem;
+        --bs-dropdown-item-padding-x: 1rem;
+    }
+
+    .dropdown-item {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    /* --- Checkboxes, radios and switches ----------------------------------
+       Bootstrap ships a 1em (16px) box. .form-check-inline and .form-switch
+       have their own padding/offset contracts, so each is handled separately
+       rather than being caught by one blanket rule. */
+
+    /* Bare .form-check-input outside any wrapper (livewire-tables row
+       selectors, the legacy .checkbox markup on the login screen). */
+    .form-check-input {
+        width: 1.35rem;
+        height: 1.35rem;
+    }
+
+    /* Stacked checkbox/radio rows. */
+    .form-check:not(.form-check-inline):not(.form-switch) {
+        min-height: 44px;
+        padding-left: 2.25rem;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .form-check:not(.form-check-inline):not(.form-switch) > .form-check-input {
+        margin-left: -2.25rem;
+        margin-top: 0;
+        flex-shrink: 0;
+    }
+
+    /* Inline variant keeps display:inline-block and its own right margin. */
+    .form-check-inline {
+        min-height: 44px;
+        margin-right: 1.25rem;
+    }
+
+    /* Switches: keep track width and the negative offset in agreement, or the
+       thumb detaches from the label. */
+    .form-switch {
+        min-height: 44px;
+        padding-left: 3.25rem;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .form-switch .form-check-input {
+        width: 2.75rem;
+        height: 1.5rem;
+        margin-left: -3.25rem;
+        margin-top: 0;
+        flex-shrink: 0;
+    }
+
+    /* Expand the label into the tappable area rather than leaving a 16px box. */
+    .form-check-label {
+        padding: .5rem 0 .5rem .35rem;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    /* --- Misc interactive chrome ------------------------------------------ */
+    .list-group-item-action,
+    .nav-tabs .nav-link,
+    .nav-pills .nav-link {
+        min-height: 44px;
+    }
+
+    /* Tab strips with many tabs must scroll, not wrap into a tall block. */
+    .nav-tabs,
+    .nav-pills {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .nav-tabs::-webkit-scrollbar,
+    .nav-pills::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-tabs .nav-item,
+    .nav-pills .nav-item {
+        flex: 0 0 auto;
+    }
+}
+
+/* --- Hover-only affordances ----------------------------------------------
+   A control that only exists on :hover does not exist at all on a touch
+   device - no amount of tapping fires a hover state, so the action is simply
+   unreachable. AdminLTE's task list is the one place in this app that does it:
+
+       app.css: .todo-list > li .tools        { display: none; float: right }
+                .todo-list > li:hover .tools  { display: block }
+
+   That rail holds Show-timers / Bill / Edit / Trash on
+   time_tracking/project_edit and time_tracking/_timer_list, i.e. every primary
+   per-task action. Reveal it permanently on touch.
+
+   The query is `(hover: none), (max-width: 991.98px)` - an OR. The width half
+   is a deliberate belt-and-braces for touch laptops and for desktop browsers
+   in responsive-emulation mode, which report `hover: hover`. A large-screen
+   MOUSE user still matches neither clause, so the desktop hover behaviour is
+   untouched.
+
+   No !important: mobile.css loads after app.css and specificity is identical
+   (0,2,0 vs 0,2,0), so source order decides. `display:inline-block` (not the
+   `block` of AdminLTE's hover rule) keeps the rail on the title's line next to
+   the float:right it still carries. */
+@media (hover: none), (max-width: 991.98px) {
+    .todo-list > li .tools {
+        display: inline-block;
+    }
+}
+
+
+/* ==========================================================================
+   4. FORMS, LABELS AND GRID ROWS
+   ========================================================================== */
+
+@media (max-width: 991.98px) {
+
+    /* Give every control a thumb-sized height to match the 16px text above. */
+    .form-control,
+    .form-select {
+        min-height: 44px;
+    }
+
+    .form-control-sm,
+    .form-select-sm,
+    .input-group-sm > .form-control,
+    .input-group-sm > .form-select {
+        min-height: 44px;
+        padding: .5rem .75rem;
+    }
+
+    textarea.form-control {
+        min-height: 88px;
+    }
+
+    /* Colour swatches must stay square, not stretch to 44px wide text fields. */
+    input[type="color"].form-control,
+    .form-control-color {
+        min-height: 44px;
+        max-width: 3.5rem;
+    }
+
+    .input-group-text {
+        min-height: 44px;
+    }
+
+    /* An input-group of 3+ children cannot fit on one phone line; let it wrap
+       and restore rounded corners on the wrapped ends. */
+    .input-group {
+        flex-wrap: wrap;
+    }
+
+    .input-group > .form-control,
+    .input-group > .form-select {
+        min-width: 60%;
+    }
+
+    /* Right-aligned desktop labels read as stray text once the row stacks. */
+    .col-form-label {
+        padding-top: 0;
+        padding-bottom: .25rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    /* Bootstrap 4 leftovers found across the codebase (text-md-right etc.) are
+       inert in BS5; nothing to neutralise. But BS5 responsive text-*-end on a
+       stacked label just looks broken on a phone. */
+    .form-group.row > label.text-end,
+    .form-group.row > label.text-md-end,
+    .row > label.col-form-label.text-end {
+        text-align: start;
+    }
+}
+
+
+/* ==========================================================================
+   5. LAYOUT SHELL
+   ========================================================================== */
+
+@media (max-width: 991.98px) {
+
+    /* --- Header ----------------------------------------------------------- */
+    /* AdminLTE only makes the header fixed at >=992px, so on a long list the
+       hamburger - the only route to navigation - scrolls out of reach.
+       z-index 1035 sits above .app-main but below .sidebar-overlay (1037), so
+       the drawer backdrop still dims the header. */
+    .app-header {
+        position: sticky;
+        top: 0;
+        z-index: 1035;
+    }
+
+    /* --- Off-canvas sidebar drawer ---------------------------------------- */
+    /* AdminLTE sizes the scroller with 100vh. On iOS Safari 100vh is the LARGE
+       viewport, so the last menu entries sit permanently under the URL bar.
+       100dvh is the dynamic viewport. No !important, so browsers that do not
+       understand dvh simply keep AdminLTE's 100vh rule. */
+    .app-sidebar .sidebar-wrapper {
+        height: calc(100dvh - 3.5rem);
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Lock the page behind the open drawer so a drag on the drawer does not
+       scroll the content underneath it. */
+    body.sidebar-open {
+        overflow: hidden;
+    }
+
+    /* AdminLTE's hover-expand is mouse-only, but a touch tap latches
+       body.sidebar-is-hover on and nothing ever removes it (no mouseout on
+       touch). Pin the width so the latched state is visually inert. */
+    body.sidebar-is-hover .app-sidebar {
+        min-width: var(--lte-sidebar-width);
+        max-width: var(--lte-sidebar-width);
+    }
+
+    .app-sidebar .nav-link {
+        min-height: 44px;
+    }
+
+    /* --- Page action header ----------------------------------------------- */
+    /* ~90 views build their toolbar as h3.float-start + div.float-end + a
+       clearfix. At 375px the floats collide and overflow the header.
+       .float-start/.float-end are Bootstrap UTILITIES (declared !important),
+       so cancelling them requires !important - this is case (a) at the top. */
+    .app-content-header .float-start,
+    .app-content-header .float-end {
+        float: none !important;
+    }
+
+    /* Turning those two containers into wrapping flex rows recovers sane
+       spacing for the button groups they hold, with no markup change. */
+    .app-content-header > .container-fluid > .float-start,
+    .app-content-header > .container-fluid > .float-end,
+    .app-content-header > .float-start,
+    .app-content-header > .float-end {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .app-content-header .clearfix {
+        display: none;
+    }
+
+    .app-content-header {
+        padding: .75rem .5rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    /* Same float pattern inside card headers (dashboard widgets, tab panes). */
+    .card-header > .float-start,
+    .card-header > .float-end,
+    .card-header .card-tools.float-end {
+        float: none !important;
+    }
+
+    .card-header:has(> .float-start),
+    .card-header:has(> .float-end),
+    .card-header:has(> .card-tools) {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .card-header:has(> .float-start) > h1,
+    .card-header:has(> .float-start) > h2,
+    .card-header:has(> .float-start) > h3,
+    .card-header:has(> .float-start) > h4,
+    .card-header:has(> .float-start) > h5 {
+        margin-bottom: 0;
+        margin-right: auto;
+    }
+}
+
+/* --- Back-to-top button --------------------------------------------------
+   _js_global.blade.php toggles this element with an INLINE style.display of
+   "block"/"none", so we must not touch `display` here - an !important flex
+   would pin it permanently visible. Centring is done with line-height instead.
+   Default CSS pins it flush to bottom:0/right:0, i.e. straight into the iPhone
+   home-indicator gesture strip and on top of the bottom-right pagination. */
+@media (max-width: 991.98px) {
+    .back-to-top {
+        right: .75rem;
+        bottom: calc(.75rem + env(safe-area-inset-bottom));
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+        text-align: center;
+        border-radius: 50%;
+        background-color: rgba(var(--bs-body-bg-rgb), .92);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
+    }
+
+    .back-to-top i {
+        font-size: 28px;
+        line-height: inherit;
+        vertical-align: middle;
+    }
+}
+
+/* Below 768px .bt-action-bar becomes position:fixed at the bottom with z-index
+   1030, which paints straight over the back-to-top button (z-index 100, from
+   billingtrack.scss). Lift back-to-top clear of the bar on the ~28 screens that
+   carry one. The bar is ~60px tall (.5rem + 44px + .5rem) plus its own
+   safe-area padding, so 4.5rem leaves a comfortable gap above it.
+   :has() is already used elsewhere in this file and is safe on iOS 15.4+. */
+@media (max-width: 767.98px) {
+    body:has(.bt-action-bar) .back-to-top {
+        bottom: calc(4.5rem + env(safe-area-inset-bottom));
+    }
+}
+
+
+/* ==========================================================================
+   6. CARDS & TABLES
+   --------------------------------------------------------------------------
+   46 view files contain a bare <table> with no .table-responsive wrapper, so
+   they push the whole PAGE sideways. CSS cannot inject a wrapper, but it can
+   turn the <table> itself into the scroll container: with display:block the
+   thead+tbody run is wrapped in a single anonymous table box, so column
+   alignment is preserved while the block scrolls inside its own box.
+
+   Selectors use the DIRECT-CHILD combinator on purpose: a table that is a
+   direct child of .card-body/.card cannot also be inside .table-responsive,
+   so already-wrapped tables are never double-handled.
+   ========================================================================== */
+
+/* Universal - momentum scrolling wherever a responsive wrapper already exists. */
+.table-responsive,
+.table-responsive-sm,
+.table-responsive-md,
+.table-responsive-lg,
+.table-responsive-xl {
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 991.98px) {
+
+    .card > table,
+    .card > .card-body > table,
+    .card > .card-body > form > table,
+    .card > .card-footer > table,
+    .tab-pane > table,
+    .tab-content > .tab-pane > .card > .card-body > table {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Keep the identifying column readable rather than letting every cell wrap
+       into a 3-line stack inside the scroller. */
+    .table-responsive > .table > thead > tr > th,
+    .table-responsive > .table > tbody > tr > td,
+    .card > .card-body > table > thead > tr > th,
+    .card > .card-body > table > tbody > tr > td {
+        white-space: nowrap;
+    }
+
+    /* ...but never clamp a description/notes cell to nowrap. */
+    .table td.text-wrap,
+    .table th.text-wrap,
+    .table td[colspan],
+    .table .text-break {
+        white-space: normal;
+    }
+
+    /* Row-action dropdowns inside a scroll container get clipped. The codebase
+       already relies on `btn-group position-static` for this; make it the
+       default so agents do not have to remember it. */
+    .table-responsive .btn-group,
+    .card > .card-body > table .btn-group {
+        position: static;
+    }
+
+    /* Cards themselves should not add width on a phone. */
+    .card {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .card-body {
+        padding: .75rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    /* --- .card-group ------------------------------------------------------
+       clients/_form.blade.php and vendors/_form.blade.php sit the
+       "Client"/"Vendor" card beside the "Address" card with Bootstrap's
+       .card-group. Verified in public/build/assets/app.css:
+
+           @media (min-width: 576px) {
+               .card-group        { display: flex; flex-flow: row wrap }
+               .card-group > .card{ flex: 1 0 0%; margin-bottom: 0 }
+           }
+
+       so from 576px up each card is ~270px wide and has to hold a full
+       label+input form. Bootstrap 5.3 ships no responsive .card-group
+       modifier and no utility can un-flex it, so this cannot live in the
+       blade. Restore the <576px stacked behaviour up to md; >=768px is
+       untouched, so desktop renders identically.
+
+       Bootstrap's horizontal variant also strips the inner cards' margin and
+       (via the .card-group > :not(:first-child)/:not(:last-child) rules)
+       squares off their adjoining corners, so both have to be restored here
+       or the stacked cards render flush and half-rounded.
+       --bs-card-group-margin is defined globally (.75rem); the literal is a
+       fallback only. */
+    .card-group {
+        display: block;
+    }
+
+    .card-group > .card {
+        margin-bottom: var(--bs-card-group-margin, .75rem);
+        border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+        border-radius: var(--bs-card-border-radius);
+    }
+
+    /* Bootstrap also SQUARES the adjoining corners so the row reads as one
+       slab: `.card-group>.card:not(:last-child){border-top-right-radius:0;
+       border-bottom-right-radius:0}` and the mirrored :not(:first-child) rule,
+       plus the same treatment on the inner .card-header/.card-footer. Those
+       are (0,3,0)/(0,4,0) and beat a plain `.card-group > .card`, so the
+       radius has to be restored at matching specificity or the stacked cards
+       render half-rounded. */
+    .card-group > .card:not(:last-child),
+    .card-group > .card:not(:first-child) {
+        border-radius: var(--bs-card-border-radius);
+    }
+
+    .card-group > .card:not(:last-child) > .card-header,
+    .card-group > .card:not(:first-child) > .card-header {
+        border-top-left-radius: var(--bs-card-inner-border-radius);
+        border-top-right-radius: var(--bs-card-inner-border-radius);
+    }
+
+    .card-group > .card:not(:last-child) > .card-footer,
+    .card-group > .card:not(:first-child) > .card-footer {
+        border-bottom-left-radius: var(--bs-card-inner-border-radius);
+        border-bottom-right-radius: var(--bs-card-inner-border-radius);
+    }
+
+    /* `.card-group>.card+.card{border-left:0}` is (0,2,0) - same as the border
+       rule above, which wins on source order (mobile.css loads last). */
+
+    /* No dangling gap under the stack - the card's own mb-* handles spacing. */
+    .card-group > .card:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 575.98px) {
+    /* Dense tables get a touch more breathing room per row without exploding
+       the horizontal footprint. */
+    .table > :not(caption) > * > * {
+        padding-top: .6rem;
+        padding-bottom: .6rem;
+    }
+}
+
+
+/* ==========================================================================
+   7. DROPDOWN MENUS
+   ========================================================================== */
+
+@media (max-width: 991.98px) {
+
+    /* Never let a menu run past the viewport edge, and never let a 26-item menu
+       (theme switcher) grow taller than the screen with no way to scroll it. */
+    .dropdown-menu {
+        max-width: calc(100vw - 1rem);
+        max-height: 70dvh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* .dropdown-menu-lg declares min-width:280px, which on a 320px screen
+       leaves no margin. min() clamps it without touching wider phones. */
+    .dropdown-menu-lg {
+        min-width: min(280px, calc(100vw - 1rem));
+    }
+
+    .dropdown-item {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    /* The user menu spends 175px + a 90px avatar on decoration - over a third
+       of a 667px-tall phone before the first actionable item. */
+    .navbar-nav > .user-menu > .dropdown-menu > li.user-header {
+        min-height: auto;
+        padding: 1rem;
+    }
+
+    .navbar-nav > .user-menu > .dropdown-menu > li.user-header > img {
+        width: 56px;
+        height: 56px;
+    }
+
+    .navbar-nav > .user-menu .btn-flat {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+
+/* ==========================================================================
+   8. MODALS
+   --------------------------------------------------------------------------
+   bsModal() in _js_global.blade.php hard-codes backdrop:'static', so a modal
+   whose footer is off-screen is a genuine trap - tapping outside will not
+   dismiss it. We therefore guarantee the footer is ALWAYS reachable: cap the
+   content height to the viewport, let the body scroll, and stick the footer.
+   That is the blanket fallback for Livewire-generated modals whose markup we
+   cannot edit; per-module agents should still prefer the stock
+   `modal-fullscreen-sm-down modal-dialog-scrollable` classes where the markup
+   is theirs to change.
+   ========================================================================== */
+
+@media (max-width: 767.98px) {
+
+    .modal-dialog {
+        margin: .5rem;
+        max-width: calc(100% - 1rem);
+    }
+
+    .modal-content {
+        max-height: calc(100vh - 1rem);
+        max-height: calc(100dvh - 1rem);
+    }
+
+    .modal-body {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 1rem .75rem;
+    }
+
+    .modal-header,
+    .modal-footer {
+        padding: .75rem;
+    }
+
+    /* Keep the primary action on screen no matter how long the form is. */
+    .modal-footer {
+        position: sticky;
+        bottom: 0;
+        z-index: 2;
+        background-color: var(--bs-modal-bg);
+        border-top: var(--bs-modal-footer-border-width) solid var(--bs-modal-footer-border-color);
+        padding-bottom: calc(.75rem + env(safe-area-inset-bottom));
+        flex-wrap: wrap;
+        gap: .5rem;
+    }
+
+    .modal-footer > .btn {
+        flex: 1 1 auto;
+        margin: 0;
+    }
+
+    /* Modals that opt into full screen should own the safe area too. */
+    .modal-fullscreen-sm-down .modal-body,
+    .modal-fullscreen .modal-body {
+        padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    }
+
+    .modal-title {
+        font-size: 1.1rem;
+    }
+}
+
+/* The `.modal-dialog { margin; max-width }` fallback above is (0,1,0) - exactly
+   the same specificity as Bootstrap's own `.modal-fullscreen-*-down` (that class
+   sits ON the .modal-dialog element, so it is a single class selector too). This
+   file loads AFTER app.css, so without the restatement below the fallback would
+   silently WIN and defeat the 28 dialogs that opted into full screen - they
+   would render as a near-fullscreen card with 8px gutters, square corners and a
+   16px dead strip under the footer. Re-declaring at (0,2,0) hands the intent
+   back to the markup. Breakpoints mirror Bootstrap's own exactly, so nothing
+   changes at or above the matching min-width. */
+@media (max-width: 575.98px) {
+
+    .modal-dialog.modal-fullscreen-sm-down,
+    .modal-dialog.modal-fullscreen {
+        margin: 0;
+        max-width: none;
+    }
+
+    .modal-fullscreen-sm-down > .modal-content,
+    .modal-fullscreen > .modal-content {
+        max-height: 100vh;
+        max-height: 100dvh;
+    }
+}
+
+@media (max-width: 767.98px) {
+
+    .modal-dialog.modal-fullscreen-md-down {
+        margin: 0;
+        max-width: none;
+    }
+
+    .modal-fullscreen-md-down > .modal-content {
+        max-height: 100vh;
+        max-height: 100dvh;
+    }
+}
+
+
+/* ==========================================================================
+   9. PAGINATION
+   --------------------------------------------------------------------------
+   Paginator::useBootstrap() selects the Bootstrap 4 view, whose page links are
+   ~32x32. Driven through Bootstrap's pagination custom properties.
+   ========================================================================== */
+
+@media (max-width: 991.98px) {
+
+    .pagination {
+        --bs-pagination-padding-y: .625rem;
+        --bs-pagination-padding-x: .75rem;
+        --bs-pagination-font-size: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        row-gap: .25rem;
+    }
+
+    .page-link {
+        min-width: 44px;
+        min-height: 44px;
+        text-align: center;
+    }
+
+    /* Laravel's BS4 paginator emits a "Showing x to y of z" block that is
+       float-based; centre it instead of jamming it against an edge. */
+    .pagination-wrapper,
+    nav[role="navigation"] {
+        max-width: 100%;
+    }
+}
+
+
+/* ==========================================================================
+   10. THIRD-PARTY WIDGETS
+   --------------------------------------------------------------------------
+   Everything in this section needs !important: these stylesheets are loaded
+   AFTER mobile.css (tom-select from inside an ajax modal body, the date range
+   picker from @section('javaScript'), SweetAlert2 injected at runtime by the
+   JS bundle) or the geometry is written as an inline style by the plugin's JS.
+   ========================================================================== */
+
+/* --- tom-select (recipient pickers on every mail modal) -------------------
+   UNIVERSAL, NOT MOBILE-ONLY - and load-bearing for the user's #1 journey.
+
+   All five mail modals now build their To/Cc/Bcc pickers with
+   dropdownParent:'body' (invoices, payments, quotes, workorders,
+   purchaseorders _js_mail.blade.php), because .modal-dialog-scrollable turns
+   .modal-body into a clipping/scrolling container at EVERY width, which
+   swallowed the suggestion list. Reparenting to <body> fixes the clipping but
+   walks straight into a stacking-context problem:
+
+       tom-select.bootstrap5.min.css:  .ts-dropdown { position: absolute;
+                                                      z-index: 10 }
+       Bootstrap 5.3 .modal:           z-index: 1055
+
+   ...so the recipient list would render BEHIND the dialog and the invoice
+   could not be sent at all - strictly worse than the clipping it replaced.
+   1060 clears the modal and its backdrop (1050) while staying under
+   .tooltip (1080) and SweetAlert2 (1060+ on its own layer, and never open at
+   the same time as a tom-select dropdown).
+
+   Not expressible as a utility class: tom-select creates this element at
+   runtime and appends it to <body>, outside every blade file.
+   No !important needed - `body > .ts-dropdown` is (0,1,1) against the plugin's
+   (0,1,0), so it wins on specificity even though tom-select's stylesheet is
+   <link>-ed after this file from inside the ajax-loaded modal body. */
+body > .ts-dropdown {
+    z-index: 1060;
+}
+
+@media (max-width: 991.98px) {
+
+    .ts-wrapper .ts-control {
+        min-height: 44px !important;
+        padding: .5rem .75rem !important;
+    }
+
+    .ts-control > input {
+        min-height: 28px !important;
+    }
+
+    /* Recipient chips render "Name <email@domain.com>" and must be allowed to
+       wrap instead of forcing the control wider than the dialog. */
+    .ts-control > .item {
+        max-width: 100% !important;
+        overflow-wrap: anywhere !important;
+        margin-bottom: .25rem !important;
+    }
+
+    .ts-control .item .remove {
+        min-width: 32px !important;
+        padding: 0 .5rem !important;
+        text-align: center !important;
+    }
+
+    /* The suggestion list must stay on-screen above the soft keyboard. Pair
+       this with dropdownParent:'body' in tsconfig so it also escapes the
+       scrolling .modal-body. */
+    .ts-dropdown {
+        max-width: calc(100vw - 1rem) !important;
+    }
+
+    .ts-dropdown .ts-dropdown-content {
+        max-height: 45vh !important;
+        max-height: 45dvh !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .ts-dropdown .option {
+        min-height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+}
+
+/* --- flatpickr ------------------------------------------------------------ */
+@media (max-width: 575.98px) {
+
+    /* flatpickr writes left/top inline, so centring the panel needs !important.
+       :not(.inline) protects always-open inline calendars. */
+    .flatpickr-calendar.open:not(.inline) {
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%);
+        width: auto !important;
+        max-width: calc(100vw - 1rem) !important;
+    }
+
+    .flatpickr-calendar .flatpickr-day {
+        min-height: 40px;
+        line-height: 40px;
+    }
+
+    .flatpickr-calendar .flatpickr-monthDropdown-months,
+    .flatpickr-calendar .numInput {
+        font-size: 16px !important;
+    }
+}
+
+/* --- vanilla-datetimerange-picker (reports, batch print) ------------------ */
+@media (max-width: 575.98px) {
+
+    .daterangepicker {
+        left: .5rem !important;
+        right: .5rem !important;
+        width: auto !important;
+        max-width: calc(100vw - 1rem) !important;
+    }
+
+    .daterangepicker .ranges li {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    .daterangepicker .calendar-table td,
+    .daterangepicker .calendar-table th {
+        min-width: 36px;
+        height: 36px;
+    }
+
+    .daterangepicker .drp-buttons .btn {
+        min-height: 44px;
+    }
+}
+
+/* --- SweetAlert2 (every notify() call, including login validation) -------- */
+@media (max-width: 575.98px) {
+
+    .swal2-popup {
+        width: calc(100vw - 2rem) !important;
+        padding: 1.25rem !important;
+    }
+
+    .swal2-title {
+        font-size: 1.25rem !important;
+    }
+
+    .swal2-html-container {
+        font-size: 1rem !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    /* For type='error' the confirm button is the ONLY way out of a blocking
+       dialog, and it ships at ~40px. */
+    .swal2-actions .swal2-styled {
+        min-height: 44px !important;
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+        font-size: 1rem !important;
+    }
+
+    .swal2-actions {
+        flex-wrap: wrap !important;
+        gap: .5rem !important;
+    }
+}
+
+/* --- rappasoft/laravel-livewire-tables ------------------------------------ */
+@media (max-width: 991.98px) {
+
+    /* The generated wrapper already carries .table-responsive, so these tables
+       scroll rather than break the page - they just need momentum scrolling
+       and non-collapsing cells. */
+    [wire\:id] .table-responsive {
+        -webkit-overflow-scrolling: touch;
+        max-width: 100%;
+    }
+
+    /* The "Columns" visibility picker ships 13px checkboxes. */
+    .dropdown-menu .form-check-input {
+        width: 1.35rem;
+        height: 1.35rem;
+    }
+
+    /* Bulk-action / filter toolbars above every list stack five full-width
+       controls; let them share rows where they fit. */
+    [wire\:id] .table-responsive + div .btn {
+        min-height: 44px;
+    }
+}
+
+/* --- FullCalendar v6 (Scheduler) -----------------------------------------
+   FullCalendar renders its whole toolbar DOM at runtime, so there is no blade
+   markup to hang Bootstrap utilities on - scheduler/partials/_js_calendar
+   can only choose WHICH buttons go in the header vs footer chunk (it now
+   pushes the six view buttons into footerToolbar below 768px), never how they
+   are styled.
+
+   `.fc-toolbar` is `display:flex; justify-content:space-between` with NO wrap,
+   and `.fc-button` is not a `.btn`, so neither the wrap fix nor section 3's
+   tap-target rules (which key on `.btn` / --bs-btn-padding-y) reach it.
+
+   These rules touch chrome only - no event, view, or callback behaviour. */
+@media (max-width: 767.98px) {
+
+    .fc .fc-toolbar {
+        flex-wrap: wrap;
+        gap: .5rem;
+        justify-content: center;
+    }
+
+    .fc .fc-toolbar-chunk {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: .25rem;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 1.1rem;
+    }
+
+    .fc .fc-button {
+        min-height: 44px;
+        padding: .4rem .6rem;
+        font-size: .8125rem;
+    }
+
+    /* Day cells and the list view are the only readable views at 375px; give
+       their rows a real tap height and stop the 6-column header squeezing. */
+    .fc .fc-col-header-cell-cushion,
+    .fc .fc-daygrid-day-number {
+        padding: 4px;
+        font-size: .8125rem;
+    }
+
+    .fc .fc-list-table td,
+    .fc .fc-list-table th {
+        padding: .75rem .5rem;
+    }
+
+    .fc .fc-list-event-title a,
+    .fc .fc-list-event-time {
+        font-size: .875rem;
+    }
+}
+
+
+/* ==========================================================================
+   11. DASHBOARD WIDGETS (small-box)
+   --------------------------------------------------------------------------
+   .small-box > .inner has padding:10px all round while .small-box-faicon is
+   absolutely positioned at top/right 15px with a 50px glyph - so labels like
+   "Payments Collected" run underneath the icon. The footer link (the primary
+   drill-down) is ~27px tall.
+   ========================================================================== */
+
+@media (max-width: 991.98px) {
+
+    .small-box > .inner {
+        padding: 12px 84px 12px 12px;
+    }
+
+    .small-box .small-box-faicon,
+    .small-box > .icon {
+        top: 12px;
+        right: 12px;
+        height: 56px;
+        font-size: 40px;
+    }
+
+    .small-box > .small-box-footer {
+        padding: .75rem 0;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    /* 2.2rem numerics with white-space:nowrap overflow a 343px card. */
+    .small-box .inner h3,
+    .small-box .inner .h3 {
+        font-size: 1.75rem;
+    }
+}
+
+
+/* ==========================================================================
+   12. PUBLIC DOCUMENTS & LOGIN PAGE
+   ========================================================================== */
+
+/* --- .public-wrapper ------------------------------------------------------
+   billingtrack.scss:132 compiles to `.public-wrapper{width:938px;margin:auto}`.
+   That fixed width is the single worst mobile defect in the app: it is the only
+   wrapper on the invoice/quote/workorder page a client opens from the emailed
+   link on their phone.
+
+   This override is UNIVERSAL (no media query) on purpose - margin-inline:auto
+   keeps it centred, so at >=938px the rendering is identical to today.
+
+   The max-width is `938px + 1.5rem`, NOT a bare 938px: box-sizing is
+   border-box app-wide, so a bare 938px cap would have made the padding eat
+   into the old width and left the CONTENT box at 914px on desktop - a 24px
+   narrowing of the document iframe on every wide screen. Adding the padding
+   back into the cap keeps the content box at exactly 938px above the
+   breakpoint while still holding the content off the screen edge below it.
+
+   The SCSS source has been updated to match, but SCSS cannot be rebuilt, so
+   THIS is the rule that actually runs. */
+.public-wrapper {
+    width: 100%;
+    max-width: calc(938px + 1.5rem); /* 938px content box + padding-inline */
+    margin-inline: auto;
+    padding-inline: .75rem;
+}
+
+@media (max-width: 991.98px) {
+
+    /* The document itself is rendered in an iframe sized by resizeIframe(). */
+    .public-wrapper iframe,
+    .public-doc-wrapper iframe {
+        width: 100%;
+        max-width: 100%;
+        border: 0;
+    }
+
+    .public-doc-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 575.98px) {
+    /* The public toolbar holds PDF + Notes + Attachments + one Pay button per
+       merchant driver. Let each control take a full row rather than compress
+       the Pay button - the commercial point of the page - into a sliver. */
+    .public-wrapper .btn,
+    .public-wrapper .btn-group {
+        width: 100%;
+    }
+
+    .public-wrapper .btn-group > .btn {
+        width: auto;
+        flex: 1 1 0;
+    }
+
+    .public-wrapper {
+        padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    }
+}
+
+/* --- Login page -----------------------------------------------------------
+   body.login-page is display:flex + justify-content:center + min-height:100vh.
+   When the content is taller than the viewport (iPhone SE landscape, or any
+   phone with the soft keyboard open) justify-content:center makes the TOP
+   overflow unreachable - you cannot scroll to it. Switching to flex-start on
+   mobile is the standard fix; 100dvh keeps the card clear of the URL bar. */
+@media (max-width: 991.98px) {
+
+    body.login-page,
+    body.register-page {
+        justify-content: flex-start;
+        min-height: 100dvh;
+        padding-top: 1.5rem;
+        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+    }
+
+    /* The brand block sets display-3 (~37px at 375px) next to a 64px logo in an
+       unstyled .brand-link block, with mb-5 under both. Centre it, let it wrap
+       and reclaim the dead vertical space. */
+    body.login-page .brand-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        text-align: center;
+        margin-bottom: 1.5rem !important; /* beats the .mb-5 utility */
+        padding-inline: 1rem;
+    }
+
+    body.login-page .brand-link img {
+        margin-bottom: 0 !important; /* beats the .mb-5 utility */
+    }
+
+    body.login-page .brand-link .display-3 {
+        font-size: 1.75rem;
+        overflow-wrap: anywhere;
+    }
+
+    /* The submit button is auto-width inside col-md-8 offset-md-4, so on a
+       phone the app's primary action is a ~90px control hugging the left edge. */
+    body.login-page .card-body button[type="submit"],
+    body.login-page .card-body .btn-primary {
+        width: 100%;
+    }
+
+    body.login-page .card {
+        margin-inline: .25rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    /* Stack the label/input rows: col-sm-4 + col-md-8 disagree between 576 and
+       767px, so the email row wraps while the password row does not. */
+    body.login-page .form-group.row > label,
+    body.login-page .form-group.row > .col-md-8,
+    body.login-page .form-group.row > .col-sm-8 {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        margin-left: 0;
+        text-align: start;
+    }
+}
+
+
+/* ==========================================================================
+   13. bt-* HELPER CLASSES
+   --------------------------------------------------------------------------
+   These are the ONLY new class names fix-agents may add to blade markup.
+   The bt- prefix guarantees no collision with Bootstrap or AdminLTE.
+   Everything else must be a stock Bootstrap 5.3 / AdminLTE v4 class.
+   ========================================================================== */
+
+/* --- .bt-toolbar ----------------------------------------------------------
+   Drop-in replacement for the `float-start` title + `float-end` buttons +
+   `clearfix` pattern. Universal (a wrapping flex row is correct at every
+   width). Put it on the wrapper; give the title `me-auto`.
+   <div class="bt-toolbar"><h3 class="mb-0 me-auto">…</h3> …buttons… </div> */
+.bt-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+}
+
+@media (max-width: 575.98px) {
+    .bt-toolbar > .btn,
+    .bt-toolbar > .btn-group,
+    .bt-toolbar > form > .btn {
+        flex: 1 1 auto;
+    }
+}
+
+/* --- .bt-action-bar -------------------------------------------------------
+   A normal wrapping flex toolbar on desktop; a fixed, thumb-reachable bottom
+   action bar on phones. Use it for the Save/Email/PDF group on the document
+   edit screens so the user does not have to scroll a 2000px page back to the
+   top to send an invoice.
+
+   ONE PER PAGE. Keep the SAME DOM node - never duplicate the buttons, or you
+   duplicate ids like #btn-email-invoice that the module JS selects on.
+   Dropdowns inside it flip upward automatically (Popper), and the bar is not a
+   scroll container, so nothing is clipped.
+
+   The :has() rule reserves the space automatically. For belt-and-braces on
+   older engines you may also drop <div class="bt-action-bar-spacer"></div>
+   immediately after the bar. */
+.bt-action-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+}
+
+.bt-action-bar-spacer {
+    display: none;
+}
+
+@media (max-width: 767.98px) {
+
+    .bt-action-bar {
+        position: fixed;
+        inset: auto 0 0 0;
+        z-index: 1030;
+        margin: 0;
+        padding: .5rem .75rem;
+        padding-bottom: calc(.5rem + env(safe-area-inset-bottom));
+        background-color: var(--bs-body-bg);
+        border-top: 1px solid var(--bs-border-color);
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, .15);
+    }
+
+    .bt-action-bar > * {
+        flex: 1 1 0;
+        min-width: 0;
+        margin: 0;
+    }
+
+    .bt-action-bar .btn {
+        width: 100%;
+        min-height: 44px;
+    }
+
+    .bt-action-bar .btn-group {
+        display: flex;
+    }
+
+    .bt-action-bar .btn-group > .btn {
+        width: auto;
+        flex: 1 1 0;
+    }
+
+    /* The TRAILING child of a .bt-action-bar is the primary action by
+       convention on every document _edit screen (invoices, quotes, workorders,
+       purchaseorders, recurring_invoices): a Save split-button, i.e. TWO tap
+       targets inside one child. An equal `flex: 1 1 0` share is wrong for it -
+       invoices/_edit.blade.php puts up to five children in the bar (PDF,
+       Email, Other, Back, Save-split), so at 375px each share is ~64px and the
+       Save group has to fit two buttons into it, ~32px apiece. Under 44px.
+
+       A double share makes the ratio 1:1:1:1:2 => ~53px per share, so Save and
+       its caret land at ~53x44 each. Bootstrap has no `flex-2` utility, so
+       this cannot be expressed with a stock class.
+
+       (0,2,0) beats the `.bt-action-bar > *` (0,1,0) rule above; no
+       !important. */
+    .bt-action-bar > .btn-group:last-child {
+        flex: 2 1 0;
+    }
+
+    /* Reserve the space the fixed bar occupies. */
+    body:has(.bt-action-bar) .app-main,
+    .app-wrapper:has(.bt-action-bar) .app-main {
+        padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+    }
+
+    .bt-action-bar-spacer {
+        display: block;
+        height: calc(4.5rem + env(safe-area-inset-bottom));
+    }
+}
+
+/* --- .bt-stack-row --------------------------------------------------------
+   Put on a label+input ROW that uses col-sm-N or col-md-N label columns (or a
+   bare d-flex, like the mail modals). Below 768px the row becomes a block and
+   every child goes full width with the label above the control.
+   Works for `.form-group.row`, `.row`, and `.mb-3.d-flex` alike.
+   <div class="mb-3 row bt-stack-row"> <label class="col-sm-2 …"> <div class="col-sm-10"> */
+@media (max-width: 767.98px) {
+
+    .bt-stack-row {
+        display: block !important; /* beats the .d-flex / .row utility */
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .bt-stack-row > * {
+        flex: 0 0 100% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        text-align: start !important;
+    }
+
+    .bt-stack-row > label,
+    .bt-stack-row > .col-form-label,
+    .bt-stack-row > .form-label {
+        display: block;
+        margin-bottom: .25rem;
+        padding-top: 0;
+        padding-bottom: 0;
+        font-weight: 600;
+    }
+}
+
+/* --- .bt-stack ------------------------------------------------------------
+   Put on a <table> to restack it into one card per row below 768px. Every
+   <td> needs data-label="@lang('bt.whatever')" so the value keeps its heading.
+   Cells WITHOUT data-label (e.g. the row-action column) render right-aligned
+   with no label, which is what you want for a button group.
+
+   Use this instead of a horizontal scroller when the table has <= ~6 columns
+   and the row-action dropdowns would otherwise be clipped by the scroller. */
+@media (max-width: 767.98px) {
+
+    /* A pre-existing .table-responsive wrapper would clip the cards. */
+    .table-responsive:has(> table.bt-stack) {
+        overflow: visible;
+    }
+
+    table.bt-stack {
+        display: block;
+        width: 100%;
+        overflow: visible;
+        border-collapse: separate;
+    }
+
+    table.bt-stack > thead {
+        display: none;
+    }
+
+    table.bt-stack > tbody,
+    table.bt-stack > tfoot {
+        display: block;
+        width: 100%;
+    }
+
+    table.bt-stack > tbody > tr,
+    table.bt-stack > tfoot > tr {
+        display: block;
+        width: 100%;
+        margin-bottom: .75rem;
+        padding: .25rem .75rem;
+        border: 1px solid var(--bs-border-color);
+        border-radius: .5rem;
+        background-color: var(--bs-body-bg);
+    }
+
+    table.bt-stack > tbody > tr > td,
+    table.bt-stack > tbody > tr > th,
+    table.bt-stack > tfoot > tr > td {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 1rem;
+        width: auto !important; /* beats percentage column widths in markup */
+        min-height: 44px;
+        padding: .5rem .25rem;
+        border: 0;
+        border-bottom: 1px solid var(--bs-border-color-translucent);
+        text-align: end;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    table.bt-stack > tbody > tr > *:last-child,
+    table.bt-stack > tfoot > tr > *:last-child {
+        border-bottom: 0;
+    }
+
+    table.bt-stack td[data-label]::before {
+        content: attr(data-label);
+        flex: 0 0 40%;
+        text-align: start;
+        font-weight: 600;
+        color: var(--bs-secondary-color);
+        overflow-wrap: anywhere;
+    }
+}
+
+/* --- .bt-scroll-x ---------------------------------------------------------
+   Generic "this wide thing scrolls inside itself, not the page" wrapper, for
+   anything that is not a table (wide charts, preformatted blocks, button rails).
+   Universal - a container that never overflows is unaffected. */
+.bt-scroll-x {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* --- .bt-nowrap -----------------------------------------------------------
+   Put on a <table> (or any container) inside a horizontal scroller to stop
+   cells collapsing into 3-line stacks. Keeps the identifying column legible. */
+@media (max-width: 991.98px) {
+    .bt-nowrap th,
+    .bt-nowrap td {
+        white-space: nowrap;
+    }
+}
+
+/* --- .bt-acl-table --------------------------------------------------------
+   Put on the Users ACL matrices - role_perms_form, user_perms_form,
+   user_roles_form - together with .bt-nowrap and a .table-responsive wrapper.
+
+   These are 5-7 column checkbox grids; restacking them as cards
+   (.bt-stack) would be worse than scrolling, because the whole point of the
+   screen is comparing View/Create/Edit/Delete ACROSS a row. So they scroll
+   horizontally and column 1 - the permission/role NAME - is pinned, otherwise
+   the user scrolls the identifying column off-screen and can no longer tell
+   which row a checkbox belongs to.
+
+   Bootstrap 5.3 ships no sticky-column utility.
+   Requires the direct `.table-responsive >` parent: position:sticky needs a
+   scrolling ancestor, and without the wrapper this rule is inert rather than
+   wrong.
+
+   TRADE-OFF (deliberate): the pinned cell paints an opaque --bs-body-bg, so
+   .table-striped row banding does not show through the first column. Legibility
+   of the pinned name beats the zebra stripe. z-index 2 keeps it above the
+   scrolled cells; box-shadow (not border) draws the separator without adding
+   layout width. */
+@media (max-width: 991.98px) {
+    .table-responsive > table.bt-acl-table > thead > tr > th:first-child,
+    .table-responsive > table.bt-acl-table > tbody > tr > td:first-child,
+    .table-responsive > table.bt-acl-table > tbody > tr > th:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+        background-color: var(--bs-body-bg);
+        box-shadow: 1px 0 0 var(--bs-border-color);
+    }
+}
+
+/* --- .bt-widget-grid ------------------------------------------------------
+   Put on the dashboard's widget .row (Dashboard/Views/dashboard/index.blade.php).
+
+   Each widget's column width comes from config('bt.widgetColumnWidth<Widget>')
+   at RUNTIME with no clamping, so an admin who configured 3 or 4 gets three or
+   four widgets side by side - each holding .small-box panels with absolutely
+   positioned 40px icons and nowrap currency figures, which overflow.
+
+   Why this cannot be a utility: col-md-N is defined only inside
+   @media (min-width: 768px), so adding col-12 in the blade (which is done)
+   fixes <768px but cannot undo the 768-991.98px band, and the configured value
+   is unknowable at author time so no matching col-*-12 can be written.
+
+   Scoped to .bt-widget-grid rather than a blanket `.app-main .row > [class*=col-md-]`
+   so no other module's tablet layout is touched. No !important: one class plus
+   one attribute selector (0,2,0) already outranks Bootstrap's .col-md-N (0,1,0). */
+@media (max-width: 991.98px) {
+    .bt-widget-grid > [class*="col-"] {
+        flex: 0 0 100%;
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
+/* --- .bt-tap --------------------------------------------------------------
+   Force a 44x44 hit area on a control the blanket rules in section 3 do not
+   reach (a bare <a> wrapping an icon, a custom toggle). */
+@media (max-width: 991.98px) {
+    .bt-tap {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* --- .bt-fluid-sm ---------------------------------------------------------
+   Make a fixed-width or shrink-to-fit element take the full row on phones.
+   Use on a lone primary action or a stubbornly narrow control. */
+@media (max-width: 575.98px) {
+    .bt-fluid-sm {
+        display: block;
+        width: 100% !important; /* beats inline width= / style="width:…" */
+        max-width: 100% !important;
+    }
+}
+
+/* --- .bt-safe-bottom ------------------------------------------------------
+   Adds home-indicator clearance to any element pinned to the bottom of a page
+   that is not a .bt-action-bar. */
+.bt-safe-bottom {
+    padding-bottom: calc(.5rem + env(safe-area-inset-bottom));
+}
+
+/* ==========================================================================
+   14. LIVEWIRE COMPONENTS
+   --------------------------------------------------------------------------
+   Rules for two in-house Livewire components whose class lists are generated
+   in PHP (app/Http/Livewire/LivewireSelect.php) or whose layout needs are
+   stronger than the generic .bt-stack helper can express. Kept out of section
+   13 because these key off ids / plugin-generated classes, not bt-* helpers.
+   ========================================================================== */
+
+/* --- 14a. Line-item tables (#new-item-table / #item-table) ----------------
+   resources/views/livewire/items-table.blade.php renders the two item grids
+   that appear on EVERY document edit screen. They are 8 and 9 columns wide and
+   almost every cell is a form control, so they do not fit a tablet either.
+
+   The markup already carries .bt-stack + data-label on every td, and there is
+   only ONE table (no duplicated mobile block), so each wire:model stays bound
+   to exactly one input. These rules extend and adapt that helper:
+
+     1. RANGE. .bt-stack stops at 767.98px. These two tables still overflow
+        between 768px and 991.98px, so the stacking is re-declared up to
+        991.98px.
+
+     2. LABEL POSITION. .bt-stack lays a cell out as a 40%/60% flex line with
+        the label on the left. That is right for read-only values, but a
+        60%-wide text input, a 1-row textarea and two tax <select>s inside a
+        375px card are unusable. Here the cell is display:block with the
+        data-label ABOVE the control, so every field gets the full row width.
+
+   CONFLICT RESOLUTION (both rule sets apply below 768px):
+   the id selectors are (1,0,n) and beat .bt-stack's (0,1,n) / (0,2,2), so
+   display, padding and the ::before layout are taken from here. Three
+   .bt-stack declarations are NOT overridden by the requested set and had to be
+   cancelled explicitly or they would leak in below 768px:
+       text-align: end        -> would right-align the labels and the values
+       border-bottom: 1px     -> a divider under every field is noise once each
+                                 field is already a full-width labelled block
+       min-height: 44px       -> KEPT deliberately (harmless, and it guarantees
+                                 the tap height on the read-only Total cell)
+   align-items / justify-content / gap from .bt-stack are inert under
+   display:block and are left alone.
+
+   These id rules also outrank section 6's `.card > .card-body > table`
+   horizontal-scroller fallback (0,2,1) and its nowrap cell rule (0,2,5), which
+   is why `overflow: visible` and `white-space: normal` are restated here. */
+@media (max-width: 991.98px) {
+
+    #new-item-table,
+    #item-table {
+        display: block;
+        width: 100%;
+        overflow: visible;
+        border-collapse: separate;
+    }
+
+    #new-item-table > thead,
+    #item-table > thead {
+        display: none;
+    }
+
+    #new-item-table > tbody,
+    #item-table > tbody {
+        display: block;
+        width: 100%;
+    }
+
+    #new-item-table > tbody > tr,
+    #item-table > tbody > tr {
+        display: block;
+        width: 100%;
+        margin-bottom: .75rem;
+        padding: .5rem .75rem;
+        border: 1px solid var(--bs-border-color);
+        border-radius: .5rem;
+        background-color: var(--bs-body-bg);
+    }
+
+    #new-item-table > tbody > tr > td,
+    #item-table > tbody > tr > td {
+        display: block;
+        width: auto !important; /* beats the inline style="width: 20%" that the
+                                   desktop table still needs */
+        padding: .35rem 0;
+        border: 0;
+        border-bottom: 0; /* cancels .bt-stack's per-field divider */
+        text-align: start; /* cancels .bt-stack's text-align: end */
+        white-space: normal;
+    }
+
+    #new-item-table td[data-label]::before,
+    #item-table td[data-label]::before {
+        content: attr(data-label);
+        display: block;
+        flex: none; /* cancels .bt-stack's `flex: 0 0 40%` label column */
+        margin-bottom: .25rem;
+        font-weight: 600;
+        color: var(--bs-secondary-color);
+        text-align: start;
+    }
+
+    /* The Clear + Add pair shares one full-width row instead of hugging the
+       right edge as it does on desktop. Its td carries .text-nowrap, whose
+       white-space is a Bootstrap utility (!important) - harmless here, since
+       the cell holds two icon buttons and no text.
+
+       No `gap` on purpose: the Clear button already carries .me-2 in the
+       markup, and .me-2 is a utility (margin-right:.5rem !important) that a
+       `margin-right: 0` here could not cancel without an !important of its
+       own. Letting me-2 do the spacing keeps the separation at exactly .5rem
+       instead of stacking gap+margin into 1rem. */
+    #new-item-table > tbody > tr > td.text-nowrap {
+        display: flex;
+    }
+
+    #new-item-table > tbody > tr > td.text-nowrap > .btn {
+        flex: 1 1 auto;
+    }
+}
+
+/* --- 14b. livewire-select results panel -----------------------------------
+   The client / vendor / employee / product / item-lookup pickers render their
+   options into an absolutely positioned panel whose class list is built in
+   app/Http/Livewire/LivewireSelect.php - PHP we do not own:
+
+       'searchOptionsContainer' => 'position-absolute datepicker list-group
+                                    bg-white rounded shadow-lg'
+       'searchOptionItem'       => 'list-group-item'
+
+   (the stray `datepicker` is there only to borrow app.css's
+   `.datepicker{z-index:1151!important}`), so the selector has to key off the
+   .datepicker.list-group combination.
+
+   The blade adds w-100 + overflow-auto, but Bootstrap has no max-height
+   utility other than .mh-100 - which resolves against the PARENT, useless for
+   an absolutely positioned panel - so without a cap a long client list runs
+   off the bottom of the phone with no way to scroll it.
+
+   The option rows are plain .list-group-item divs, which section 3's tap-target
+   rules deliberately do not cover (they only reach .list-group-item-action). */
+@media (max-width: 991.98px) {
+
+    .datepicker.list-group {
+        max-height: 45vh;
+        max-height: 45dvh; /* progressive: dvh wins where supported */
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain; /* don't scroll the page behind the panel */
+    }
+
+    .datepicker.list-group > .list-group-item {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+
+/* ========================================================================== */
+/* end of mobile.css                                                          */
+/* ========================================================================== */

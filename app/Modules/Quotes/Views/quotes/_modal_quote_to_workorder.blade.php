@@ -1,6 +1,6 @@
 @include('quotes._js_quote_to_workorder')
 <div class="modal fade" id="modal-quote-to-workorder">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">@lang('bt.quote_to_workorder')</h4>
@@ -9,9 +9,9 @@
             <div class="modal-body">
                 <div id="modal-status-placeholder"></div>
                 <form>
-                    <div class="row g-3 mb-3 align-items-center">
+                    <div class="row g-3 mb-3 align-items-center bt-stack-row">
                         <div class="col-sm-4 text-end fw-bold">
-                            <label class="form-label">@lang('bt.date')</label>
+                            <label class="form-label" for="to_workorder_date">@lang('bt.date')</label>
                         </div>
                         <div class="col-sm-6">
                             <x-fp_common
@@ -20,9 +20,9 @@
                             </x-fp_common>
                         </div>
                     </div>
-                    <div class="row g-3 mb-3 align-items-center">
+                    <div class="row g-3 mb-3 align-items-center bt-stack-row">
                         <div class="col-sm-4 text-end fw-bold">
-                        <label class="form-label">@lang('bt.group')</label>
+                        <label class="form-label" for="to_workorder_group_id">@lang('bt.group')</label>
                         </div>
                         <div class="col-sm-6">
                             {!! Form::select('group_id', $groups, config('bt.workorderGroup'), ['id' => 'to_workorder_group_id', 'class' => 'form-select']) !!}

@@ -1,10 +1,11 @@
 @include('quotes._js_edit')
 <section class="app-content-header">
-    <h3 class="float-start px-3">@lang('bt.quote') #{{ $quote->number }}</h3>
+    <div class="bt-toolbar px-3">
+    <h3 class="mb-0">@lang('bt.quote') #{{ $quote->number }}</h3>
     @if ($quote->viewed)
-        <span style="margin-start: 10px;" class="badge bg-success">@lang('bt.viewed')</span>
+        <span class="badge bg-success">@lang('bt.viewed')</span>
     @else
-        <span style="margin-start: 10px;" class="badge bg-secondary">@lang('bt.not_viewed')</span>
+        <span class="badge bg-secondary">@lang('bt.not_viewed')</span>
     @endif
 
     @if ($quote->invoice()->count())
@@ -34,18 +35,23 @@
         <span class="badge bg-danger"
               title="Trashed">@lang('bt.converted_to_workorder') {{ $quote->workorder_id }}</span>
     @endif
-    <div class="float-end">
-        <a href="{{ route('quotes.pdf', [$quote->id]) }}" target="_blank" id="btn-pdf-quote"
-           class="btn btn-secondary"><i class="fa fa-print"></i> @lang('bt.pdf')</a>
-        @if (config('bt.mailConfigured'))
-            <a href="javascript:void(0)" id="btn-email-quote" class="btn btn-secondary email-quote"
-               data-quote-id="{{ $quote->id }}" data-redirect-to="{{ route('quotes.edit', [$quote->id]) }}"><i
-                        class="fa fa-envelope"></i> @lang('bt.email')</a>
-        @endif
-        <div class="btn-group">
-            <button type="button" class="btn btn-secondary" data-bs-toggle="dropdown">
-                @lang('bt.other')
-            </button>
+    </div>
+    <div class="px-3 pt-2">
+        <div class="bt-action-bar justify-content-md-end">
+            <a href="{{ route('quotes.pdf', [$quote->id]) }}" target="_blank" id="btn-pdf-quote"
+               class="btn btn-secondary" aria-label="@lang('bt.pdf')" title="@lang('bt.pdf')"><i
+                        class="fa fa-print"></i> <span class="d-none d-sm-inline">@lang('bt.pdf')</span></a>
+            @if (config('bt.mailConfigured'))
+                <a href="javascript:void(0)" id="btn-email-quote" class="btn btn-secondary email-quote"
+                   aria-label="@lang('bt.email')" title="@lang('bt.email')"
+                   data-quote-id="{{ $quote->id }}" data-redirect-to="{{ route('quotes.edit', [$quote->id]) }}"><i
+                            class="fa fa-envelope"></i> <span class="d-none d-sm-inline">@lang('bt.email')</span></a>
+            @endif
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="dropdown"
+                        aria-label="@lang('bt.other')" title="@lang('bt.other')">
+                    <i class="fa fa-ellipsis-h"></i> <span class="d-none d-sm-inline">@lang('bt.other')</span>
+                </button>
             <div class="dropdown-menu dropdown-menu-end" role="menu">
                 <a class="dropdown-item" href="#" id="btn-copy-quote"
                    {{--                   params 3 thru ... mount(,,$modulefullname, $moduleop, $resource_id = null, $module_id = null, $readonly = null)--}}
@@ -64,28 +70,29 @@
                             class="fa fa-trash-alt"></i> @lang('bt.trash')</a>
             </div>
         </div>
-        <div class="btn-group">
             @if ($returnUrl)
-                <a href="{{ $returnUrl }}" class="btn btn-secondary"><i
-                            class="fa fa-backward"></i> @lang('bt.back')</a>
+                <a href="{{ $returnUrl }}" class="btn btn-secondary" aria-label="@lang('bt.back')"
+                   title="@lang('bt.back')"><i
+                            class="fa fa-backward"></i> <span class="d-none d-sm-inline">@lang('bt.back')</span></a>
             @endif
-        </div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary btn-save-quote"><i
-                        class="fa fa-save"></i> @lang('bt.save')</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="dropdown"><i class="fas fa-chevron-down"></i>
-            </button>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-save-quote"
+                        aria-label="@lang('bt.save')" title="@lang('bt.save')"><i
+                            class="fa fa-save"></i> <span class="d-none d-sm-inline">@lang('bt.save')</span></button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="dropdown"
+                        aria-label="@lang('bt.options')"><i class="fas fa-chevron-down"></i>
+                </button>
             <div class="dropdown-menu dropdown-menu-end" role="menu">
                 <a href="#" class="btn-save-quote dropdown-item"
                    data-apply-exchange-rate="1">@lang('bt.save_and_apply_exchange_rate')</a>
             </div>
         </div>
+        </div>
     </div>
-    <div class="clearfix"></div>
 </section>
 <section class="container-fluid">
     <div class="row">
-        <div class="col-lg-10">
+        <div class="col-12 col-lg-9 col-xl-10 order-2 order-lg-1">
             @include('layouts._alerts')
             <div id="form-status-placeholder"></div>
             <div class="row">
@@ -167,7 +174,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-12 col-lg-3 col-xl-2 order-1 order-lg-2">
             <div id="div-totals">
                 @include('quotes._edit_totals')
             </div>

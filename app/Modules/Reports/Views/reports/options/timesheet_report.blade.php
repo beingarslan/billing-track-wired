@@ -40,12 +40,13 @@
     <section class="app-content-header">
         <div class="container-fluid">
             <div class="col-sm-12">
-                <div class="fs-3 float-start">@lang('bt.timesheet')</div>
-                <div class="btn-group float-end">
-                    <button class="btn btn-primary" id="btn-run-report">@lang('bt.run_report')</button>
+                <div class="bt-toolbar">
+                    <div class="fs-3 me-auto">@lang('bt.timesheet')</div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" id="btn-run-report">@lang('bt.run_report')</button>
+                    </div>
                 </div>
             </div>
-            <div class="clearfix"></div>
         </div>
     </section>
     <section class="container-fluid">
@@ -76,8 +77,7 @@
                             document.getElementById('to_date').value = '{{ \Carbon\Carbon::now()->endOfWeek()->subWeek() }}'
                         </script>
                     </div>
-                    <div class="row">
-                    <div class="col-md-6 mt-5">
+                    <div class="col-md-6 mt-3 mt-md-5">
                         <label class="form-label fw-bold pe-1">Report Type:</label>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="report_type" value="condensed"
@@ -89,7 +89,6 @@
                             <label class="form-check-label ">Detailed</label>
                         </div>
                     </div>
-                </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mt-3">
@@ -112,9 +111,9 @@
             </div>
             {!! Form::close() !!}
         </div>
-        <div class="row" id="preview"
-             style="height: 100%; background-color: #e6e6e6; padding: 25px; margin: 0; display: none;">
-            <div class="col-lg-8 offset-lg-2" style="background-color: white;">
+        <div class="row m-0 p-2 p-md-4" id="preview"
+             style="background-color: #e6e6e6; display: none;">
+            <div class="col-12 col-lg-8 offset-lg-2" style="background-color: white;">
                 <iframe src="about:blank" id="preview-results" style="border: 0;width: 100%;overflow:hidden;"
                         onload="resizeIframe(this, 500);"></iframe>
             </div>

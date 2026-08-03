@@ -11,7 +11,8 @@
         @if (config('bt.mailConfigured'))
         <a class="dropdown-item email-invoice" href ="javascript:void(0)" data-invoice-id="{{ $model->id }}"
                data-redirect-to="{{ request()->fullUrl() }}"><i
-                        class="fa fa-envelope"></i> @lang('bt.email')</a>
+                        class="fa fa-envelope" data-invoice-id="{{ $model->id }}"
+                        data-redirect-to="{{ request()->fullUrl() }}"></i> @lang('bt.email')</a>
         @endif
         <a class="dropdown-item" href ="{{ route('clientCenter.public.invoice.show', [$model->url_key]) }}"
                target="_blank" id="btn-public-invoice"><i
