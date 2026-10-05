@@ -17,5 +17,6 @@
         {!! $recurringInvoice->client->formatted_address !!}<br>
         @lang('bt.phone'): {{ $recurringInvoice->client->phone }}<br>
         @lang('bt.email'): {{ $recurringInvoice->client->email }}
+        @if ($recurringInvoice->client->vat_number)<br>@lang('bt.vat_number'): {{ $recurringInvoice->client->vat_number }}@endif
     </div>
 </div>

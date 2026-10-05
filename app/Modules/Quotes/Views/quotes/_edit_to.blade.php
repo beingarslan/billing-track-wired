@@ -16,5 +16,6 @@
         {!! $quote->client->formatted_address !!}<br>
         @lang('bt.phone'): {{ $quote->client->phone }}<br>
         @lang('bt.email'): {{ $quote->client->email }}
+        @if ($quote->client->vat_number)<br>@lang('bt.vat_number'): {{ $quote->client->vat_number }}@endif
     </div>
 </div>

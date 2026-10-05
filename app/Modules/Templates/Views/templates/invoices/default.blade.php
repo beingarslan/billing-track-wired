@@ -93,6 +93,7 @@
             <span class="info">{{ mb_strtoupper(trans('bt.due_date')) }}</span> {{ $invoice->formatted_due_at }}<br><br>
             <span class="info">{{ mb_strtoupper(trans('bt.bill_to')) }}</span><br>{{ $invoice->client->name }}<br>
             @if ($invoice->client->address) {!! $invoice->client->formatted_address !!}<br>@endif
+            @if ($invoice->client->vat_number) <span class="info">{{ mb_strtoupper(trans('bt.vat_number')) }}</span> {{ $invoice->client->vat_number }}<br>@endif
         </td>
         <td style="width: 50%; text-align: right;" valign="top">
             {!! $invoice->companyProfile->logo() !!}<br>
@@ -100,6 +101,7 @@
             {!! $invoice->companyProfile->formatted_address !!}<br>
             @if ($invoice->companyProfile->phone) {{ $invoice->companyProfile->phone }}<br>@endif
             @if ($invoice->companyProfile->email) <a href="mailto:{{ $invoice->companyProfile->email }}">{{ $invoice->companyProfile->email }}</a>@endif
+            @if ($invoice->companyProfile->vat_number)@if ($invoice->companyProfile->email)<br>@endif<span class="info">{{ mb_strtoupper(trans('bt.vat_number')) }}</span> {{ $invoice->companyProfile->vat_number }}@endif
         </td>
     </tr>
 </table>

@@ -17,5 +17,6 @@
         {!! $workorder->client->formatted_address !!}<br>
         @lang('bt.phone'): {{ $workorder->client->phone }}<br>
         @lang('bt.email'): {{ $workorder->client->email }}
+        @if ($workorder->client->vat_number)<br>@lang('bt.vat_number'): {{ $workorder->client->vat_number }}@endif
     </div>
 </div>

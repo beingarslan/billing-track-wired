@@ -95,6 +95,7 @@
             <br><br>
             <span class="info">{{ mb_strtoupper(trans('bt.to')) }}</span><br>{{ $purchaseorder->vendor->name }}<br>
             @if ($purchaseorder->vendor->address) {!! $purchaseorder->vendor->formatted_address !!}<br>@endif
+            @if ($purchaseorder->vendor->vat_number) <span class="info">{{ mb_strtoupper(trans('bt.vat_number')) }}</span> {{ $purchaseorder->vendor->vat_number }}<br>@endif
         </td>
         <td style="width: 50%; text-align: right;" valign="top">
             <span class="info">{{ mb_strtoupper(trans('bt.bill_to')) }}</span>
@@ -103,6 +104,7 @@
             {!! $purchaseorder->companyProfile->formatted_address !!}<br>
             @if ($purchaseorder->companyProfile->phone) {{ $purchaseorder->companyProfile->phone }}<br>@endif
             @if ($purchaseorder->companyProfile->email) <a href="mailto:{{ $purchaseorder->companyProfile->email }}">{{ $purchaseorder->companyProfile->email }}</a>@endif
+            @if ($purchaseorder->companyProfile->vat_number)@if ($purchaseorder->companyProfile->email)<br>@endif<span class="info">{{ mb_strtoupper(trans('bt.vat_number')) }}</span> {{ $purchaseorder->companyProfile->vat_number }}@endif
             <br><br><br>
             @if ($purchaseorder->companyProfile->address_2)
                 <span class="info">{{ mb_strtoupper(trans('bt.ship_to')) }}</span><br>

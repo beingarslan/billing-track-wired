@@ -92,6 +92,7 @@
             <span class="info">{{ mb_strtoupper(trans('bt.expires')) }}</span> {{ $quote->formatted_expires_at }}<br><br>
             <span class="info">{{ mb_strtoupper(trans('bt.bill_to')) }}</span><br>{{ $quote->client->name }}<br>
             @if ($quote->client->address) {!! $quote->client->formatted_address !!}<br>@endif
+            @if ($quote->client->vat_number) <span class="info">{{ mb_strtoupper(trans('bt.vat_number')) }}</span> {{ $quote->client->vat_number }}<br>@endif
         </td>
         <td style="width: 50%; text-align: right;" valign="top">
             {!! $quote->companyProfile->logo() !!}<br>
@@ -99,6 +100,7 @@
             {!! $quote->companyProfile->formatted_address !!}<br>
             @if ($quote->companyProfile->phone) {{ $quote->companyProfile->phone }}<br>@endif
             @if ($quote->companyProfile->email) <a href="mailto:{{ $quote->companyProfile->email }}">{{ $quote->companyProfile->email }}</a>@endif
+            @if ($quote->companyProfile->vat_number)@if ($quote->companyProfile->email)<br>@endif<span class="info">{{ mb_strtoupper(trans('bt.vat_number')) }}</span> {{ $quote->companyProfile->vat_number }}@endif
         </td>
     </tr>
 </table>

@@ -92,13 +92,15 @@
             <span class="info">{{ mb_strtoupper(trans('bt.expires')) }}</span> {{ $workorder->formatted_expires_at }}<br><br>
             <span class="info">{{ mb_strtoupper(trans('bt.bill_to')) }}</span><br>{{ $workorder->client->name }}<br>
             @if ($workorder->client->address) {!! $workorder->client->formatted_address !!}<br>@endif
+            @if ($workorder->client->vat_number) <span class="info">{{ mb_strtoupper(trans('bt.vat_number')) }}</span> {{ $workorder->client->vat_number }}<br>@endif
         </td>
         <td style="width: 50%; text-align: right;" valign="top">
             {!! $workorder->companyProfile->logo() !!}<br>
             {{ $workorder->companyProfile->company }}<br>
             {!! $workorder->companyProfile->formatted_address !!}<br>
             @if ($workorder->companyProfile->phone) {{ $workorder->companyProfile->phone }}<br>@endif
-            @if ($invoice->companyProfile->email) <a href="mailto:{{ $invoice->companyProfile->email }}">{{ $invoice->companyProfile->email }}</a>@endif
+            @if ($workorder->companyProfile->email) <a href="mailto:{{ $workorder->companyProfile->email }}">{{ $workorder->companyProfile->email }}</a>@endif
+            @if ($workorder->companyProfile->vat_number)@if ($workorder->companyProfile->email)<br>@endif<span class="info">{{ mb_strtoupper(trans('bt.vat_number')) }}</span> {{ $workorder->companyProfile->vat_number }}@endif
         </td>
     </tr>
 </table>

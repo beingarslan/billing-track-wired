@@ -14,5 +14,6 @@
         {!! $invoice->companyProfile->formatted_address !!}<br>
         @lang('bt.phone'): {{ $invoice->companyProfile->phone }}<br>
         @lang('bt.email'): {{ $invoice->companyProfile->email }}
+        @if ($invoice->companyProfile->vat_number)<br>@lang('bt.vat_number'): {{ $invoice->companyProfile->vat_number }}@endif
     </div>
 </div>

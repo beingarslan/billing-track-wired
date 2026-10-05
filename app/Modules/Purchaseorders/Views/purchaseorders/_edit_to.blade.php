@@ -17,5 +17,6 @@
         {!! $purchaseorder->vendor->formatted_address !!}<br>
         @lang('bt.phone'): {{ $purchaseorder->vendor->phone }}<br>
         @lang('bt.email'): {{ $purchaseorder->vendor->email }}
+        @if ($purchaseorder->vendor->vat_number)<br>@lang('bt.vat_number'): {{ $purchaseorder->vendor->vat_number }}@endif
     </div>
 </div>

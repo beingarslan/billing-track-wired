@@ -95,6 +95,7 @@
             <br><br>
             <span class="info">{{ mb_strtoupper(trans('bt.bill_to')) }}</span><br>{{ $workorder->client->name }}<br>
             @if ($workorder->client->address) {!! $workorder->client->formatted_address !!}<br>@endif
+            @if ($workorder->client->vat_number) <span class="info">{{ mb_strtoupper(trans('bt.vat_number')) }}</span> {{ $workorder->client->vat_number }}<br>@endif
             @if ($workorder->client->phone) {!! $workorder->client->phone !!}<br>@endif
         </td>
         @if ($workorder->client->address_2)
@@ -110,6 +111,7 @@
             {!! $workorder->companyProfile->formatted_address !!}<br>
             @if ($workorder->companyProfile->phone) {{ $workorder->user->phone }}<br>@endif
             @if ($workorder->companyProfile->email) <a href="mailto:{{ $workorder->companyProfile->email }}">{{ $workorder->companyProfile->email }}</a>@endif
+            @if ($workorder->companyProfile->vat_number)@if ($workorder->companyProfile->email)<br>@endif<span class="info">{{ mb_strtoupper(trans('bt.vat_number')) }}</span> {{ $workorder->companyProfile->vat_number }}@endif
             <br>
             <span class="info">{{ 'Job Date: ' }}</span>{{ $workorder->formatted_job_date }}<br>
             <span class="info">{{ 'Start Time: ' }}</span>{{ $workorder->formatted_start_time }}<br>

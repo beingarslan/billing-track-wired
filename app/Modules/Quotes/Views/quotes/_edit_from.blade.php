@@ -13,5 +13,6 @@
         {!! $quote->companyProfile->formatted_address !!}<br>
         @lang('bt.phone'): {{ $quote->companyProfile->phone }}<br>
         @lang('bt.email'): {{ $quote->companyProfile->email }}
+        @if ($quote->companyProfile->vat_number)<br>@lang('bt.vat_number'): {{ $quote->companyProfile->vat_number }}@endif
     </div>
 </div>

@@ -16,5 +16,6 @@
         {!! $invoice->client->formatted_address !!}<br>
         @lang('bt.phone'): {{ $invoice->client->phone }}<br>
         @lang('bt.email'): {{ $invoice->client->email }}
+        @if ($invoice->client->vat_number)<br>@lang('bt.vat_number'): {{ $invoice->client->vat_number }}@endif
     </div>
 </div>
